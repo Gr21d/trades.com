@@ -121,6 +121,7 @@ model Comment {
   @@map("Comments")
 }
 
+
 model Tutorial {
   id Int @id @default(autoincrement())
   title String
