@@ -7,12 +7,35 @@ First, run the development server:
 ```bash
 npm run dev
 
-# or
-yarn dev
-# or
-pnpm dev
+# to migrate prisma changes to the database
+npm run migrate:dev 
+# to access prisma user interface 
+npm run prisma:studio
 # or
 bun dev
+```
+
+## Dependencies
+
+### Prisma
+
+```bash
+npm install prisma
+```
+### @prisma/client
+
+```bash
+npm install @prisma/client
+```
+### Sqlite
+
+```bash
+npm install sqlite
+```
+### Sqlite3
+
+```bash
+npm install sqlite
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
