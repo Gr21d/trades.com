@@ -17,7 +17,7 @@ export default function Form(props) {
     const values = Object.fromEntries(formData.entries());
   
     try {
-      const response = await fetch("./api/user", {
+      const response = await fetch("./api/sign_up", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,9 +42,35 @@ export default function Form(props) {
       setErrorMessage("An error occurred. Please try again.");
     }
   };
-  function handleSignIn(event) {
+  const handleSignIn = async (event) => {
     event.preventDefault();
-    // Implement the sign-in logic here
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const values = Object.fromEntries(formData.entries());
+  
+    try {
+      const response = await fetch("./api/sign_in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        router.push("./sign_up");
+      } else {
+        setErrorMessage(data.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setErrorMessage("An error occurred. Please try again.");
+    }
   }
   return (
     <div className="FormContainer">
@@ -82,8 +108,9 @@ export default function Form(props) {
               )}
               <label htmlFor="password">Password</label>
               <input type="password" id="password" name="password" required />
+              {errorMessage && <div className="alert">{errorMessage}</div>}
               <div className="buttonsContainer">
-                {errorMessage && <div className="alert">{errorMessage}</div>}
+               
                 <button type="submit">
                   {props.type === "signIn" ? "Sign In" : "Sign Up"}
                 </button>
