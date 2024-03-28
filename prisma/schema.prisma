@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url = "file:./dev.db"
 }
 
 model User {
@@ -72,7 +72,7 @@ model CryptoPortfolioOwned {
 
 model Cryptocurrency {
   id Int @id @default(autoincrement())
-  name String
+  name String @unique
   symbol String
   currentPrice Float
   transactions Transaction[]
