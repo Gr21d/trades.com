@@ -1,0 +1,167 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: #333333;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #222222;
+  position: relative;
+}
+
+.FormContainer {
+  flex: 1;
+  background-image: linear-gradient(to left, #4A9F04, #000000);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.ImageSection {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.ImageSection img {
+  max-width: 100%;
+  max-height: 100%;
+
+}
+
+.FormContainer > div {
+  width: 60%;
+}
+
+.logo {
+  text-align: left;
+  margin-bottom: 2.5rem;
+}
+
+#header {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+p {
+  font-size: 1rem;
+  margin-bottom: 1.875rem;
+  color: #ffffff;
+  text-align: center;
+}
+
+form {
+  margin-bottom: 1.875rem;
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  margin-bottom: 0.3125rem;
+  color: #ffffff;
+}
+
+input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1.25rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #ffffff;
+  color: #333333;
+}
+
+select {
+  width: 104%;
+  padding: 0.75rem;
+  margin-bottom: 1.25rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #ffffff;
+  color: #333333;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+.alert {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+}
+
+button[type="submit"],
+.__nav__ {
+  flex: 1;
+  padding: 0.75rem;
+  margin: 0 0.3125rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #007bff;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+}
+
+.separator {
+  text-align: center;
+  margin: 1.875rem 0;
+  font-size: 0.875rem;
+  color: #ffffff;
+}
+
+.socialForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.socialForm button {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 0.625rem;
+  background-color: #24292e;
+  color: #ffffff;
+}
+
+.Form {
+  margin: 0.3125rem;
+  padding: 0.3125rem;
+}

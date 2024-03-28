@@ -1,0 +1,56 @@
+/* Reset default margin, padding, and box-sizing */
+.reset {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Reset default font family and size */
+.reset body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+/* Reset default list styles */
+.reset ul,
+.reset ol {
+  list-style: none;
+}
+
+/* Reset default anchor styles */
+.reset a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Reset default form styles */
+.reset input,
+.reset textarea,
+.reset button {
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  outline: none;
+}
+
+/* Reset default table styles */
+.reset table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Reset default heading styles */
+.reset h1,
+.reset h2,
+.reset h3,
+.reset h4,
+.reset h5,
+.reset h6 {
+  font-weight: normal;
+}
+
+/* Reset default image styles */
+.reset img {
+  max-width: 100%;
+  height: auto;
+}
