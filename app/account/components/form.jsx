@@ -3,7 +3,7 @@ import React , {useState} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
-import { Alert } from "next/alert";
+
 
 
 export default function Form(props) {
@@ -16,25 +16,30 @@ export default function Form(props) {
     const formData = new FormData(event.target);
     const values = Object.fromEntries(formData.entries());
   
-    const response = await fetch("./api/user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: values.username,
-        email: values.email,
-        userType: values.userType,
-        password: values.password,
-      }),
-    });
-    
-    const data = await response.json();
-    if (response.ok) {
-      
-      router.push("./sign_in");
-    } else {
-      setErrorMessage(data.messege)
+    try {
+      const response = await fetch("./api/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: values.username,
+          email: values.email,
+          userType: values.userType,
+          password: values.password,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        router.push("./sign_in");
+      } else {
+        setErrorMessage(data.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setErrorMessage("An error occurred. Please try again.");
     }
   };
   function handleSignIn(event) {
@@ -78,11 +83,7 @@ export default function Form(props) {
               <label htmlFor="password">Password</label>
               <input type="password" id="password" name="password" required />
               <div className="buttonsContainer">
-                {errorMessage && (
-                  <Alert variant="destructive">
-                    <span className="font-medium">Error:</span> {errorMessage}
-                  </Alert>
-                )}
+                {errorMessage && <div className="alert">{errorMessage}</div>}
                 <button type="submit">
                   {props.type === "signIn" ? "Sign In" : "Sign Up"}
                 </button>
