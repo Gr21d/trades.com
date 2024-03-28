@@ -63,7 +63,7 @@ export default function Form(props) {
       const data = await response.json();
   
       if (response.ok) {
-        router.push("./sign_up");
+        router.push("../Blog/page");
       } else {
         setErrorMessage(data.message);
       }
