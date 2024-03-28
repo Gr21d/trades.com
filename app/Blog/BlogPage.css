@@ -1,0 +1,131 @@
+
+.BlogArea
+{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 1fr auto;
+  grid-template-areas: 
+  "NewPost NewPost"
+  ;
+  width: 100vw;
+  max-width: 100%;
+}
+body
+{
+    background-color: black;
+}
+.NewPost
+{
+  grid-area: NewPost;
+  width: 80%;
+  align-self: center;
+  justify-self: center;
+}
+.EditPost{
+  grid-area: EditPost;
+}
+.NewPost, .EditPost {
+    background-color: #4CAF50;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .PostInput, .EditInput, .PostTextarea, .EditTextarea, .AddCommentInput {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .PostButton, .EditButton, .DeletePostButton, .DeleteCommentButton, .EditPostButton {
+    cursor: pointer;
+    padding: 8px 16px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .PostButton, .EditButton {
+    background-color: black;
+    color: white;
+  }
+  
+  .DeletePostButton, .DeleteCommentButton {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .EditPostButton {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .PostButton:hover, .EditButton:hover, .DeletePostButton:hover, .DeleteCommentButton:hover, .EditPostButton:hover {
+    opacity: 0.9;
+  }
+  .DeleteCommentButton
+  {
+    width: 200px;
+    height: 30px;
+  }
+  /* Post and Comments */
+  .PostsTitle {
+    color: white;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .PostArticle {
+    background-color: #4CAF50;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .PostTitle {
+    color: #333;
+    margin-bottom: 15px;
+  }
+  .PostContent{
+    margin-bottom: 15px;
+  }
+  .CommentText {
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 20px;
+  }
+  .CommentText
+  {
+    font-size: 15px;
+  }
+  
+  .CommentSection {
+    padding-left: 20px;
+    border-left: 3px solid #eee;
+    margin-bottom: 10px;
+  }
+  .inputError {
+    border: 1px solid #ff0000;
+}
+
+.PostsContainer
+{
+  border: 5px solid green;
+  border-radius: 10px;
+  padding: 50px;
+  margin: 20px;
+  background-color: black;
+}
+.single-post-container{
+  border: 2px solid #5b625b;
+  padding: 20px;
+  margin: 10px;
+}
+  
