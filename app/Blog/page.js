@@ -1,3 +1,12 @@
+/**
+ * The `AddPostForm` component in React allows users to add a new post with a title and content,
+ * handling form submission and displaying success or error messages.
+ * @returns The `AddPostForm` component is being returned. It is a functional component in React that
+ * displays a form for adding a new post. The form includes input fields for title and content, a
+ * submit button to add the post, and a message section to display success or error messages. The
+ * component also handles form submission by making a POST request to the specified API endpoint to add
+ * the post.
+ */
 "use client"
 import React, { useState } from 'react';
 
@@ -11,9 +20,17 @@ const AddPostForm = () => {
 
     // Assuming you store your JWT in localStorage or cookies
     const token = localStorage.getItem('token');
+    console.log('Token:', token); // Log the token
+
+    if (!token) {
+      setMessage('Please sign in to add a post.');
+      return;
+    }
+  
 
     try {
-      const response = await fetch('/Blog/api/addPost', { // Replace '/api/posts' with your actual API endpoint
+      {console.log(process.cwd())}
+      const response = await fetch('../Blog/api/addPost', { // Update the API endpoint path
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,7 +45,6 @@ const AddPostForm = () => {
 
       const result = await response.json();
       setMessage('Post added successfully!');
-
       setTitle('');
       setContent('');
       console.log('Success:', result);

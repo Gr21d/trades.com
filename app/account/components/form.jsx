@@ -33,6 +33,7 @@ export default function Form(props) {
       const data = await response.json();
   
       if (response.ok) {
+        
         router.push("./sign_in");
       } else {
         setErrorMessage(data.message);
@@ -63,7 +64,8 @@ export default function Form(props) {
       const data = await response.json();
   
       if (response.ok) {
-        router.push("../Blog/page");
+        localStorage.setItem('token', data.token);
+        router.push("../Blog");
       } else {
         setErrorMessage(data.message);
       }
