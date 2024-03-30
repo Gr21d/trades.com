@@ -6,9 +6,9 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "set MY_ENV=localhost & next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "set MY_ENV=localhost & next start",
     "lint": "next lint",
     "prisma:seed": "npx dotenv -e env.local -- prisma db seed",
     "prisma:generate": "npx dotenv -e .env.local -- prisma generate",
@@ -21,8 +21,10 @@
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
+    "iron-session": "^8.0.1",
     "jsonwebtoken": "^9.0.2",
     "next": "14.1.4",
+    "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
     "seed": "^0.4.4",

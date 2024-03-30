@@ -1,23 +1,32 @@
+
 "use client"
 import React, { useState } from 'react';
 
 const AddPostForm = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState(''); // the title content 
+  const [content, setContent] = useState(''); // the content 
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submit action
 
     // Assuming you store your JWT in localStorage or cookies
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token'); // need to decode 
+    console.log('Token:', token); // Log the token
+
+    if (!token) {
+      setMessage('Please sign in to add a post.');
+      return;
+    }
+  
 
     try {
-      const response = await fetch('/Blog/api/addPost', { // Replace '/api/posts' with your actual API endpoint
+      
+      const response = await fetch('/Blog/postBlog/api/addPost', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({ title, content }),
       });
@@ -28,7 +37,6 @@ const AddPostForm = () => {
 
       const result = await response.json();
       setMessage('Post added successfully!');
-
       setTitle('');
       setContent('');
       console.log('Success:', result);
