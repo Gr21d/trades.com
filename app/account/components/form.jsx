@@ -3,6 +3,7 @@ import React , {useState} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
+import jwt from "jsonwebtoken";
 
 
 
@@ -45,7 +46,6 @@ export default function Form(props) {
   };
   const handleSignIn = async (event) => {
     event.preventDefault();
-    event.preventDefault();
     const formData = new FormData(event.target);
     const values = Object.fromEntries(formData.entries());
   
@@ -64,8 +64,9 @@ export default function Form(props) {
       const data = await response.json();
   
       if (response.ok) {
-        localStorage.setItem('token', data.token);
-        router.push("../Blog");
+        console.log(jwt.decode(data.token))
+        localStorage.setItem('token', data.token); // stores data (userId = .userId) // need to decode 
+        router.push("../Blog/posBlog");
       } else {
         setErrorMessage(data.message);
       }

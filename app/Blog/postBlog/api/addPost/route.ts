@@ -7,47 +7,60 @@ interface DecodedToken extends JwtPayload {
   userId: number;
 }
 
-function isDecodedToken(decoded: any): decoded is DecodedToken {
-  return typeof decoded === "object" && decoded !== null && "userId" in decoded;
-}
 
 export async function POST(req: NextRequest) {
   try {
-    const token = req.headers.get("authorization")?.split(' ')[1];
-    console.log('Token:', token);
+    const authHeader = req.headers.get("Authorization");
+    console.error('Authorization Header:', authHeader);
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new NextResponse(JSON.stringify({ message: "Authorization token is missing or invalid" }), { status: 401 });
+    }
+
+    const token = authHeader.substring(7); 
+    console.error(new NextResponse(JSON.stringify({ message: 'Token Inside:', token }), { status: 401 }));
 
     if (!token) {
       return new NextResponse(JSON.stringify({ message: "Authorization token is missing" }), { status: 401 });
     }
 
-    let userId: number;
+    let loggedUserId;
     try {
-      const decoded = jwt.verify(token, "123" as string);
-      if (isDecodedToken(decoded)) {
-        userId = decoded.userId;
-      } else {
-        throw new Error("Invalid token payload");
-      }
+      const decoded = jwt.verify(token, "123") as DecodedToken;
+      loggedUserId = decoded.userId;
+      console.log("UserId " + loggedUserId);
     } catch (error) {
       console.error('JWT verification error:', error);
-      return new NextResponse(JSON.stringify({ message: "Invalid or expired token" }), { status: 401 });
+      return new NextResponse(JSON.stringify({ message: "Invalid or expired token " + token }), { status: 401 });
     }
 
     const { title, content } = await req.json();
-    console.log('Received data:', { title, content, userId });
+    console.log('Received data:', { title, content, loggedUserId });
 
     if (!title || !content) {
       return new NextResponse(JSON.stringify({ message: "Title and content are required" }), { status: 400 });
     }
 
     try {
+      const user = await db.user.findUnique({
+        where: { id: loggedUserId },
+        include: { investor: true },
+      });
+
+      if (!user || !user.investor) {
+        return new NextResponse(JSON.stringify({ message: "User or investor not found" }), { status: 404 });
+      }
+
       const blog = await db.blog.create({
         data: {
           title,
           content,
-          authorId: userId,
+          author: {
+            connect: { investorId: user.investor.investorId },
+          },
         },
       });
+
       console.log('Blog post created:', blog);
       return new NextResponse(JSON.stringify(blog), { status: 201 });
     } catch (error) {
@@ -55,10 +68,12 @@ export async function POST(req: NextRequest) {
       return new NextResponse(JSON.stringify({ message: "Failed to create blog post" }), { status: 500 });
     }
   } catch (error) {
+    console.log("hello");
     console.error('Error in POST handler:', error);
     return new NextResponse(JSON.stringify({ message: "Internal Server Error" }), { status: 500 });
   }
 }
+
 
 export async function GET(req: NextRequest) {
   return new NextResponse(JSON.stringify({ message: "Method GET Not Allowed" }), { status: 405 });

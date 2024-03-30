@@ -30,11 +30,14 @@ export async function POST(request: NextRequest) {
 
     const token = jwt.sign(
       { userId: user.id },
-      process.env.JWT_SECRET || "123",
+      "123",
       { expiresIn: "1d" }
     );
 
     const { password: userPassword, ...userWithoutPassword } = user;
+
+
+
 
     return new NextResponse(
       JSON.stringify({ user: userWithoutPassword, token }),
