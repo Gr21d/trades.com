@@ -1,38 +1,41 @@
-import {PrismaClient} from '@prisma/client'
-import axios from 'axios'
-
-const prisma = new PrismaClient()
+import axios from 'axios';
 
 export default async function handler(req, res) {
-  const {name} = req.query
+  const { name } = req.query;
+  console.log('name of the crypto detail',name)
 
-  try{
-    const cryptoNameFormatted = name.replace(/\s+/g, '-')
-    let crypto = await prisma.cryptocurrency.findUnique({
-      where: { name: cryptoNameFormatted },
-    });
+  try {
 
-    if (!crypto) {
-      try {
-        const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${cryptoNameFormatted}`);
-        const cryptoDetails = response.data;
-
-        crypto = await prisma.cryptocurrency.create({
-          data: {
-            name: cryptoDetails.name,
-            symbol: cryptoDetails.symbol,
-            currentPrice: cryptoDetails.market_data.current_price.usd,
+    try {
+      const response = await axios.get(
+        `https://api.coingecko.com/api/v3/coins/markets`,
+        {
+          params: {
+            vs_currency: 'usd',
+            ids: name,
           },
-        });
-      } catch (apiError) {
-        console.error(apiError);
-        return res.status(500).json({ error: 'Failed to fetch cryptocurrency details from the API' });
-      }
-    }
+        }
+      );
 
-    res.status(200).json(crypto)
-  } catch(error){
-    console.error(error)
-    res.status(500).json({error: 'Failed to fetch cryptocurrency details'})
+      const cryptoDetails = response.data;
+
+      if (cryptoDetails.length === 0) {
+        return res.status(404).json({ error: 'Cryptocurrency not found' });
+      }
+
+      const crypto = {
+        name: cryptoDetails[0].name,
+        symbol: cryptoDetails[0].symbol,
+        currentPrice: cryptoDetails[0].current_price,
+      };
+
+      res.status(200).json(crypto);
+    } catch (apiError) {
+      console.error(apiError);
+      return res.status(500).json({ error: 'Failed to fetch cryptocurrency details from the API' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch cryptocurrency details' });
   }
 }
