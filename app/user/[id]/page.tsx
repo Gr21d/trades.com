@@ -1,5 +1,5 @@
 import React from "react";
-import { prisma } from "@/prisma/client";
+import { db } from "@/lib/db";
 import "bootstrap/dist/css/bootstrap.css";
 import WebSocketComponent from "@/app/components/webSocket";
 import BuyButton from "@/app/components/BuyButton";
@@ -11,8 +11,8 @@ interface Props {
 }
 
 const OwnedCrypto = async ({ params: { id } }: Props) => {
-  const cryptos = await prisma.cryptocurrencies.findMany();
-  const portfolio = await prisma.portfolios.findMany({
+  const cryptos = await db.cryptocurrencies.findMany();
+  const portfolio = await db.portfolios.findMany({
     where: {
       investorID: { equals: Number(id) },
     },
