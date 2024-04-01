@@ -17,16 +17,14 @@ function Details(props) {
 
     const [chart, setChart] = useState<IChartApi | null>(null);
     const [candlestickSeries, setCandlestickSeries] = useState<ISeriesApi<"Candlestick", Time, WhitespaceData<Time> | CandlestickData<Time>, CandlestickSeriesOptions, DeepPartial<CandlestickStyleOptions & SeriesOptionsCommon>> | null>(null);
-
-    
     const [error, setError] = useState(null);
+    const [realTimePrice, setRealTimePrice] = useState(0);
     const [isLoading, setIsLoading] = useState(true); 
-    
-    const pathname = usePathname();
-    let cryptoName = pathname ? pathname.substring(1) : null; 
-
-    const chartContainerRef = useRef(null)
     const [cryptoSymbol, setCryptoSymbol] = useState(null);
+    const pathname = usePathname();
+    const chartContainerRef = useRef(null)
+    
+    let cryptoName = pathname ? pathname.substring(1) : null; 
 
     useEffect(() => {
       if (!cryptoName) {
@@ -190,6 +188,8 @@ function Details(props) {
               close: parseFloat(candle.c),
             });
           }
+
+          setRealTimePrice(parseFloat(candle.c));
         });
     
         return () => {
@@ -207,11 +207,14 @@ function Details(props) {
       <div>
         <h1>Details</h1>
 
-        {cryptoDetails && <div>
-                            {cryptoDetails.name} <br />
-                            {cryptoDetails.symbol} <br />
-                            {cryptoDetails.currentPrice}
-                          </div>}
+    {cryptoDetails && (
+      <div>
+        {cryptoDetails.name} <br />
+        {cryptoDetails.symbol} <br />
+        {cryptoDetails.currentPrice} <br />
+        Real-time price: {realTimePrice !== null ? realTimePrice : 'Loading...'}
+      </div>
+    )}
 
                           <div>
         {ohlc ? (
