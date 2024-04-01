@@ -1,6 +1,7 @@
 
 "use client"
 import React, { useState } from 'react';
+import "./styles/BlogPage.css"
 
 const AddPostForm = () => {
   const [title, setTitle] = useState(''); // the title content 
