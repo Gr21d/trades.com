@@ -1,6 +1,6 @@
 // pages/api/crypto.ts
 
-export default async function handler(req, res) {
+export default async function handler(req, res:any) {
     // Define the URL of the external API you want to call
     const apiUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
     const params = new URLSearchParams({
