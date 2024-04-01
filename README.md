@@ -13,6 +13,8 @@ npm run migrate:dev
 npm run prisma:studio
 # or
 bun dev
+#and for the chatbot
+npm install react-chatbot-kit
 ```
 
 ## Dependencies
