@@ -13,8 +13,6 @@ npm run migrate:dev
 npm run prisma:studio
 # or
 bun dev
-#and for the chatbot
-npm install react-chatbot-kit
 ```
 
 ## Dependencies
@@ -38,6 +36,11 @@ npm install sqlite
 
 ```bash
 npm install sqlite
+```
+### React Chatbot Kit
+
+```bash
+npm install react-chatbot-kit
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
