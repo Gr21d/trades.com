@@ -28,16 +28,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const token = jwt.sign(
-      { userId: user.id },
+    const investor = await db.investor.findUnique({
+      where: { investorId: user.id },
+    });
+    
+    if (!investor){
+      return new NextResponse(
+        JSON.stringify({message: "Investor not found"}),
+      )
+    }
+
+    const investorId = investor.investorId;
+    const portfolioId = investor.portfolioId;
+
+
+    const token = jwt.sign(         
+      { userId: user.id, investorId, portfolioId },
       "123",
       { expiresIn: "1d" }
     );
 
     const { password: userPassword, ...userWithoutPassword } = user;
-
-
-
 
     return new NextResponse(
       JSON.stringify({ user: userWithoutPassword, token }),
@@ -49,5 +60,5 @@ export async function POST(request: NextRequest) {
       JSON.stringify({ message: "Something went wrong" }),
       { status: 500 }
     );
-  }
+  }        
 }
