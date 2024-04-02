@@ -12,7 +12,7 @@ import MyAvatar from '../assets/myAvatar.jsx';
 // const MyAvatar = (props) => <img src={myAvatarSrc} alt="avatar" {...props} />;
 
 const config = {
-  initialMessages: [createChatBotMessage(`Hi! I'm ${botName}`)],
+  initialMessages: [createChatBotMessage(`Hi! I'm ${botName}, how may I assist you today?`)],
   botName: botName,
 
   customComponents: {

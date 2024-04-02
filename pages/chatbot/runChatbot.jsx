@@ -1,28 +1,45 @@
 import React, { useState } from 'react';
-import Chatbot from 'react-chatbot-kit'
-import 'react-chatbot-kit/build/main.css'
+import Chatbot from 'react-chatbot-kit';
+import 'react-chatbot-kit/build/main.css';
+
 
 import config from './bot/config.js';
-import MessageParser from './bot/MessageParser.jsx';
-import ActionProvider from './bot/ActionProvider.jsx';
+import messageParser from './bot/MessageParser.jsx';
+import actionProvider from './bot/ActionProvider.jsx';
 
-const MyComponent = () => {
-  const [showChatbot, setShowChatbot] = useState(false);
+function MyComponent() {
+  const [showBot, toggleBot] = useState(false);
+
+  const saveMessages = (messages, HTMLString) => {
+    localStorage.setItem('chat_messages', JSON.stringify(messages));
+  };
+
+  const loadMessages = () => {
+    const messages = JSON.parse(localStorage.getItem('chat_messages'));
+    return messages;
+  };
 
   return (
-    <div>
-      <button onClick={() => setShowChatbot(!showChatbot)}>
-        {showChatbot ? 'Hide Chatbot' : 'Show Chatbot'}
-      </button>
-      {showChatbot && (
+    <div className='App'>
+      {showBot && (
         <Chatbot
           config={config}
-          messageParser={MessageParser}
-          actionProvider={ActionProvider}
+          actionProvider={actionProvider}
+          messageHistory={loadMessages()}
+          messageParser={messageParser}
+          saveMessages={saveMessages}
         />
       )}
+      <button onClick={() => toggleBot((prev) => !prev)}>Bot</button>
     </div>
   );
-};
+
+  // useEffect(() => {
+  //   console.log(loadMessages());
+  // }, []);
+
+
+
+}
 
 export default MyComponent;
