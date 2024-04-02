@@ -5,7 +5,8 @@ import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import {createChart, UTCTimestamp, ColorType, IChartApi, ISeriesApi, Time, WhitespaceData, LineData, LineSeriesOptions, LineStyleOptions, DeepPartial, SeriesOptionsCommon, CandlestickData, CandlestickSeriesOptions, CandlestickStyleOptions} from 'lightweight-charts'
-
+import {jwtDecode} from 'jwt-decode';
+import { decode } from 'punycode';
 
 type CustomTimeType = UTCTimestamp;
 
@@ -14,19 +15,47 @@ type CustomTimeType = UTCTimestamp;
 function Details(props) {
     const [cryptoDetails, setCryptoDetails] = useState(null);
     const [ohlc, setOhlc] = useState(null);
+    const [decodedToken, setDecodedToken] = useState(0)
 
+    const getToken = () => {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        return localStorage.getItem('token');
+      }
+      return null;
+    };
+  
     const [chart, setChart] = useState<IChartApi | null>(null);
     const [candlestickSeries, setCandlestickSeries] = useState<ISeriesApi<"Candlestick", Time, WhitespaceData<Time> | CandlestickData<Time>, CandlestickSeriesOptions, DeepPartial<CandlestickStyleOptions & SeriesOptionsCommon>> | null>(null);
-
-    
     const [error, setError] = useState(null);
+    const [realTimePrice, setRealTimePrice] = useState(0);
     const [isLoading, setIsLoading] = useState(true); 
-    
+    const [cryptoSymbol, setCryptoSymbol] = useState(null);
     const pathname = usePathname();
+    const chartContainerRef = useRef(null)
+
+
+    const [buyAmount, setBuyAmount] = useState(0);
+
     let cryptoName = pathname ? pathname.substring(1) : null; 
 
-    const chartContainerRef = useRef(null)
-    const [cryptoSymbol, setCryptoSymbol] = useState(null);
+
+    useEffect(() => {
+      const getToken = () => {
+        if (typeof window !== 'undefined' && window.localStorage) {
+          return localStorage.getItem('token');
+        }
+        return null;
+      };
+  
+      const token = getToken();
+      if (token) {
+        console.log('Token found:', jwtDecode(token))
+        setDecodedToken(jwtDecode(token));
+  
+      } else {
+        console.log('Token not found');
+      }
+    }, []);
 
     useEffect(() => {
       if (!cryptoName) {
@@ -47,7 +76,7 @@ function Details(props) {
           }
     
           const data = response.data;
-          console.log(data);
+          console.log('crypto details',data);
           setCryptoDetails(data);
           setCryptoSymbol(data.symbol.toUpperCase());
           setIsLoading(false);
@@ -89,6 +118,39 @@ function Details(props) {
       fetchData();
     }, [cryptoSymbol]); 
 
+    const handleBuyClick = async () => {
+      if (window.confirm('Do you want to buy this crypto?')) {
+        try {
+
+          console.log('Investorid',decodedToken.investorId)
+          console.log('portfolioid',decodedToken.portfolioId)
+          console.log(realTimePrice)
+          console.log(buyAmount)
+          console.log(cryptoSymbol.toLowerCase())
+          const response = await axios.post('/api/dashboard/transaction', {
+            type: 'BUY',
+            amount: buyAmount,
+            investorId: decodedToken.investorId,
+            portfolioId: decodedToken.portfolioId,
+            currentPrice: realTimePrice,
+            cryptoSymbol: cryptoSymbol.toLowerCase(),
+          })
+
+          if (response.status !== 200){
+            throw new Error('Failed to create transaction')
+          }
+
+          setBuyAmount(0);
+          alert(`Transaction successful bought at: ${realTimePrice}`)
+
+        }  catch (error) {
+
+          console.error('Error buying crypto', error);
+          alert('Error buying crypto');
+        }
+      }
+    }
+
     useEffect(() => {
       if (chartContainerRef.current && ohlc && cryptoSymbol) {
         let newChart: IChartApi | null = null;
@@ -128,27 +190,7 @@ function Details(props) {
 
         let from = data[0].time;
         let to = data[data.length - 1].time;
-        
-        // if (newChart) {
-        //   newChart.timeScale().setVisibleRange({ from, to });
-        // }
-        
-        // newChart?.subscribeVisibleTimeRangeChange(({ from, to }) => {
-        //   // Update the time range information
-        //   const dateFrom = new Date(from * 1000);
-        //   const dateTo = new Date(to * 1000);
-        //   const timeRangeString = `${dateFrom.toLocaleDateString()} - ${dateTo.toLocaleDateString()}`;
-        //   // Display the time range information somewhere on your page
-        // });
-        
-        // chart.subscribeVisibleTimeRangeChange(({ from, to }) => {
-        //   // Update the time range information
-        //   const dateFrom = new Date(from * 1000);
-        //   const dateTo = new Date(to * 1000);
-        //   const timeRangeString = `${dateFrom.toLocaleDateString()} - ${dateTo.toLocaleDateString()}`;
-        //   // Display the time range information somewhere on your page
-        // });
-    
+            
         let lineData = data.map(item => ({ time: item.time, value: (item.open + item.close) / 2 }));
     
         console.log('line', lineData);
@@ -190,6 +232,8 @@ function Details(props) {
               close: parseFloat(candle.c),
             });
           }
+
+          setRealTimePrice(parseFloat(candle.c));
         });
     
         return () => {
@@ -199,7 +243,6 @@ function Details(props) {
       }
     }, [chartContainerRef.current, ohlc, cryptoSymbol, chart]);
     
-    // chart
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -207,20 +250,28 @@ function Details(props) {
       <div>
         <h1>Details</h1>
 
-        {cryptoDetails && <div>
-                            {cryptoDetails.name} <br />
-                            {cryptoDetails.symbol} <br />
-                            {cryptoDetails.currentPrice}
-                          </div>}
-
-                          <div>
-        {ohlc ? (
-          <div ref={chartContainerRef}></div>
-        ) : (
-          <div>Loading chart...</div>
-        )}
-      </div>
-        
+          {cryptoDetails && (
+            <div>
+              {cryptoDetails.name} <br />
+              {cryptoDetails.symbol} <br />
+              {cryptoDetails.currentPrice} <br />
+              Real-time price: {realTimePrice !== null ? realTimePrice : 'Loading...'}
+              <input
+              type="number"
+              value={buyAmount}
+              onChange={(e) => setBuyAmount(parseFloat(e.target.value))}
+              placeholder="Enter buy amount"
+            />
+            <button onClick={handleBuyClick}>Buy</button>
+            </div>
+          )}
+          <div>
+            {ohlc ? (
+              <div ref={chartContainerRef}></div>
+            ) : (
+              <div>Loading chart...</div>
+            )}
+          </div>        
       </div>
     );
 }
