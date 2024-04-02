@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db } from "../../../../lib/db";
 import bcrypt from "bcrypt";
 
 function isPasswordStrong(password: string) {
@@ -63,7 +63,11 @@ export async function POST(request: Request) {
         },
       },
       include: {
-        investor: true,
+        investor: {
+          include: {
+            portfolio: true,
+          },
+        },
       },
     });
 

@@ -49,7 +49,7 @@ function Details(props) {
   
       const token = getToken();
       if (token) {
-        console.log('Token found:', jwtDecode(token).userId)
+        console.log('Token found:', jwtDecode(token))
         setDecodedToken(jwtDecode(token));
   
       } else {
@@ -121,12 +121,19 @@ function Details(props) {
     const handleBuyClick = async () => {
       if (window.confirm('Do you want to buy this crypto?')) {
         try {
-          const response = await axios.post('/api/dashboard/transactions', {
+
+          console.log('Investorid',decodedToken.investorId)
+          console.log('portfolioid',decodedToken.portfolioId)
+          console.log(realTimePrice)
+          console.log(buyAmount)
+          console.log(cryptoSymbol.toLowerCase())
+          const response = await axios.post('/api/dashboard/transaction', {
             type: 'BUY',
             amount: buyAmount,
-            investorId: decodedToken,
-            cryptoId: cryptoDetails.id,
-            portfolioId: 1
+            investorId: decodedToken.investorId,
+            portfolioId: decodedToken.portfolioId,
+            currentPrice: realTimePrice,
+            cryptoSymbol: cryptoSymbol.toLowerCase(),
           })
 
           if (response.status !== 200){
