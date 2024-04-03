@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma} from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -54,10 +54,13 @@ export default async function handler(req, res) {
         data: {
           type,
           amount,
+          currentPrice,
           investor: { connect: { investorId } },
           portfolio: { connect: { id: portfolioId } },
-        },
+        } as Prisma.TransactionCreateInput,
       });
+
+      const transactionId = transaction.id;
 
       const updatedPortfolio = await prisma.portfolio.update({
         where: { id: portfolioId },
@@ -66,11 +69,22 @@ export default async function handler(req, res) {
 
       console.log('here7');
 
+      const generateUniqueId = async () => {
+        const lastRecord = await prisma.cryptoPortfolioOwned.findFirst({
+          orderBy: { id: 'desc' },
+        });
+
+        const lastId = lastRecord ? lastRecord.id : 0;
+        console.log('Last ID:', lastId);
+        return lastId + 1;
+      };
+
       const cryptoPortfolioOwned = await prisma.cryptoPortfolioOwned.upsert({
         where: {
-          id: portfolioId,
-          portfolioId: portfolioId,
-          cryptoId: cryptocurrency.id,
+          portfolioId_cryptoId: {
+            portfolioId: portfolioId,
+            cryptoId: cryptocurrency.id,
+          },
         },
         update: {
           quantity: { increment: amount },
@@ -81,8 +95,9 @@ export default async function handler(req, res) {
           quantity: amount,
         },
       });
+    
 
-      res.status(200).json({ transaction, cryptoPortfolioOwned, updatedPortfolio });
+      res.status(200).json({ transaction, cryptoPortfolioOwned, updatedPortfolio, transactionId });
     } catch (error) {
       console.error('Error creating transaction:', error);
       console.error('Error object:', error);
