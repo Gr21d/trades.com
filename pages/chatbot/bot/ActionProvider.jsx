@@ -20,6 +20,23 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 //   }, []);
 
   // const()
+
+  const makeMsg = () => {
+    const objectMsg = JSON.parse(localStorage.getItem("botMsg"));
+    let textString = "";
+  
+    // for(let i=0; i<objectMsg.message.props.children)
+    
+    for (const item of objectMsg.message.props.children) {
+      if (typeof item === 'string') {
+        textString += " " + item + " ";
+        // textString += item + "\n";
+      }
+    }
+    // textString += "</span>";
+  
+    return textString;
+  }
   
   const handleHello = () => {
     const botMessage = createChatBotMessage('Hello. Nice to meet you.');
@@ -60,6 +77,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
       ...prev,
       messages: [...prev.messages, botMessage],
     }));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleULoginIn = () => {
@@ -71,6 +101,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   };
 
   const handleAccountLocked = () => {
@@ -82,6 +125,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   };
 
   const handleUpdateAccountInfo = () => {
@@ -93,6 +149,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   };
 
   const handleHelpSendQuery = () => {
@@ -104,6 +173,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   };
 
   const handleTradingSupport = () => {
@@ -125,6 +207,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleHowToPlaceOrder = () => {
@@ -142,6 +237,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleOrderTypes = () => {
@@ -159,6 +267,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleTradingFees = () => {
@@ -176,6 +297,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleDW = () => {
@@ -195,6 +329,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleDeposits = () => {
@@ -212,6 +359,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleNotShowingUp = () => {
@@ -229,6 +389,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleWithdrawls = () => {
@@ -248,6 +421,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleWDelayed = () => {
@@ -265,6 +451,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleWFailed = () => {
@@ -282,6 +481,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleSecurityConcerns = () => {
@@ -301,6 +513,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleAccountSecurity = () => {
@@ -318,6 +543,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleSuspiciousActivity = () => {
@@ -335,6 +573,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleLearnCrypto = () => {
@@ -352,6 +603,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
 
@@ -436,6 +700,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         }));
 
         localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+        if(localStorage.getItem("botMsg") !== null){
+          console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+          try{
+      
+            const insertMsg = makeMsg();
+            config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+          }
+          catch(error){
+            console.error("Error parsing botMsg from localStorage:", error);
+          }
+          
+        }
         
       } else {
         console.error('Error adding support query');
@@ -461,6 +738,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
 
     localStorage.setItem("botMsg", JSON.stringify(botMessage));
+
+    if(localStorage.getItem("botMsg") !== null){
+      console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(<span>{insertMsg}</span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
   }
 
   const handleGoBack = () => {
@@ -495,7 +785,39 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
       messages: [...prev.messages, botMessage],
     }));
 
-    localStorage.setItem("botMsg", null);
+    localStorage.setItem("botMsg", JSON.stringify(null));
+
+    if(JSON.parse(localStorage.getItem("botMsg")) === null){
+      // console.log("localStorage = " , JSON.parse(localStorage.getItem("botMsg")));
+      try{
+  
+        // const insertMsg = makeMsg();
+        config.initialMessages = [createChatBotMessage(
+        <span>
+          {`Hi! I'm ${config.botName}, please write in one of the following:`}
+          <br />
+          <br />
+          {`Account Issues`}
+          <br />
+          {`Trading Support`}
+          <br />
+          {`Deposits & Withdrawals`}
+          <br />
+          {`Security Concerns`}
+          <br />
+          {`Learn About Crypto`}
+          <br />
+          {`Other`}
+          <br />
+          <br />
+          {"Write Reset to come back to this page"}
+        </span>)];
+      }
+      catch(error){
+        console.error("Error parsing botMsg from localStorage:", error);
+      }
+      
+    }
 
     // console.log(JSON.parse(localStorage.getItem('chat_messages')));
   }
