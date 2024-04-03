@@ -1,7 +1,6 @@
 User Guide: Cryptocurrency Portfolio Page with Selling Feature
-Understanding the Interface
 
-The portfolio page contains several key elements:
+Understanding the Interface
 
 Crypto Symbol: This is the ticker symbol of the cryptocurrency (e.g., 'BTC' for Bitcoin).
 Crypto Name: The full name of the cryptocurrency.
