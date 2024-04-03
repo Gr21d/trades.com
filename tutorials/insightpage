@@ -47,6 +47,8 @@
 
 <h2 style="text-align: center; margin-top: 20px;">Today's Cryptocurrency Prices by Market Cap</h2>
 
+![The insight page](insightpagepicture.png)
+
 <table id="crypto-table">
   <!-- Table headers -->
   <tr>
