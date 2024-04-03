@@ -64,9 +64,10 @@ export default function Form(props) {
       const data = await response.json();
   
       if (response.ok) {
-        console.log(jwt.decode(data.token))
-        localStorage.setItem('token', data.token); // stores data (userId = .userId) // need to decode 
-        router.push("../Blog/posBlog");
+        //console.log(jwt.decode(data.token))
+        //localStorage.setItem('token', data.token); // stores data (userId = .userId) // need to decode 
+        alert("A verification email has been sent. Please check your inbox.");
+        //router.push("../Blog/posBlog");
       } else {
         setErrorMessage(data.message);
       }
