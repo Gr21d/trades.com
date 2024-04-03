@@ -1,8 +1,6 @@
 // pages/PortfolioPageinfo.tsx
 import InfoButton from '../components/InfoButton';
-import styles from './PortfolioPageinfo.module.css'; // Your CSS module for styling
-
-// ... other imports and setup
+import styles from './PortfolioPageinfo.module.css'; 
 
 const CryptoRow = ({ symbol, name, ownedAmount, currentPrice, value }) => {
   return (
@@ -17,4 +15,4 @@ const CryptoRow = ({ symbol, name, ownedAmount, currentPrice, value }) => {
   );
 };
 
-// ... the rest of your page component
+
