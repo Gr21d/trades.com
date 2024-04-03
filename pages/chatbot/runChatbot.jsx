@@ -12,6 +12,7 @@ function MyComponent() {
 
   const saveMessages = (messages, HTMLString) => {
     localStorage.setItem('chat_messages', JSON.stringify(messages));
+    console.log(JSON.parse(localStorage.getItem('chat_messages')));
   };
 
   const loadMessages = () => {
@@ -25,7 +26,7 @@ function MyComponent() {
         <Chatbot
           config={config}
           actionProvider={actionProvider}
-          messageHistory={loadMessages()}
+          messageHistory={loadMessages}
           messageParser={messageParser}
           saveMessages={saveMessages}
         />

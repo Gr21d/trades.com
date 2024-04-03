@@ -30,15 +30,6 @@ const SubmitSupportQueryPage: React.FC = () => {
     }
   }, []);
 
-  // let investorId = null;
-
-  // useEffect(() => {
-  //   if(decodedToken){
-  //     investorId = decodedToken.userId;
-  //   }
-  // }, [decodedToken])
-
-
   const submitSupportQuery = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const target = event.currentTarget;
@@ -70,32 +61,6 @@ const SubmitSupportQueryPage: React.FC = () => {
       // Handle the error, possibly show a message to the user
     }
   };
-
-
-  // Import the necessary modules
-
-
-  // Function to retrieve JWT token from storage
-  // const getTokenFromStorage = () => {
-  //   return localStorage.getItem('token'); // Assuming token is stored in localStorage
-  // };
-
-  // // Function to decode JWT token and extract user ID
-  // const getUserIdFromToken = (token) => {
-  //   try {
-  //     const decoded = jwt.verify(token, 'your_secret_key'); // Verify token using your secret key
-  //     return decoded.userId; // Extract user ID from decoded token payload
-  //   } catch (error) {
-  //     console.error('Error decoding token:', error);
-  //     return null; // Return null if token is invalid or expired
-  //   }
-  // };
-
-  // // Usage example on a different page
-  // const token = getTokenFromStorage(); // Retrieve token from storage
-  // const userId = getUserIdFromToken(token); // Decode token and extract user ID
-  // console.log('User ID:', userId);
-
 
 
   return (
