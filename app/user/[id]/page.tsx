@@ -1,20 +1,36 @@
 import React from "react";
-import { db } from "@/lib/db";
 import "bootstrap/dist/css/bootstrap.css";
-import WebSocketComponent from "@/app/components/webSocket";
-import BuyButton from "@/app/components/BuyButton";
-import SellButton from "@/app/components/SellButton";
+import prisma from "@/server/prisma";
 import SendButton from "@/app/components/SendButton";
+import TableClient from "@/app/components/TableClient";
+import SellButton from "@/app/components/SellButton";
 
 interface Props {
   params: { id: number };
 }
 
 const OwnedCrypto = async ({ params: { id } }: Props) => {
-  const cryptos = await db.cryptocurrencies.findMany();
-  const portfolio = await db.portfolios.findMany({
+  const cryptos = await prisma.cryptocurrency.findMany({
+    select: {
+      id: true,
+      name: true,
+      symbol: true,
+    },
+  });
+  const portfolio = await prisma.portfolio.findMany({
     where: {
-      investorID: { equals: Number(id) },
+      id: { equals: Number(id) },
+    },
+  });
+  const ownedCrypto = await prisma.cryptoPortfolioOwned.findMany({
+    select: {
+      id: true,
+      portfolioId: true,
+      cryptoId: true,
+      quantity: true,
+    },
+    where: {
+      portfolioId: { equals: Number(id) },
     },
   });
 
@@ -30,41 +46,11 @@ const OwnedCrypto = async ({ params: { id } }: Props) => {
             <td>Value</td>
           </tr>
         </thead>
-
-        <tbody>
-          {cryptos
-            .filter((crypto) =>
-              portfolio
-                .map((portfolio) => portfolio.cryptoID)
-                .includes(crypto.id)
-            )
-            .sort((crypto) => crypto.id)
-            .map((crypto) => (
-              <tr>
-                <th>{crypto.symbol}</th>
-                <td>{crypto.name}</td>
-                <td>
-                  {portfolio
-                    .filter((val) => val.cryptoID == crypto.id)
-                    .map((val) => val.amount)}
-                </td>
-                <td>{<WebSocketComponent amount={1} />}</td>
-                <td>
-                  $
-                  {portfolio
-                    .filter((val) => val.cryptoID == crypto.id)
-                    .map((val) => (
-                      <WebSocketComponent amount={val.amount} />
-                    ))}
-                </td>
-              </tr>
-            ))}
-        </tbody>
+        <TableClient cryptos={cryptos} cryptosOwned={ownedCrypto} />
       </table>
       <div className="d-flex flex-row justify-content-evenly">
-        <BuyButton />
-        <SellButton />
-        <SendButton />
+        <SendButton coins={cryptos.map((crypto) => crypto.symbol)} />
+        <SellButton coins={cryptos.map((crypto) => crypto.symbol)} />
       </div>
     </>
   );
