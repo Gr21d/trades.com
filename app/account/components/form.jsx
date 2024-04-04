@@ -80,14 +80,14 @@ export default function Form(props) {
     <div className="FormContainer">
       <div>
         <div className="logo">
-          <Image src="/images/iconBull.jpg" alt="Logo" width={97} height={92} />
+          <Image src="/images/iconBull.png" alt="Logo" width={97} height={92} />
         </div>
         <div>
           <h2 id="header">{props.type === "signIn" ? "Sign In" : "Sign Up"}</h2>
           <p>
             {props.type === "signIn"
               ? "Welcome back! Please sign in to your account."
-              : "Let's get you an account and discover the right Crypto's to trade."}
+              : "Let's get you an account and discover the right cryptocurrencies to trade."}
           </p>
           <form onSubmit={props.type === "signIn" ? handleSignIn : handleSignUp}>
             <div className="Form">

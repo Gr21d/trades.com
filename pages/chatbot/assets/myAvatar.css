@@ -1,0 +1,13 @@
+.TestBotAvatar{
+    width: 53px;
+    height: 50px;
+    border-radius: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* font-size: 0.9rem;
+    background-color: purple;
+    color: white; */
+    margin: 5px;
+    margin-left: -8px;
+}
