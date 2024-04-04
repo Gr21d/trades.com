@@ -1,0 +1,40 @@
+Welcome Message
+"Welcome to [Exchange Name] Support. How can I assist you today?"
+Account Issues
+Trading Support
+Deposits & Withdrawals
+Security Concerns
+Learn About Cryptocurrency
+
+Account Issues
+"What issue are you experiencing with your account?"
+Unable to Log In
+"Have you tried resetting your password?"
+Yes (Lead to password reset assistance)
+No (Provide password reset instructions)
+Account Locked
+"For security reasons, please contact support directly via email."
+Update Account Information
+"You can update your information in the account settings. Do you need help navigating there?"
+Yes (Provide instructions)
+No (End conversation with a supportive message)
+
+Trading Support
+"What can I help you with regarding trading?"
+How to Place an Order
+(Provide instructions for placing orders)
+Order Types
+(Explain different order types available)
+Trading Fees
+(Provide information on trading fees)
+
+Deposits & Withdrawals
+"Are you having issues with deposits or withdrawals?"
+Deposits
+"What issue are you experiencing with your deposit?"
+Not Showing Up (Provide troubleshooting steps)
+Wrong Address (Provide next steps)
+Withdrawals
+"What issue are you experiencing with your withdrawal?"
+Delayed (Explain potential reasons)
+Failed (Guide through possible solutions)
