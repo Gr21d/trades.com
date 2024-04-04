@@ -22,6 +22,8 @@ function Details(props) {
     const [isStopped, setIsStopped] = useState(false);
     const [idPortfolioCrypto, setIdPortfolioCrypto] = useState(null);
 
+    
+
     const getToken = () => {
       if (typeof window !== 'undefined' && window.localStorage) {
         return localStorage.getItem('token');
@@ -182,7 +184,6 @@ function Details(props) {
           setTransactionId(response.data.transactionId);
           alert(`Transaction successful bought at: ${realTimePrice}`)
           setIdPortfolioCrypto(response.data.cryptoPortfolioOwned.id);
-
           if(isStopped){
             const response = await axios.post('/api/dashboard/limit', {
               orderId: transactionId,
@@ -195,14 +196,36 @@ function Details(props) {
           }
 
         }  catch (error) {
-
           console.error('Error buying crypto', error);
           alert('Error buying crypto');
         }
       }
     }
 
-
+    const stop = async () => {
+      try {
+        const response = await axios.post('/api/dashboard/limit', {
+          orderId: transactionId,
+          currentPrice: realTimePrice,
+        });
+  
+        if (response.status !== 200) {
+          throw new Error('Failed to cancel buy order');
+        }
+  
+        const { updatedBuyOrder } = response.data;
+        console.log(updatedBuyOrder)
+        setBuyAmount(0);
+        setStopLoss(null);
+        setTakeProfit(null);
+        setTransactionId(null);
+        
+        alert('Transaction stopped');
+      } catch (error) {
+        console.error('Error canceling buy order:', error);
+        alert('Error canceling buy order');
+      }
+    }
     const handleStopClick = async () => {
       if (window.confirm('Do you want to quit your position?')) {
         try {
@@ -226,110 +249,118 @@ function Details(props) {
       }
     };
 
-    useEffect(() => {
-      if (chartContainerRef.current && ohlc && cryptoSymbol) {
-        let newChart: IChartApi | null = null;
-    
-        if (!chart) {
-          newChart = createChart(chartContainerRef.current, {
-            layout: {
-              background: { type: ColorType.Solid, color: 'rgb(23,23,23)' },
-              textColor: 'white',
-            },
-            width: 1200,
-            height: 800,
-          });
-    
-          setChart(newChart);
-        } else {
-          newChart = chart;
-        }
-    
-        const newCandlestickSeries = newChart.addCandlestickSeries();
-        setCandlestickSeries(newCandlestickSeries);
-        
-        const lineSeries = newChart.addLineSeries();
-    
-        lineSeries.applyOptions({
-          lineWidth: 2,
-          color: "#45E5CB",
-        });
-    
-        let data = ohlc.map(item => ({
-          time: (item[0] / 1000) as CustomTimeType,
-          open: parseFloat(item[1]),
-          high: parseFloat(item[2]),
-          low: parseFloat(item[3]),
-          close: parseFloat(item[4])
-        }));
 
-        let from = data[0].time;
-        let to = data[data.length - 1].time;
-            
-        let lineData = data.map(item => ({ time: item.time, value: (item.open + item.close) / 2 }));
-    
-        console.log('line', lineData);
-    
-        console.log('loaded')
-        lineSeries.setData(lineData);
-        newCandlestickSeries.setData(data);
-        setCandlestickSeries(newCandlestickSeries);
-        let getLatest = cryptoName.split("/")[2];
-        getLatest = getLatest.toLowerCase();
-    
-        let symbol = cryptoSymbol.toLowerCase();
-        const socket = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol}usdt@kline_15m`);
-    
-        socket.addEventListener('open', () => {
-          console.log('WebSocket connection established');
+  useEffect(() => {
+    if (chartContainerRef.current && ohlc && cryptoSymbol) {
+      let newChart: IChartApi | null = null;
+
+      if (!chart) {
+        newChart = createChart(chartContainerRef.current, {
+          layout: {
+            background: { type: ColorType.Solid, color: 'rgb(23,23,23)' },
+            textColor: 'white',
+          },
+          width: 1200,
+          height: 800,
         });
 
-        socket.addEventListener('close', (event) => {
-          console.log(`WebSocket connection closed: ${event.code} - ${event.reason}`);
-        });
-
-        socket.addEventListener('error', (error) => {
-          console.error(`WebSocket error: ${error}`);
-        });
-    
-        socket.addEventListener('message', (event) => {
-          const data = JSON.parse(event.data);
-          console.log(data);
-    
-          var candle = data.k;
-    
-          console.log('Candlestick update received:', typeof(candle.t));
-          if (newCandlestickSeries) {
-            console.log('Updating candlestick series');
-            newCandlestickSeries.update({
-              time: (candle.t / 1000) as CustomTimeType,
-              open: parseFloat(candle.o),
-              high: parseFloat(candle.h),
-              low: parseFloat(candle.l),
-              close: parseFloat(candle.c),
-            });
-          }
-
-          
-          setRealTimePrice(parseFloat(candle.c));
-          if(stopLoss && takeProfit){
-            if(parseFloat(candle.c) >= takeProfit){
-              alert('Take profit reached');
-              // update profit in current balance in the db
-            } else if(parseFloat(candle.c) <= stopLoss){
-              alert('Stop loss reached');
-              // update loss in current balanace in the db
-            }
-          }
-
-        });
-    
-        return () => {
-          socket.close();
-        };
-        
+        setChart(newChart);
+      } else {
+        newChart = chart;
       }
-    }, [chartContainerRef.current, ohlc, cryptoSymbol, chart]);
+
+      const newCandlestickSeries = newChart.addCandlestickSeries();
+      setCandlestickSeries(newCandlestickSeries);
+
+      const lineSeries = newChart.addLineSeries();
+
+      lineSeries.applyOptions({
+        lineWidth: 2,
+        color: "#45E5CB",
+      });
+
+      let data = ohlc.map(item => ({
+        time: (item[0] / 1000) as CustomTimeType,
+        open: parseFloat(item[1]),
+        high: parseFloat(item[2]),
+        low: parseFloat(item[3]),
+        close: parseFloat(item[4])
+      }));
+
+      let from = data[0].time;
+      let to = data[data.length - 1].time;
+
+      let lineData = data.map(item => ({ time: item.time, value: (item.open + item.close) / 2 }));
+
+      console.log('line', lineData);
+
+      console.log('loaded');
+      lineSeries.setData(lineData);
+      newCandlestickSeries.setData(data);
+      setCandlestickSeries(newCandlestickSeries);
+    }
+  }, [chartContainerRef.current, ohlc, cryptoSymbol]);
+
+  useEffect(() => {
+    if (cryptoSymbol) {
+      let getLatest = cryptoName.split("/")[2];
+      getLatest = getLatest.toLowerCase();
+
+      let symbol = cryptoSymbol.toLowerCase();
+      const socket = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol}usdt@kline_15m`);
+
+      socket.addEventListener('open', () => {
+        console.log('WebSocket connection established');
+      });
+
+      socket.addEventListener('close', (event) => {
+        console.log(`WebSocket connection closed: ${event.code} - ${event.reason}`);
+      });
+
+      socket.addEventListener('error', (error) => {
+        console.error(`WebSocket error: ${error}`);
+      });
+
+      socket.addEventListener('message', (event) => {
+        const data = JSON.parse(event.data);
+        console.log(data);
+
+        var candle = data.k;
+
+        console.log('Candlestick update received:', typeof(candle.t));
+        if (candlestickSeries) {
+          console.log('Updating candlestick series');
+          candlestickSeries.update({
+            time: (candle.t / 1000) as CustomTimeType,
+            open: parseFloat(candle.o),
+            high: parseFloat(candle.h),
+            low: parseFloat(candle.l),
+            close: parseFloat(candle.c),
+          });
+        }
+
+        setRealTimePrice(parseFloat(candle.c));
+
+        if (transactionId) {
+          console.log('sl', stopLoss);
+          console.log('tk', takeProfit);
+          if (stopLoss && parseFloat(candle.c) <= parseFloat(stopLoss)) {
+            alert('Stop loss level reached');
+            stop();
+          }
+          if (takeProfit && parseFloat(candle.c) >= parseFloat(takeProfit)) {
+            alert('Take profit level reached');
+            stop();
+          }
+        }
+      });
+
+      return () => {
+        socket.close();
+      };
+    }
+  }, [cryptoSymbol, transactionId, candlestickSeries]);
+
     
 
     useEffect(() => {
@@ -342,74 +373,95 @@ function Details(props) {
     }
 
     
+
     return (
       <div>
         <h1>Details</h1>
-
-          {cryptoDetails && (
+    
+        {cryptoDetails && (
+          <div>
+            <div>
+              <label htmlFor="stopLoss">Stop Loss:</label>
+              <input
+                type="number"
+                id="stopLoss"
+                value={stopLoss || ''}
+                onChange={(e) => setStopLoss(e.target.value)}
+                placeholder="Enter stop loss"
+              />
+            </div>
+            <div>
+              <label htmlFor="takeProfit">Take Profit:</label>
+              <input
+                type="number"
+                id="takeProfit"
+                value={takeProfit || ''}
+                onChange={(e) => setTakeProfit(e.target.value)}
+                placeholder="Enter take profit"
+              />
+            </div>
             <div>
               {cryptoDetails.name} <br />
               {cryptoDetails.symbol} <br />
               {cryptoDetails.currentPrice} <br />
               Real-time price: {realTimePrice !== null ? realTimePrice : 'Loading...'}
               <input
-              type="number"
-              value={buyAmount}
-              onChange={(e) => setBuyAmount(parseFloat(e.target.value))}
-              placeholder="Enter buy amount"
-            />
-            <button onClick={handleBuyClick}>Buy</button>
-            <button onClick={handleStopClick}>Stop</button>
-            </div>
-          )}
-
-          <div className="trading-area">
-            <div className="chart">
-              {ohlc ? (
-                <div ref={chartContainerRef}></div>
-              ) : (
-                <div>Loading chart...</div>
-              )}
-            </div>
-            <div className="crypto">
-              <table className="rwd-table1">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Change 1h %</th>
-                    <th>Change 24h %</th>
-                    <th>Market Cap</th>
-                    <th>Volume (24h)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {cryptos.map((crypto, index) => (
-                    <tr key={crypto.id}>
-                      <td data-th="Name">{crypto.name}</td>
-                      <td data-th="% Change 1h" style={{color: crypto.quote.USD.percent_change_1h >= 0 ? 'green' : 'red'}}>
-                        {crypto.quote.USD.percent_change_1h.toFixed(2)}%
-                        <Image src={crypto.quote.USD.percent_change_1h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={20} height={20} />
-                      </td>
-                      <td data-th="% Change 24h" style={{color: crypto.quote.USD.percent_change_24h >= 0 ? 'green' : 'red'}}>
-                        {crypto.quote.USD.percent_change_24h.toFixed(2)}%
-                        <Image src={crypto.quote.USD.percent_change_24h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={20} height={20} />
-                      </td>
-                      <td data-th="Market Cap">${crypto.quote.USD.market_cap.toLocaleString()}</td>
-                      <td data-th="Volume (24h)">${crypto.quote.USD.volume_24h.toLocaleString()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>                
-
-              <div className="crypto-details">
-                Helloajsdopjafokaopdjfpoaskfpoas
-              </div>
+                type="number"
+                value={buyAmount}
+                onChange={(e) => setBuyAmount(parseFloat(e.target.value))}
+                placeholder="Enter buy amount"
+              />
+              <button onClick={handleBuyClick}>Buy</button>
+              <button onClick={handleStopClick}>Stop</button>
             </div>
           </div>
-
-            
+        )}
+    
+        <div className="trading-area">
+          <div className="chart">
+            {ohlc ? (
+              <div ref={chartContainerRef}></div>
+            ) : (
+              <div>Loading chart...</div>
+            )}
+          </div>
+          <div className="crypto">
+            <table className="rwd-table1">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Change 1h %</th>
+                  <th>Change 24h %</th>
+                  <th>Market Cap</th>
+                  <th>Volume (24h)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cryptos.map((crypto, index) => (
+                  <tr key={crypto.id}>
+                    <td data-th="Name">{crypto.name}</td>
+                    <td data-th="% Change 1h" style={{color: crypto.quote.USD.percent_change_1h >= 0 ? 'green' : 'red'}}>
+                      {crypto.quote.USD.percent_change_1h.toFixed(2)}%
+                      <Image src={crypto.quote.USD.percent_change_1h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={20} height={20} />
+                    </td>
+                    <td data-th="% Change 24h" style={{color: crypto.quote.USD.percent_change_24h >= 0 ? 'green' : 'red'}}>
+                      {crypto.quote.USD.percent_change_24h.toFixed(2)}%
+                      <Image src={crypto.quote.USD.percent_change_24h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={20} height={20} />
+                    </td>
+                    <td data-th="Market Cap">${crypto.quote.USD.market_cap.toLocaleString()}</td>
+                    <td data-th="Volume (24h)">${crypto.quote.USD.volume_24h.toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>                
+            <div className="crypto-details">
+              Helloajsdopjafokaopdjfpoaskfpoas
+            </div>
+          </div>
+        </div>
       </div>
     );
+    
 }
 
 export default Details;
