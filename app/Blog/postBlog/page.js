@@ -1,8 +1,8 @@
 
 "use client"
 import React, { useState } from 'react';
-import "./styles/BlogPage.css"
-
+import Header from "../../components/header";
+import Footer from "../../components/footer"
 const AddPostForm = () => {
   const [title, setTitle] = useState(''); // the title content 
   const [content, setContent] = useState(''); // the content 
@@ -49,6 +49,7 @@ const AddPostForm = () => {
 
   return (
     <div>
+      <Header/>
       <h2>Add a New Post</h2>
       {message && <p>{message}</p>}
       <form onSubmit={handleSubmit}>
@@ -73,6 +74,7 @@ const AddPostForm = () => {
         </div>
         <button type="submit">Add Post</button>
       </form>
+      <Footer/>
     </div>
   );
 };
