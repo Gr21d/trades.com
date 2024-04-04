@@ -20,7 +20,6 @@ interface Props {
 const SellForm = ({ coins }: Props) => {
   const [selectedCoin, setSelectedCoin] = useState("");
   const [amount, setAmount] = useState("");
-  const [destination, setDestination] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -28,10 +27,8 @@ const SellForm = ({ coins }: Props) => {
     // Perform any necessary actions with the form data here
     console.log("Selected Coin:", selectedCoin);
     console.log("Amount:", amount);
-    console.log("Destination:", destination);
     setSelectedCoin("");
     setAmount("");
-    setDestination("");
   };
 
   const handleCloseModal = () => {
@@ -65,14 +62,6 @@ const SellForm = ({ coins }: Props) => {
           />
         </FormGroup>
         <div className="d-flex flex-column">
-          <FormGroup className="mb-4">
-            <FormLabel>Destination Number:</FormLabel>
-            <FormControl
-              type="text"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-            />
-          </FormGroup>
           <Button type="submit" onClick={(e) => setSubmitted(true)}>
             Sell
           </Button>

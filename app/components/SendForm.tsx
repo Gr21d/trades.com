@@ -13,24 +13,38 @@ import {
   ModalHeader,
   ModalTitle,
 } from "react-bootstrap";
+import Sending from "./Sending";
 
 interface Props {
   coins: string[];
+  cryptos: {
+    id: number;
+    name: string;
+    symbol: string;
+  }[];
+  cryptosOwned: {
+    id: number;
+    portfolioId: number;
+    cryptoId: number;
+    quantity: number;
+    buyPrice: number;
+  }[];
 }
-const SendForm = ({ coins }: Props) => {
+const SendForm = ({ coins, cryptos, cryptosOwned }: Props) => {
   const [selectedCoin, setSelectedCoin] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
   const [destination, setDestination] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     // Perform any necessary actions with the form data here
+    const sent = Sending(destination, selectedCoin, amount);
     console.log("Selected Coin:", selectedCoin);
     console.log("Amount:", amount);
     console.log("Destination:", destination);
     setSelectedCoin("");
-    setAmount("");
+    setAmount(0);
     setDestination("");
   };
 
@@ -59,9 +73,10 @@ const SendForm = ({ coins }: Props) => {
         <FormGroup className="mb-2">
           <FormLabel>Enter Amount:</FormLabel>
           <FormControl
-            type="text"
+            type="number"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            placeholder="0"
+            onChange={(e) => setAmount(parseFloat(e.target.value))}
           />
         </FormGroup>
         <div className="d-flex flex-column">
@@ -70,6 +85,7 @@ const SendForm = ({ coins }: Props) => {
             <FormControl
               type="text"
               value={destination}
+              placeholder="Type in username"
               onChange={(e) => setDestination(e.target.value)}
             />
           </FormGroup>

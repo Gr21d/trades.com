@@ -65,6 +65,7 @@ model CryptoPortfolioOwned {
   portfolioId  Int
   cryptoId     Int
   quantity     Float
+  buyPrice     Float
   portfolio    Portfolio      @relation(fields: [portfolioId], references: [id])
   cryptocurrency Cryptocurrency @relation(fields: [cryptoId], references: [id])
 
@@ -76,7 +77,6 @@ model Cryptocurrency {
   id           Int                     @id @default(autoincrement())
   name         String                  @unique
   symbol       String                  @unique
-  currentPrice Float
   transactions Transaction[]
   portfolios   CryptoPortfolioOwned[]
   @@map("Cryptocurrencies")

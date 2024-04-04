@@ -3,17 +3,27 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Modal, ModalBody } from "react-bootstrap";
 import SendForm from "./SendForm";
-import SellForm from "./SellForm";
 
 interface Props {
   coins: string[];
+  cryptos: {
+    id: number;
+    name: string;
+    symbol: string;
+  }[];
+  cryptosOwned: {
+    id: number;
+    portfolioId: number;
+    cryptoId: number;
+    quantity: number;
+    buyPrice: number;
+  }[];
 }
-const SellButton = ({ coins }: Props) => {
+const SendButton = ({ coins, cryptos, cryptosOwned }: Props) => {
   const [showComponent, setShowComponent] = useState(false);
 
   const handleButtonClick = () => {
     setShowComponent(true);
-    console.log("clicked!");
   };
 
   const handleCloseModal = () => {
@@ -23,18 +33,22 @@ const SellButton = ({ coins }: Props) => {
     <>
       <button
         type="button"
-        className="btn btn-outline-primary"
+        className="btn btn-outline-primary mx-11"
         onClick={handleButtonClick}
       >
-        Sell
+        Send
       </button>
       <Modal show={showComponent} onHide={handleCloseModal}>
         <Modal.Dialog>
           <Modal.Header closeButton>
-            <Modal.Title>Sell Crypto</Modal.Title>
+            <Modal.Title>Send Crypto</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <SellForm coins={coins} />
+            <SendForm
+              coins={coins}
+              cryptos={cryptos}
+              cryptosOwned={cryptosOwned}
+            />
           </Modal.Body>
         </Modal.Dialog>
       </Modal>
@@ -42,4 +56,4 @@ const SellButton = ({ coins }: Props) => {
   );
 };
 
-export default SellButton;
+export default SendButton;
