@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cryptocurrency Insights Tutorial</title>
+  <script src="https://cdn.jsdelivr.net/npm/intro.js/minified/intro.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css">
+  <style>
+    /* CSS Reset */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; }
+
+    /* Styling for the crypto table */
+    #crypto-table {
+      max-width: 800px;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    #crypto-table th, #crypto-table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    #crypto-table th {
+      background-color: #333;
+      color: #fff;
+    }
+    #crypto-table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    /* Button styles */
+    #start-tutorial {
+      display: block;
+      width: 200px;
+      margin: 20px auto;
+      padding: 10px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<h2 style="text-align: center; margin-top: 20px;">Today's Cryptocurrency Prices by Market Cap</h2>
+
+![The insight page](insightpagepicture.png)
+
+<table id="crypto-table">
+  <!-- Table headers -->
+  <tr>
+    <th>#</th>
+    <th>Name</th>
+    <th>Price in USD</th>
+    <th>Change 1h %</th>
+    <th>Change 24h %</th>
+    <th>Market Cap</th>
+    <th>Volume (24h)</th>
+    <th>Circulating Supply</th>
+  </tr>
+</table>
+
+<button id="start-tutorial">Start Tutorial</button>
+
+<script>
+document.getElementById('start-tutorial').addEventListener('click', function() {
+  introJs().setOptions({
+    steps: [
+      { 
+        intro: "Welcome to the Cryptocurrency Insight Page tutorial!"
+      },
+      {
+        element: document.querySelector('#crypto-table th:nth-child(1)'),
+        intro: "This column shows the ranking of the cryptocurrency."
+      },
+      {
+        element: document.querySelector('#crypto-table th:nth-child(2)'),
+        intro: "This column shows the name of the cryptocurrency."
+      },
+      {
+      element: document.querySelector('#crypto-table th:nth-child(3)'),
+        intro: "This column shows "
+      },
+      {
+      element: document.querySelector('#crypto-table th:nth-child(4)'),
+        intro: "This column shows "
+      },{
+      element: document.querySelector('#crypto-table th:nth-child(5)'),
+        intro: "This column shows "
+      },{
+      element: document.querySelector('#crypto-table th:nth-child(6)'),
+        intro: "This column shows "
+      },{
+      element: document.querySelector('#crypto-table th:nth-child(7)'),
+        intro: "This column shows "
+      },{
+      element: document.querySelector('#crypto-table th:nth-child(8)'),
+        intro: "This column shows "
+      },{
+      element: document.querySelector('#crypto-table th:nth-child(9)'),
+        intro: "This column shows "
+      },
+
+    ],
+    'hidePrev': true,
+    'hideNext': true,
+    'exitOnOverlayClick': false,
+    'exitOnEsc': true,
+    'showStepNumbers': true,
+    'showButtons': true,
+    'skipLabel': 'Exit',
+    'doneLabel': 'Done'
+  }).start();
+});
+</script>
+
+</body>
+</html>
+
