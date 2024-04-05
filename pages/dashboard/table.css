@@ -4,7 +4,6 @@
 
 .rwd-table {
   margin: auto;
-  min-width: 300px;
   max-width: 100%;
   border-collapse: collapse;
 }

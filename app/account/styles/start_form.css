@@ -28,7 +28,7 @@ html, body {
 
 .FormContainer {
   flex: 1;
-  background-image: linear-gradient(to left, #4A9F04, #000000);
+  background-image: linear-gradient(to left, #33C487, #000000);
   padding: 2.5rem;
   display: flex;
   flex-direction: column;

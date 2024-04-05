@@ -61,14 +61,13 @@ model Portfolio {
 }
 
 model CryptoPortfolioOwned {
-  id           Int            @unique
+  id           Int           @id @default(autoincrement())
   portfolioId  Int
   cryptoId     Int
   quantity     Float
-  portfolio    Portfolio      @relation(fields: [portfolioId], references: [id])
+  portfolio    Portfolio     @relation(fields: [portfolioId], references: [id])
   cryptocurrency Cryptocurrency @relation(fields: [cryptoId], references: [id])
-
-  @@id([portfolioId, cryptoId]) // Use portfolioId and cryptoId as a compound primary key
+  @@unique([portfolioId, cryptoId])
   @@map("CryptoPortfoliosOwned")
 }
 
@@ -86,11 +85,12 @@ model Transaction {
   id Int @id @default(autoincrement())
   type String
   amount Float
+  currentPrice Float @default(0.0)
   dateTime DateTime @default(now())
   investorId Int
   cryptoId Int?
   portfolioId Int
-
+  status String @default("ACTIVE")
   portfolio Portfolio @relation(fields: [portfolioId], references: [id])
   investor Investor @relation(fields: [investorId], references: [investorId])
   cryptocurrency Cryptocurrency? @relation(fields: [cryptoId], references: [id])
