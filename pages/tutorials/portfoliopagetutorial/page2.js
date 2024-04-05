@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import '../../../styles/TutorialBox.css';
+import '/tutorials/portfoliopagetutorial/TutorialBox.css'; 
+
 
 const Page2 = () => {
   return (
@@ -13,11 +14,11 @@ const Page2 = () => {
       <p><strong>Value:</strong> The total value of your holdings in that cryptocurrency (Owned Amount multiplied by the Current Price).</p>
       <p><strong>Sell Button:</strong> A button to initiate the selling process for the chosen cryptocurrency.</p>
       <img src="#" className="center-image" alt="" />
-      <Link href="/tutorials/profilepagetutorial/page3">
-        <a className="next-button">Next</a>
+      <Link href="/tutorials/portfoliopagetutorial/page3">
+        <span className="next-button">Next</span>
       </Link>
-      <Link href="/tutorials/profilepagetutorial/page1">
-        <a className="back-button">Back</a>
+      <Link href="/tutorials/portfoliopagetutorial/page1">
+        <span className="back-button">Back</span>
       </Link>
     </div>
   );
