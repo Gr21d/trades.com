@@ -489,7 +489,6 @@ function Details(props) {
                 <p>Cryptocurrencies</p>
               </div>
             <div className="crypto">
-
               <table className="rwd-table1">
                 <thead>
                   <tr>
@@ -519,23 +518,43 @@ function Details(props) {
           <div className="chart-name">
                 <p>Chart</p>
               </div>
-          <div className="ohlc">
-                <p>{cryptoSymbol}/USDT</p>
-                15M
-                <p>O: {open !== null ? open : 'Loading...'}</p>
-                <p>H: {high !== null ? high : 'Loading...'}</p>
-                <p>L: {low !== null ? low : 'Loading...'}</p>
-                <p>C: {close !== null ? close : 'Loading...'}</p>
-              </div>
+          <div className="chart-scrollable-container">
+            <div className="chart-layout">
 
-          <div className="chart-container">
+              <div className="ohlc">
+                    <p>{cryptoSymbol}/USDT</p>
+                    15M
+                    <p>O: {open !== null ? open : 'Loading...'}</p>
+                    <p>H: {high !== null ? high : 'Loading...'}</p>
+                    <p>L: {low !== null ? low : 'Loading...'}</p>
+                    <p>C: {close !== null ? close : 'Loading...'}</p>
+                  </div>
 
-              {ohlc ? (
-                <div ref={chartContainerRef} className="chart"></div>
-              ) : (
-                <div>Loading chart...</div>
-              )}
+              <div className="chart-container">
+
+                  {ohlc ? (
+                    <div ref={chartContainerRef} className="chart"></div>
+                  ) : (
+                    <div>Loading chart...</div>
+                  )}
+                </div>
             </div>
+            <div className="about-layout">
+              <p>About bitcoin</p>
+            </div>
+            <div className="most-visited-crypto-layout">
+              <p>Most visited crypto layout</p>
+            </div>
+            <div className="global-prices-layout">
+              <p>Global Prices</p>
+            </div>
+            <div className="trending-layout">
+              <p>Trending</p>
+            </div>
+
+
+          </div>
+
           <div className="chart">
           </div>
 
