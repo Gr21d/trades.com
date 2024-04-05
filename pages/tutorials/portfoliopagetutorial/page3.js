@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import '../../../styles/TutorialBox.css';
+import '/tutorials/portfoliopagetutorial/TutorialBox.css'; 
 
 const Page3 = () => {
   return (
@@ -21,11 +21,11 @@ const Page3 = () => {
         <li>Wait for Confirmation: The system will process your sale. Wait for an on-screen confirmation message that your transaction has been successful.</li>
         <li>Verify the Transaction: Check your updated portfolio to ensure that the sold amount has been deducted. Confirm that the sale proceeds have been credited to your specified destination.</li>
     </ol>
-      <Link href="/tutorials/profilepagetutorial/page4">
-        <a className="next-button">Next</a>
+      <Link href="/tutorials/portfoliopagetutorial/page4">
+        <span className="next-button">Next</span>
       </Link>
-      <Link href="/tutorials/profilepagetutorial/page2">
-        <a className="back-button">Back</a>
+      <Link href="/tutorials/portfoliopagetutorial/page2">
+        <span className="back-button">Back</span>
       </Link>
     </div>
   );
