@@ -44,50 +44,19 @@ const Page1 = () => {
     marginTop: '20px', 
   };
 
-  const listStyle: React.CSSProperties = {
-    listStyle: 'none', 
-    padding: 0, 
-  };
-
-  const listItemStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '50px', 
-  };
-
-  const arrowStyle: React.CSSProperties = {
-    marginRight: '10px', 
-  };
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <div style={leftContainerStyle}>
         <div style={contentBoxStyle}>
-          <h2>Cryptocurrencies Overview</h2>
-          <p>This page gives you a quick overview of various cryptocurrencies. Here's what each term means:</p>
-          <ul style={listStyle}>
-            <li style={listItemStyle}>
-              <span style={arrowStyle}>→</span>
-              <strong>Name:</strong> The name of the cryptocurrency, like Bitcoin or Ethereum.
-            </li>
-            <li style={listItemStyle}>
-              <span style={arrowStyle}>→</span>
-              <strong>Change 1h %:</strong> The percentage change in the price of the cryptocurrency over the last hour.
-            </li>
-            <li style={listItemStyle}>
-              <span style={arrowStyle}>→</span>
-              <strong>Change 24h %:</strong> The percentage change in the price of the cryptocurrency over the last 24 hours.
-            </li>
-          </ul>
-          <Image
-            src="/images/page1image.png"
-            alt=" "
-            width={500} 
-            height={350} 
-            layout="intrinsic"
-          />
-          <Link href="/tutorials/dashboardpagetutorial/page2" passHref>
-            <span style={nextButtonStyle}>Next</span>
+        <h2>Tutorials</h2>
+        <h2>Portfolio Page Tutorial</h2>
+          <Link href="/tutorials/portfoliopagetutorial/page1" passHref>
+            <span style={nextButtonStyle}>Learn about the Portfolio Page</span>
+          </Link>
+          <h2>Crypto Dashboard Page Tutorial</h2>
+          <Link href="/tutorials/dashboardpagetutorial/page1" passHref>
+            <span style={nextButtonStyle}>Learn about the Crypto Dashboard Page</span>
           </Link>
         </div>
       </div>
