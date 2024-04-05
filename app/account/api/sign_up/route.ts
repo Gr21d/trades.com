@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db } from "../../../../lib/db";
 import bcrypt from "bcrypt";
 
-function isPasswordStrong(password:string) {
+function isPasswordStrong(password: string) {
   const hasMinLength = password.length > 10;
   const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
   const hasCapital = /[A-Z]/.test(password);
@@ -10,7 +10,7 @@ function isPasswordStrong(password:string) {
   return hasMinLength && hasSymbol && hasCapital && hasNumber;
 }
 
-export async function POST(request:Request) {
+export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { email, username, password, userType } = body;
@@ -52,6 +52,22 @@ export async function POST(request:Request) {
         email,
         password: hashedPassword,
         userType,
+        investor: {
+          create: {
+            portfolio: {
+              create: {
+                balance: 0,
+              },
+            },
+          },
+        },
+      },
+      include: {
+        investor: {
+          include: {
+            portfolio: true,
+          },
+        },
       },
     });
 
@@ -63,9 +79,6 @@ export async function POST(request:Request) {
     );
   } catch (error) {
     console.error(error);
-    return NextResponse.json(
-      { message: "Something went wrong" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Something went wrong" }, { status: 500 });
   }
 }

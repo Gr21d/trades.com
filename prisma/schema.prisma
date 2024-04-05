@@ -54,30 +54,30 @@ model Investor {
 model Portfolio {
   id Int @id @default(autoincrement())
   balance Float
-  investor Investor?  @relation
+  investor Investor? @relation
   transactions Transaction[]
-  cryptocurrencies CryptoPortfolioOwned[]
+  cryptoPortfoliosOwned CryptoPortfolioOwned[]
   @@map("Portfolios")
 }
 
 model CryptoPortfolioOwned {
-  id Int @id @default(autoincrement())
-  portfolioId Int
-  cryptoId Int
-  quantity Float
-  portfolio Portfolio @relation(fields: [portfolioId], references: [id])
+  id           Int           @id @default(autoincrement())
+  portfolioId  Int
+  cryptoId     Int
+  quantity     Float
+  portfolio    Portfolio     @relation(fields: [portfolioId], references: [id])
   cryptocurrency Cryptocurrency @relation(fields: [cryptoId], references: [id])
+  @@unique([portfolioId, cryptoId])
   @@map("CryptoPortfoliosOwned")
 }
 
 model Cryptocurrency {
-  id Int @id @default(autoincrement())
-  name String @unique
-  symbol String
+  id           Int                     @id @default(autoincrement())
+  name         String                  @unique
+  symbol       String                  @unique
   currentPrice Float
   transactions Transaction[]
-  portfolios CryptoPortfolioOwned[]
-
+  portfolios   CryptoPortfolioOwned[]
   @@map("Cryptocurrencies")
 }
 
@@ -85,11 +85,12 @@ model Transaction {
   id Int @id @default(autoincrement())
   type String
   amount Float
+  currentPrice Float @default(0.0)
   dateTime DateTime @default(now())
   investorId Int
   cryptoId Int?
   portfolioId Int
-
+  status String @default("ACTIVE")
   portfolio Portfolio @relation(fields: [portfolioId], references: [id])
   investor Investor @relation(fields: [investorId], references: [investorId])
   cryptocurrency Cryptocurrency? @relation(fields: [cryptoId], references: [id])

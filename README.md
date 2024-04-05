@@ -37,6 +37,11 @@ npm install sqlite
 ```bash
 npm install sqlite
 ```
+### React Chatbot Kit
+
+```bash
+npm install react-chatbot-kit
+```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

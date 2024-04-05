@@ -1,38 +1,24 @@
-import {PrismaClient} from '@prisma/client'
-import axios from 'axios'
-
-const prisma = new PrismaClient()
+import axios from 'axios';
 
 export default async function handler(req, res) {
-  const {name} = req.query
+  const { name } = req.query;
+  console.log('name of the crypto detail',name)
 
-  try{
-    const cryptoNameFormatted = name.replace(/\s+/g, '-')
-    let crypto = await prisma.cryptocurrency.findUnique({
-      where: { name: cryptoNameFormatted },
-    });
+  try {
+    const options = {
+      method: 'GET',
+      url: `https://api.coingecko.com/api/v3/coins/${name}`,
+      headers: { 'x-cg-demo-api-key': 'CG-xc5hrVz9Rxi8KtWm5Py3Gtw5' },
+      params: {
+        vs_currency: 'usd',
+        ids: name,
+      },
+    };
 
-    if (!crypto) {
-      try {
-        const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${cryptoNameFormatted}`);
-        const cryptoDetails = response.data;
-
-        crypto = await prisma.cryptocurrency.create({
-          data: {
-            name: cryptoDetails.name,
-            symbol: cryptoDetails.symbol,
-            currentPrice: cryptoDetails.market_data.current_price.usd,
-          },
-        });
-      } catch (apiError) {
-        console.error(apiError);
-        return res.status(500).json({ error: 'Failed to fetch cryptocurrency details from the API' });
-      }
-    }
-
-    res.status(200).json(crypto)
-  } catch(error){
-    console.error(error)
-    res.status(500).json({error: 'Failed to fetch cryptocurrency details'})
+    const response = await axios.request(options);
+    res.status(200).json(response.data);
+  } catch (apiError) {
+    console.error(apiError);
+    return res.status(500).json({ error: 'Failed to fetch cryptocurrency details from the API' });
   }
 }
