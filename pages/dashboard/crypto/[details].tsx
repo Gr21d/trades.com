@@ -4,10 +4,15 @@ import axios from 'axios';
 
 import React, { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import {createChart, UTCTimestamp, ColorType, IChartApi, ISeriesApi, Time, WhitespaceData, LineData, LineSeriesOptions, LineStyleOptions, DeepPartial, SeriesOptionsCommon, CandlestickData, CandlestickSeriesOptions, CandlestickStyleOptions} from 'lightweight-charts'
+import {createChart, UTCTimestamp, ColorType, IChartApi, ISeriesApi, Time, WhitespaceData, LineData, LineSeriesOptions, LineStyleOptions, DeepPartial, SeriesOptionsCommon, CandlestickData, CandlestickSeriesOptions, CandlestickStyleOptions, CrosshairMode, LineStyle} from 'lightweight-charts'
 import {jwtDecode} from 'jwt-decode';
 import { decode } from 'punycode';
 import Image from 'next/image';
+
+import information from '../../.././public/information.png';
+
+import Header from '../../../app/components/Header';
+import Footer from '../../../app/components/Footer';
 
 import './crypto.css';
 
@@ -20,9 +25,8 @@ function Details(props) {
     const [ohlc, setOhlc] = useState(null);
     const [decodedToken, setDecodedToken] = useState(0)
     const [isStopped, setIsStopped] = useState(false);
-    const [idPortfolioCrypto, setIdPortfolioCrypto] = useState(null);
-
-    
+    const [data, setData] = useState(null);
+    const [prevPrice, setPrevPrice] = useState(0.0);
 
     const getToken = () => {
       if (typeof window !== 'undefined' && window.localStorage) {
@@ -46,6 +50,13 @@ function Details(props) {
 
     const [cryptos, setCryptos] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [open, setOpen] = useState(null);
+    const [high, setHigh] = useState(null);
+    const [low, setLow] = useState(null);
+    const [close, setClose] = useState(null);
+
+    const [supplyPercentage, setSupplyPercentage] = useState(0);
 
 
     const [buyAmount, setBuyAmount] = useState(0);
@@ -88,9 +99,10 @@ function Details(props) {
           if (response.status !== 200) {
             throw new Error('Network response was not ok');
           }
+
+          console.log('crypto details spec', response);
     
           const data = response.data;
-          console.log('crypto details',data);
           setCryptoDetails(data);
           setCryptoSymbol(data.symbol.toUpperCase());
           setIsLoading(false);
@@ -103,6 +115,27 @@ function Details(props) {
     
       fetchData();
     }, [cryptoName]);
+
+    const calculateCirculatingSupplyPercentage = () => {
+      const max_supply = cryptoDetails.market_data.total_supply;
+      const circulating_supply = cryptoDetails.market_data.circulating_supply;
+    
+      // Check if max_supply or circulating_supply is null, undefined, or 0
+      if (!max_supply || !circulating_supply || max_supply === 0) {
+        // Return a default value or handle the case as per your requirements
+        return 'N/A'; // or return 0, -1, or any other value
+      }
+    
+      const percentage = ((circulating_supply / max_supply) * 100).toFixed(2);
+      return percentage;
+    };
+
+    useEffect(() => {
+      if (cryptoDetails) {
+        const percentage = calculateCirculatingSupplyPercentage();
+        setSupplyPercentage(percentage);
+      }
+    },[cryptoDetails])
 
     useEffect(() => {
       if (!cryptoSymbol) {
@@ -132,8 +165,6 @@ function Details(props) {
       fetchData();
     }, [cryptoSymbol]); 
 
-
-  
     useEffect(() => {
       fetch('/api/catalogue/crypto')
         .then(response => {
@@ -249,6 +280,11 @@ function Details(props) {
       }
     };
 
+  useEffect(() => {
+    if (realTimePrice !== null) {
+      setPrevPrice(realTimePrice);
+    }
+  }, [realTimePrice]);
 
   useEffect(() => {
     if (chartContainerRef.current && ohlc && cryptoSymbol) {
@@ -257,13 +293,36 @@ function Details(props) {
       if (!chart) {
         newChart = createChart(chartContainerRef.current, {
           layout: {
-            background: { type: ColorType.Solid, color: 'rgb(23,23,23)' },
+            background: {
+              type: ColorType.Solid,
+              color: 'transparent'
+            },
             textColor: 'white',
           },
-          width: 1200,
-          height: 800,
-        });
-
+          grid: {
+            vertLines: {
+              color: 'rgba(23, 48, 35, 0.8)',
+              style: LineStyle.Solid,
+            },
+            horzLines: {
+              color: 'rgba(23, 48, 35, 0.8)',
+              style: LineStyle.Solid,
+            },
+          },
+          crosshair: {
+            mode: CrosshairMode.Normal,
+          },
+          rightPriceScale: {
+            borderColor: '#cccccc',
+          },
+          timeScale: {
+            borderColor: '#cccccc',
+            timeVisible: true,
+            secondsVisible: false,
+          },
+          width: 900,
+          height: 720,
+        })
         setChart(newChart);
       } else {
         newChart = chart;
@@ -289,7 +348,6 @@ function Details(props) {
 
       let from = data[0].time;
       let to = data[data.length - 1].time;
-
       let lineData = data.map(item => ({ time: item.time, value: (item.open + item.close) / 2 }));
 
       console.log('line', lineData);
@@ -300,6 +358,49 @@ function Details(props) {
       setCandlestickSeries(newCandlestickSeries);
     }
   }, [chartContainerRef.current, ohlc, cryptoSymbol]);
+
+  const getPriceColor = () => {
+    if (realTimePrice === null || prevPrice === null) {
+      return 'white';
+    }
+    return realTimePrice > prevPrice ? 'green' : realTimePrice < prevPrice ? 'red' : 'white';
+  };
+
+
+  // useEffect(() => {
+  //   if (!cryptoName) {
+  //     setIsLoading(true);
+  //     return;
+  //   }
+  
+  //   setIsLoading(true);
+  //   let name = cryptoName.split("/")[2].toLowerCase();
+  //   console.log('crypt', cryptoName);
+  
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(`/api/catalogue/specific/${cryptoName}`);
+  
+  //       if (response.status !== 200) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  
+  //       const data = response.data;
+  //       console.log('crypto details',data);
+  //       // setCryptoDetails(data);
+  //       // setCryptoSymbol(data.symbol.toUpperCase());
+  //       setData(data);
+
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //       setError(error);
+  //       setIsLoading(false);
+  //     }
+  //   };
+  
+  //   fetchData();
+  // }, [cryptoName, cr]);
 
   useEffect(() => {
     if (cryptoSymbol) {
@@ -339,6 +440,10 @@ function Details(props) {
           });
         }
 
+        setClose(candle.c);
+        setOpen(candle.o);
+        setHigh(candle.h);
+        setLow(candle.l);
         setRealTimePrice(parseFloat(candle.c));
 
         if (transactionId) {
@@ -361,102 +466,270 @@ function Details(props) {
     }
   }, [cryptoSymbol, transactionId, candlestickSeries]);
 
-    
 
-    useEffect(() => {
-      
-    }, []);
-
-    
     if (isLoading) {
         return <div>Loading...</div>;
     }
 
-    
 
     return (
-      <div>
-        <h1>Details</h1>
-    
-        {cryptoDetails && (
-          <div>
-            <div>
-              <label htmlFor="stopLoss">Stop Loss:</label>
-              <input
-                type="number"
-                id="stopLoss"
-                value={stopLoss || ''}
-                onChange={(e) => setStopLoss(e.target.value)}
-                placeholder="Enter stop loss"
-              />
-            </div>
-            <div>
-              <label htmlFor="takeProfit">Take Profit:</label>
-              <input
-                type="number"
-                id="takeProfit"
-                value={takeProfit || ''}
-                onChange={(e) => setTakeProfit(e.target.value)}
-                placeholder="Enter take profit"
-              />
-            </div>
-            <div>
-              {cryptoDetails.name} <br />
-              {cryptoDetails.symbol} <br />
-              {cryptoDetails.currentPrice} <br />
-              Real-time price: {realTimePrice !== null ? realTimePrice : 'Loading...'}
-              <input
-                type="number"
-                value={buyAmount}
-                onChange={(e) => setBuyAmount(parseFloat(e.target.value))}
-                placeholder="Enter buy amount"
-              />
-              <button onClick={handleBuyClick}>Buy</button>
-              <button onClick={handleStopClick}>Stop</button>
-            </div>
+      <div className="amk">
+        <Header />
+        {/* <div className="empty-area">
+          <div className="about-crypto">
+            about
           </div>
-        )}
-    
+          <div className="list-crypto">
+            list
+          </div>
+        </div> */}
         <div className="trading-area">
-          <div className="chart">
-            {ohlc ? (
-              <div ref={chartContainerRef}></div>
-            ) : (
-              <div>Loading chart...</div>
-            )}
-          </div>
-          <div className="crypto">
-            <table className="rwd-table1">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Change 1h %</th>
-                  <th>Change 24h %</th>
-                  <th>Market Cap</th>
-                  <th>Volume (24h)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cryptos.map((crypto, index) => (
-                  <tr key={crypto.id}>
-                    <td data-th="Name">{crypto.name}</td>
-                    <td data-th="% Change 1h" style={{color: crypto.quote.USD.percent_change_1h >= 0 ? 'green' : 'red'}}>
-                      {crypto.quote.USD.percent_change_1h.toFixed(2)}%
-                      <Image src={crypto.quote.USD.percent_change_1h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={20} height={20} />
-                    </td>
-                    <td data-th="% Change 24h" style={{color: crypto.quote.USD.percent_change_24h >= 0 ? 'green' : 'red'}}>
-                      {crypto.quote.USD.percent_change_24h.toFixed(2)}%
-                      <Image src={crypto.quote.USD.percent_change_24h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={20} height={20} />
-                    </td>
-                    <td data-th="Market Cap">${crypto.quote.USD.market_cap.toLocaleString()}</td>
-                    <td data-th="Volume (24h)">${crypto.quote.USD.volume_24h.toLocaleString()}</td>
+          <div className="crypto-details">
+          <div className="list-name">
+                <p>Cryptocurrencies</p>
+              </div>
+            <div className="crypto">
+
+              <table className="rwd-table1">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Change 1h %</th>
+                    <th>Change 24h %</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>                
-            <div className="crypto-details">
-              Helloajsdopjafokaopdjfpoaskfpoas
+                </thead>
+                <tbody>
+                  {cryptos.map((crypto, index) => (
+                    <tr key={crypto.id}>
+                      <td data-th="Name">{crypto.name}</td>
+                      <td data-th="% Change 1h" style={{color: crypto.quote.USD.percent_change_1h >= 0 ? 'green' : 'red'}}>
+                        {crypto.quote.USD.percent_change_1h.toFixed(2)}%
+                        <Image src={crypto.quote.USD.percent_change_1h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={20} height={20} />
+                      </td>
+                      <td data-th="% Change 24h" style={{color: crypto.quote.USD.percent_change_24h >= 0 ? 'green' : 'red'}}>
+                        {crypto.quote.USD.percent_change_24h.toFixed(2)}%
+                        <Image src={crypto.quote.USD.percent_change_24h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={20} height={20} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>                
+          </div>
+          </div>
+          <div className="chart-name">
+                <p>Chart</p>
+              </div>
+          <div className="ohlc">
+                <p>{cryptoSymbol}/USDT</p>
+                15M
+                <p>O: {open !== null ? open : 'Loading...'}</p>
+                <p>H: {high !== null ? high : 'Loading...'}</p>
+                <p>L: {low !== null ? low : 'Loading...'}</p>
+                <p>C: {close !== null ? close : 'Loading...'}</p>
+              </div>
+
+          <div className="chart-container">
+
+              {ohlc ? (
+                <div ref={chartContainerRef} className="chart"></div>
+              ) : (
+                <div>Loading chart...</div>
+              )}
             </div>
+          <div className="chart">
+          </div>
+
+          <Image src="/bull1.png" alt="cryptoImage" width={850} height={800} className="logoooo"></Image>
+
+          <div className="crypto-details">
+              {cryptoDetails && (
+                <div>
+                  <div>
+                    <div className="crypto_name">
+                      <Image src={cryptoDetails.image.small} alt="cryptoImage" width={30} height={30}></Image>
+                      <p className="crypto-name">{cryptoDetails.name}</p>
+                      <p className="crypto-symbol">${cryptoSymbol}</p>
+
+                      <div className="crypto-socials">
+                        {/* <p>{cryptoDetails.homepage[0]}</p> */}
+                      </div>
+                    </div>
+                    
+                    <div className="real-time">
+                      <p style={{ color: getPriceColor() }}>
+                        ${realTimePrice !== null ? realTimePrice : 'Loading...'}
+                      </p>
+                    </div>
+
+                    <div className="crypto-stats">
+                      <div className="crypto-stats-details">
+                        <div className="volume-info">
+                          <p>Market Cap: </p>
+                          <Image src={information} width={20} height={20}></Image>
+                        </div>
+
+                        <div className="crypto-stats-details">
+                      </div>
+                        {cryptoDetails.market_data.market_cap_change_percentage_24h >= 0 ? (
+                          <p>
+                            <div className="stat">
+                              <div className="stat-flex">
+                                <Image src="/up.png" height={20} width={20} className="trend"></Image>
+                                <p style={{ color: '#16c784' }}><b>{cryptoDetails.market_data.market_cap_change_percentage_24h.toFixed(2)}%</b></p>
+                              </div>
+                              <b>${cryptoDetails.market_data.market_cap.usd.toLocaleString()}</b>
+
+
+                            </div>
+                          </p>
+                        ) : (
+                          <p>
+                            <div className="stat">
+                              <div className="stat-flex">
+                              <Image src="/down.png" height={20} width={20}></Image> <p style={{ color: '#ea3943' }}><b>{cryptoDetails.market_data.market_cap_change_percentage_24h.toFixed(2)}%</b></p> <b>${cryptoDetails.market_data.market_cap.usd.toLocaleString()}</b>
+                              </div>
+
+                            </div>
+                          </p>
+                        )}
+                      </div>
+                      <hr className='hey'/>
+                      <div className="crypto-stats-details">
+                        <div className="volume-info">
+                          <p>Volume (24h): </p>
+                          <Image src={information} width={20} height={20}></Image>
+                        </div>
+                        {cryptoDetails.market_data.price_change_percentage_24h >= 0 ? (
+                          <p>
+                            <div className="stat">
+                              <div className="stat-flex">
+                                <Image src="/up.png" height={20} width={20} className="trend"></Image>
+                                <p style={{ color: '#16c784' }}><b>{cryptoDetails.market_data.price_change_percentage_24h.toFixed(2)}%</b></p>
+                              </div>
+                              <b>${cryptoDetails.market_data.total_volume.usd.toLocaleString()}</b>
+                            </div>
+                          </p>
+                        ) : (
+                          <p>
+                            <div className="stat">
+                              <div className="stat-flex">
+                                <Image src="/down.png" height={20} width={20}></Image>
+                                <p style={{ color: '#ea3943' }}><b>{cryptoDetails.market_data.price_change_percentage_24h.toFixed(2)}%</b></p>
+                                <b>${cryptoDetails.market_data.total_volume.usd.toLocaleString()}</b>
+                              </div>
+                            </div>
+                          </p>
+                        )}
+                      </div>
+                      <hr className='hey'/>
+                      <div className="crypto-stats-details">
+                        <p>Circulating Supply: </p>
+                        <p><b>{cryptoDetails.market_data.circulating_supply} {cryptoSymbol}</b></p>
+                      </div>
+                      <div className="progress-thing">
+                        <div className="progress-bar">
+                          <div className="progress" style={{ width: `${supplyPercentage}%` }}></div>
+                        </div>
+                        <p style={{ marginRight: 20 }}>{supplyPercentage}%</p>
+                      </div>
+
+                      <hr className='hey'/>
+
+                      <div className="crypto-stats-details">
+                        <p>Total Supply: </p>
+                        <p><b>{cryptoDetails.market_data.total_supply} {cryptoSymbol}</b></p>
+                      </div>
+                      <hr className='hey'/>
+
+                      {cryptoDetails.market_data.price_change_24h >= 0 ? (
+                        <div className="crypto-stats-details">
+                          <p>Change 24h:</p>
+                          <div className="stat">
+                            <div className="stat-flex">
+                              <Image src="/up.png" height={20} width={20} className="trend"></Image>
+                              <p style={{ color: '#16c784' }}>
+                                <b>{cryptoDetails.market_data.price_change_24h.toFixed(2)}%</b>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="crypto-stats-details">
+                          <p>Change 7d:</p>
+                          <div className="stat">
+                            <div className="stat-flex">
+                              <Image src="/down.png" height={40} width={40}></Image>
+                              <p style={{ color: '#ea3943' }}>
+                                <b>{cryptoDetails.market_data.price_change_24h.toFixed(2)}%</b>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      <hr className='hey'/>
+
+                      {cryptoDetails.market_data.price_change_percentage_7d >= 0 ? (
+                        <div className="crypto-stats-details">
+                          <p>Change 7d:</p>
+                          <div className="stat">
+                            <div className="stat-flex">
+                              <Image src="/up.png" height={40} width={40} className="trend"></Image>
+                              <p style={{ color: '#16c784' }}>
+                                <b>{cryptoDetails.market_data.price_change_percentage_7d.toFixed(2)}%</b>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="crypto-stats-details">
+                          <p>Change 7d:</p>
+                          <div className="stat">
+                            <div className="stat-flex">
+                              <Image src="/down.png" height={40} width={40}></Image>
+                              <p style={{ color: '#ea3943' }}>
+                                <b>{cryptoDetails.market_data.price_change_percentage_7d.toFixed(2)}%</b>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      <hr className='hey'/>
+                      <div className="crypto-stats-details">
+                        <p>Fully Diluted Valuation:</p>
+                        <p><b>${cryptoDetails.market_data.fully_diluted_valuation.usd.toLocaleString()}</b></p>
+                      </div>
+                    </div>
+                    <input
+                      type="number"
+                      value={buyAmount}
+                      onChange={(e) => setBuyAmount(parseFloat(e.target.value))}
+                      placeholder="Enter buy amount"
+                    />
+                    <button onClick={handleBuyClick}>Buy</button>
+                    <button onClick={handleStopClick}>Stop</button>
+                  </div>
+                  <div>
+                    <label htmlFor="stopLoss">Stop Loss:</label>
+                    <input
+                      type="number"
+                      id="stopLoss"
+                      value={stopLoss || ''}
+                      onChange={(e) => setStopLoss(e.target.value)}
+                      placeholder="Enter stop loss"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="takeProfit">Take Profit:</label>
+                    <input
+                      type="number"
+                      id="takeProfit"
+                      value={takeProfit || ''}
+                      onChange={(e) => setTakeProfit(e.target.value)}
+                      placeholder="Enter take profit"
+                    />
+                  </div>
+                </div>
+              )}
           </div>
         </div>
       </div>
