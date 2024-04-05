@@ -2,18 +2,16 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Modal, ModalBody } from "react-bootstrap";
-import SendForm from "./SendForm";
-import SellForm from "./SellForm";
+import WithdrawForm from "./WithdrawForm";
 
 interface Props {
-  coins: string[];
+  token: number;
 }
-const SellButton = ({ coins }: Props) => {
+const WithdrawButton = ({ token }: Props) => {
   const [showComponent, setShowComponent] = useState(false);
 
   const handleButtonClick = () => {
     setShowComponent(true);
-    console.log("clicked!");
   };
 
   const handleCloseModal = () => {
@@ -23,18 +21,18 @@ const SellButton = ({ coins }: Props) => {
     <>
       <button
         type="button"
-        className="btn btn-outline-primary"
+        className="btn btn-outline-primary mx-11"
         onClick={handleButtonClick}
       >
-        Sell
+        Withdraw
       </button>
-      <Modal show={showComponent} onHide={handleCloseModal}>
+      <Modal show={showComponent} onHide={handleCloseModal} size="lg">
         <Modal.Dialog>
           <Modal.Header closeButton>
-            <Modal.Title>Sell Crypto</Modal.Title>
+            <Modal.Title>Withdraw USD</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <SellForm coins={coins} />
+            <WithdrawForm token={token} />
           </Modal.Body>
         </Modal.Dialog>
       </Modal>
@@ -42,4 +40,4 @@ const SellButton = ({ coins }: Props) => {
   );
 };
 
-export default SellButton;
+export default WithdrawButton;

@@ -1,13 +1,13 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import prisma from "@/server/prisma";
-import TableClient from "@/app/components/TableClient";
+import TableClient from "@/app/portfolio/components/TableClient";
 
 interface Props {
   params: { id: number };
 }
 
-const OwnedCrypto = async ({ params: { id } }: Props) => {
+const OwnedCrypto = async () => {
   const cryptos = await prisma.cryptocurrency.findMany({
     select: {
       id: true,
@@ -23,11 +23,7 @@ const OwnedCrypto = async ({ params: { id } }: Props) => {
       quantity: true,
       buyPrice: true,
     },
-    where: {
-      portfolioId: { equals: Number(id) },
-    },
   });
-
   return (
     <>
       <table className="table table-striped table-bordered">

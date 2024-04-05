@@ -2,24 +2,12 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Modal, ModalBody } from "react-bootstrap";
-import SendForm from "./SendForm";
+import DepositForm from "./DepositForm";
 
 interface Props {
-  coins: string[];
-  cryptos: {
-    id: number;
-    name: string;
-    symbol: string;
-  }[];
-  cryptosOwned: {
-    id: number;
-    portfolioId: number;
-    cryptoId: number;
-    quantity: number;
-    buyPrice: number;
-  }[];
+  token: number;
 }
-const SendButton = ({ coins, cryptos, cryptosOwned }: Props) => {
+const DepositButton = ({ token }: Props) => {
   const [showComponent, setShowComponent] = useState(false);
 
   const handleButtonClick = () => {
@@ -36,19 +24,15 @@ const SendButton = ({ coins, cryptos, cryptosOwned }: Props) => {
         className="btn btn-outline-primary mx-11"
         onClick={handleButtonClick}
       >
-        Send
+        Deposit
       </button>
-      <Modal show={showComponent} onHide={handleCloseModal}>
+      <Modal show={showComponent} onHide={handleCloseModal} size="lg">
         <Modal.Dialog>
           <Modal.Header closeButton>
-            <Modal.Title>Send Crypto</Modal.Title>
+            <Modal.Title>Deposit USD</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <SendForm
-              coins={coins}
-              cryptos={cryptos}
-              cryptosOwned={cryptosOwned}
-            />
+            <DepositForm token={token} />
           </Modal.Body>
         </Modal.Dialog>
       </Modal>
@@ -56,4 +40,4 @@ const SendButton = ({ coins, cryptos, cryptosOwned }: Props) => {
   );
 };
 
-export default SendButton;
+export default DepositButton;

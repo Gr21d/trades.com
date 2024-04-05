@@ -13,43 +13,58 @@ import {
   ModalHeader,
   ModalTitle,
 } from "react-bootstrap";
-import Sending from "./Sending";
 
 interface Props {
   coins: string[];
-  cryptos: {
-    id: number;
-    name: string;
-    symbol: string;
-  }[];
-  cryptosOwned: {
-    id: number;
-    portfolioId: number;
-    cryptoId: number;
-    quantity: number;
-    buyPrice: number;
-  }[];
+  token: number;
+  prices: { symbol: string; price: string }[];
 }
-const SendForm = ({ coins, cryptos, cryptosOwned }: Props) => {
+const SellForm = ({ coins, token, prices }: Props) => {
   const [selectedCoin, setSelectedCoin] = useState("");
   const [amount, setAmount] = useState(0);
-  const [destination, setDestination] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [failed, setFailed] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    // Perform any necessary actions with the form data here
-    const sent = Sending(destination, selectedCoin, amount);
     console.log("Selected Coin:", selectedCoin);
     console.log("Amount:", amount);
-    console.log("Destination:", destination);
     setSelectedCoin("");
     setAmount(0);
-    setDestination("");
+    const price = prices.filter(
+      (p) => p.symbol == selectedCoin.toUpperCase().concat("USDT")
+    )[0];
+    try {
+      const response = await fetch(`portfolio/api/sellAPI`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          symbol: selectedCoin,
+          amount: amount,
+          token: token,
+          price: parseFloat(price.price),
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Response from server:", data);
+        setSubmitted(true);
+        setFailed(false);
+      } else {
+        console.error("Error", response.statusText);
+        setSubmitted(false);
+        setFailed(true);
+      }
+    } catch (error) {
+      console.error("Error", error);
+    }
   };
 
   const handleCloseModal = () => {
     setSubmitted(false);
+    setFailed(false);
   };
 
   return (
@@ -61,6 +76,7 @@ const SendForm = ({ coins, cryptos, cryptosOwned }: Props) => {
           <FormSelect
             value={selectedCoin}
             onChange={(e) => setSelectedCoin(e.target.value)}
+            required
           >
             <option value="">Select a coin</option>
             {coins.map((coin, index) => (
@@ -70,34 +86,42 @@ const SendForm = ({ coins, cryptos, cryptosOwned }: Props) => {
             ))}
           </FormSelect>
         </FormGroup>
-        <FormGroup className="mb-2">
+        <FormGroup className="mb-4">
           <FormLabel>Enter Amount:</FormLabel>
           <FormControl
             type="number"
             value={amount}
             placeholder="0"
             onChange={(e) => setAmount(parseFloat(e.target.value))}
+            required
+            min="0.0001"
+            step="0.0001"
           />
         </FormGroup>
         <div className="d-flex flex-column">
-          <FormGroup className="mb-4">
-            <FormLabel>Destination Number:</FormLabel>
-            <FormControl
-              type="text"
-              value={destination}
-              placeholder="Type in username"
-              onChange={(e) => setDestination(e.target.value)}
-            />
-          </FormGroup>
-          <Button type="submit" onClick={(e) => setSubmitted(true)}>
-            Send
-          </Button>
+          <Button type="submit">Sell</Button>
         </div>
       </Form>
       <Modal show={submitted} onHide={handleCloseModal} backdrop="static">
         <ModalDialog>
           <ModalHeader>
-            <ModalTitle>Crypto Sent!</ModalTitle>
+            <ModalTitle>Crypto Sold!</ModalTitle>
+          </ModalHeader>
+          <ModalBody className="d-flex flex-row justify-content-evenly">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleCloseModal}
+            >
+              Done
+            </button>
+          </ModalBody>
+        </ModalDialog>
+      </Modal>
+      <Modal show={failed} onHide={handleCloseModal} backdrop="static">
+        <ModalDialog>
+          <ModalHeader>
+            <ModalTitle>Crypto Could Not Be Sold!</ModalTitle>
           </ModalHeader>
           <ModalBody className="d-flex flex-row justify-content-evenly">
             <button
@@ -114,4 +138,4 @@ const SendForm = ({ coins, cryptos, cryptosOwned }: Props) => {
   );
 };
 
-export default SendForm;
+export default SellForm;
