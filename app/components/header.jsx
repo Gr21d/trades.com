@@ -8,16 +8,20 @@ function Header(props) {
         <div className="header-content">
         <div className="logo">
             <a href="#">
-            <Image src="/images/iconBull.png" alt="Logo" width={97} height={92} />
+              <div className="logo-title">
+                <Image src="/images/iconBull.png" alt="Logo" width={97} height={92} />
+                <h1>Trades.com</h1>
+              </div>
+
             </a>
         </div>
         <nav className="navigation">
             <ul>
-              {props.type !== "blog" && <li><a href="./blog">Blog</a></li>}
-              {props.type !== "tutorial" && <li><a href="./tutorial">Tutorial</a></li>}
+              {props.type !== "Cryptocurrencies" && <li><a href="./blog">Cryptocurrencies</a></li>}
               {props.type !== "portfolio" &&<li><a href="./portfolio">Portfolio</a></li>}
-              {props.type !== "dashboard" && <li><a href="./dashboard">DashBoard</a></li>}
-              {props.type !== "customerSupport" &&<li><a href="./Customer Support">Customer Support</a></li>}
+              {props.type !== "dashboard" && <li><a href="./dashboard">Dashboard</a></li>}
+              {props.type !== "blog" && <li><a href="./blog">Community</a></li>}
+              {props.type !== "tutorial" && <li><a href="./tutorial">Learn</a></li>}
             </ul>
         </nav>
         </div>

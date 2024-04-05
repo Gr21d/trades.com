@@ -1,54 +1,293 @@
 @import 'https://fonts.googleapis.com/css?family=Open+Sans:600,700';
 
 * {
-  font-family: 'Open Sans', sans-serif;
-  
+  font-family: 'Helvetica Neue', sans-serif;
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+.amk{
+  height: 100vh;
+}
+
+.list-name{
+  color: white;
+  font-weight: bold;
+  position: absolute;
+  max-height: 10px;
+  margin-left: 20px;
+}
+
+.list-name p{
+  font-size: 34px;
+}
+
+.chart{
+  margin-top: 80px;
+}
+
+.crypto{
+  overflow-y: auto;
+  margin-top: 100px;
+  max-height: 1000px;
+  width: 300x;
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.crypto::-webkit-scrollbar {
+  display: none;
 }
 
 .rwd-table1 {
   margin: auto;
   max-width: 100%;
-  height: 100%;
+  height: 100px;
   border-collapse: collapse;
 }
 
-.crypto{
-  overflow-x: scroll;
-  height: 800px;
+
+.stat{
   display: flex;
-  flex-direction: column;
-  border: 1px solid #fff;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 
-.crypto-details{
-  overflow-x: scroll;
-  height: 400px;
-  border: 1px solid #fff;
+.logoooo{
+  opacity: 0.1;
+  position: absolute;
+  margin-left: 250px;
+
+}
+.ohlc{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  z-index: 4;
+  color: white;
+  font-weight: bold;
+  margin-left: 460px;
+  margin-bottom: 100px;
+  margin-top: 80px;
+  gap: 30px;
 }
 
-.chart{
-  border: 1px solid #fff;
+.chart-name{
+  position: absolute;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 150px;
+  margin-left: 420px
+}
+.chart-name p{
+  font-size: 34px;
+}
+/* .empty-area{
+  height: 200px;
+  width: 1100px;
+  background: linear-gradient(to top, rgba(14,23,19, 1), rgba(16,23,20, 1));
+  position: absolute;
+  margin-left: 290px;
+  margin-top: 703px;
+  z-index: 5;
+  display: flex;
+  border: 1px solid rgb(34,34,34);
+
+} */
+
+.about-crypto{
+  width: 100%;
+}
+
+.list-crypto{
+  width: 100%;
+}
+
+.volume-info{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4;
+  color: white;
+  gap: 5px;
+
+}
+
+.crypto-stats-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.progress-thing{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* gap: 10px; */
+  
+}
+.progress-bar {
+  width: 300px;
+  height: 5px;
+  background-color: #e0e0e0;
+  overflow: hidden;
+  margin-left: 20px;
+  margin-right: 20px;
+  position: relative;
+}
+
+.progress {
+  height: 100%;
+  background-color: #4caf50;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: width 0.3s ease-in-out;
+}
+
+.crypto-stats-details{
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 20px;
+  margin-right: 20px;
+  max-height: 50px;
+  /* padding: 10px; */
+  /* background-color: #1a1a1a; */
+  border-radius: 4px;
+  
+}
+
+.hey {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.stat-flex{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.crypto-stats-details p{
+  font-size: 16px;
+}
+
+.crypto_name{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  max-height: 10px;
+  margin-top: 30px;
+  margin-left: 20px;
+  font-size: 32px;
+}
+
+.real-time{
+  font-size: 32px;
+  margin-left: 20px;
+}
+
+.crypto-name{
+  font-weight: bold;
+}
+
+.crypto-symbol{
+  font-size: 16px;
+  color: gray;
+}
+
+.crypto-details {
+  background-color: rgba(23, 23, 23, 1);
+  background: transparent;
+  height: 95vh;
+  color: white;
+  width: 380px;
+  border: 1px solid rgb(0, 0, 0);
+}
+
+.crypto-details1 {
+  font-family: Arial, sans-serif;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.crypto-details1 h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.crypto-details1 p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.crypto-details1 div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.crypto-details1 span {
+  font-size: 14px;
+}
+
+.crypto-details1 span:nth-child(1) {
+  font-weight: bold;
+}
+
+.crypto-details1 span:nth-child(2) {
+  color: #888;
+}
+
+.crypto-details1 span:nth-child(3) {
+  font-weight: bold;
+  color: #888;
+}
+
+.crypto-details1 div:last-child {
+  margin-bottom: 0;
+}
+
+.chart-container{
+  margin: 50px;
+  /* border: 1px solid black; */
 }
 
 .trading-area{
   display: flex;
+  background: linear-gradient(to bottom, rgba(23, 23, 23, 1), rgba(23, 48, 35, 0.5));
+
 }
 
 .rwd-table1 tr:first-child {
-  border-top: 1px solid #ddd;
   /* background: rgb(82,112,106); */
   color: #fff;
 }
 
 .rwd-table1 tr {
-  border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
-  background-color: rgb(23, 23, 23);
+  background-color: transparent;
   color: white;
 }
 
 .rwd-table1 tr:nth-child(odd):not(:first-child) {
-  background-color: rgb(23, 23, 23);
+  background-color: transparent;
 }
 
 .rwd-table1 th {
@@ -131,7 +370,7 @@
 /* Basic Styling */
 body {
 /* background: rgb(82,112,106); */
-background: rgb(23,23,23);
+background: rgb(0, 0, 0);
     
 }
 h1, h2 {
@@ -179,8 +418,8 @@ h3:after {
 
 
 .trading-area{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  border: 1px solid rgba(23, 23, 23, 1);
 }

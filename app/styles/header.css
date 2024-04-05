@@ -1,11 +1,12 @@
 .header {
-  background-image: linear-gradient(to left, #33C487, #000000);
+  background-color: rgba(23,23,23,1);
   padding: 1.25rem 0;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  border: 1px solid rgb(0, 0, 0);
 }
 
 .container {
-  max-width: 75rem;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0 1.25rem;
 }
@@ -14,7 +15,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap:40rem;
+  /* gap: 55rem; */
+}
+
+.logo-title{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-title h1 {
+  text-decoration: none;
 }
 
 .logo img {
@@ -46,5 +57,5 @@
 }
 
 .navigation ul li a:hover {
-  color: #4A9F04;
+  color: rgb(31, 57, 39);
 }
