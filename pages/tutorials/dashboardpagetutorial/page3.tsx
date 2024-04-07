@@ -67,8 +67,8 @@ const Page3 = () => {
           <Link href="/tutorials/dashboardpagetutorial/page2" passHref>
             <span style={buttonStyle}>Back</span>
           </Link>
-          <Link href="/tutorials/maintutorialpage" passHref>
-            <span style={buttonStyle}>Tutorial Main</span>
+          <Link href="/tutorials/dashboardpagetutorial/page4" passHref>
+            <span style={buttonStyle}>Next</span>
           </Link>
         </div>
       </div>
