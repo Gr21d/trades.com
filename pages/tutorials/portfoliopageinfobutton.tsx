@@ -74,6 +74,7 @@ const ParentComponent = () => {
         <InfoButton section="current-price" onClick={handleInfoButtonClick} />
       <span>Value: </span>
         <InfoButton section="value" onClick={handleInfoButtonClick} />
+      {/* InfoModal to be reused for different sections */}
       <InfoModal
         isOpen={isModalOpen}
         section={currentSection}
