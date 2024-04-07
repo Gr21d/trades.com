@@ -4,7 +4,6 @@
   font-family: Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif;
   -ms-overflow-style: none; 
   scrollbar-width: none; 
-  color: black ;
 }
 
 *::-webkit-scrollbar {
@@ -22,7 +21,7 @@
 
 
 .list-name{
-  color: white;
+  color: gray;
   font-weight: bold;
   position: absolute;
   max-height: 10px;
@@ -30,7 +29,18 @@
 }
 
 .list-name p{
-  font-size: 20px;
+  font-size: 15px;
+}
+.list-crypto-flex{
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.list-name p:hover{
+  color: rgb(32, 64, 60);
+  transition: ease-in-out 0.5s;
+  border-bottom: 2px solid rgb(32, 64, 60);
 }
 
 .chart{
@@ -45,7 +55,12 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
 }
+.flex-title{
+  display: flex;
+  align-items: center;
+  gap: 5px;
 
+}
 .tooltip-title {
   font-size: 14px;
   font-weight: bold;
@@ -72,15 +87,21 @@
   color: #666666;
 }
 
+.table-header{
+  font-size: 14px;
+  color: gray;
+}
+
 .crypto{
   overflow-y: auto;
-  margin-top: 100px;
+  margin-top: 50px;
   max-height: 88%;
   -ms-overflow-style: none; 
   scrollbar-width: none; 
   margin-left: 20px;
   margin-right: 20px;
   margin-bottom: 20px;
+  font-size: 14px;
 }
 
 .crypto::-webkit-scrollbar {
@@ -89,9 +110,13 @@
 
 .rwd-table1 {
   margin: auto;
-  max-width: 100%;
+  max-width: 90%;
   height: 100%;
   border-collapse: collapse;
+}
+
+#all_list{
+  width: 30px;
 }
 
 
@@ -106,6 +131,7 @@
   opacity: 0.1;
   position: absolute;
   margin-left: 250px;
+  z-index: 1;
 
 }
 .ohlc{
@@ -114,7 +140,7 @@
   align-items: center;
   position: absolute;
   z-index: 4;
-  color: white;
+  color: black;
   font-weight: bold;
   margin-left: 40px;
   margin-bottom: 200px;
@@ -124,14 +150,28 @@
 
 .chart-name{
   position: absolute;
-  color: black;
+  color: gray;
   font-weight: bold;
-  margin-bottom: 150px;
-  margin-left: 420px
+  margin-bottom: 130px;
+  margin-top: 20px;
+  margin-left: 420px;
+  width: 50%;
+  display: flex;
+  gap: 20px;
+  z-index: 15;
+  border-bottom: 2px solid rgb(119, 120, 121);
 }
 .chart-name p{
-  font-size: 20px;
+  font-size: 15px;
 }
+
+.chart-name p:hover{
+  color: rgb(32, 64, 60);
+  transition: ease-in-out 0.5s;
+  border-bottom: 2px solid rgb(32, 64, 60);
+}
+
+
 /* .empty-area{
   height: 200px;
   width: 1100px;
@@ -183,6 +223,10 @@
   margin-left: 20px;
   margin-right: 20px;
   position: relative;
+}
+
+.rwd-table1 .name-column {
+  width: 10px;
 }
 
 .progress {
@@ -284,7 +328,7 @@
   background-color: rgba(23, 23, 23, 1);
   background: transparent;
   height: 95vh;
-  color: white;
+  color: black;
   width: 380px;
   border: 1px solid rgb(241,244,246);
 }
@@ -351,13 +395,13 @@
 
 .rwd-table1 tr:first-child {
   /* background: rgb(82,112,106); */
-  color: #fff;
+  color: black;
 }
 
 .rwd-table1 tr {
   border-bottom: 1px solid #ddd;
   background-color: transparent;
-  color: white;
+  color: black;
 }
 
 .rwd-table1 tr:nth-child(odd):not(:first-child) {
@@ -394,7 +438,6 @@
 }
 
 .rwd-table1 {
-  color: #333;
   /* border-radius: .4em; */
   overflow: hidden;
 }

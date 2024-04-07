@@ -29,6 +29,7 @@ function Details(props) {
     const [data, setData] = useState(null);
     const [portfolio, setPortfolio] = useState(null);
     const [prevPrice, setPrevPrice] = useState(0.0);
+    const [shortSellAmount, setShortSellAmount] = useState(0);
 
     const getToken = () => {
       if (typeof window !== 'undefined' && window.localStorage) {
@@ -247,7 +248,7 @@ function Details(props) {
 
         }  catch (error) {
           console.error('Error buying crypto', error);
-          alert('Error buying crypto');
+          // alert('Error buying crypto');
         }
       }
     }
@@ -304,8 +305,6 @@ function Details(props) {
       setPrevPrice(realTimePrice);
     }
   }, [realTimePrice]);
-
-  const { sma_inc } = require('./sma')
 
 
   
@@ -474,10 +473,11 @@ function Details(props) {
       const toolTipMargin = 15;
 
       const toolTip = document.createElement('div');
-      toolTip.style = `width: 240px; height: 170px; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; top: 5px; left: 5px; pointer-events: none; border: 1px solid; border-radius: 2px;font-family: Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+      toolTip.style = `width: 240px; height: 165px; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; top: 5px; left: 5px; pointer-events: none; border: 1px solid; border-radius: 2px;font-family: Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
       toolTip.style.background = 'white';
       toolTip.style.color = 'black';
       toolTip.style.borderColor = '#2962FF';
+      toolTip.style.borderRadius = '10px';
       container.appendChild(toolTip);
 
       newChart.subscribeCrosshairMove(param => {
@@ -503,7 +503,7 @@ function Details(props) {
             toolTip.innerHTML = `
               <div class="tooltip-container">
                 <div class="tooltip-title">
-                 <div>
+                 <div class="flex-title">
                     <Image src=${cryptoDetails.image.small} alt="cryptoImage" width=${20} height=${20}></Image>
                     ${cryptoSymbol}
                  </div>
@@ -769,6 +769,30 @@ function Details(props) {
         return <div>Loading...</div>;
     }
 
+    const handleShortSellClick = async () => {
+      if (window.confirm('Do you want to short sell this crypto?')) {
+        try {
+          const response = await axios.post('/api/dashboard/transaction', {
+            type: 'SHORT_SELL',
+            amount: shortSellAmount,
+            investorId: decodedToken.investorId,
+            portfolioId: decodedToken.portfolioId,
+            currentPrice: realTimePrice,
+            cryptoSymbol: cryptoSymbol.toLowerCase(),
+          });
+    
+          if (response.status !== 200) {
+            throw new Error('Failed to create short sell transaction');
+          }
+    
+          setShortSellAmount(0);
+          alert(`Short sell transaction successful at price: ${realTimePrice}`);
+        } catch (error) {
+          console.error('Error short selling crypto', error);
+          alert('Error short selling crypto');
+        }
+      }
+    };
 
     return (
       <div className="amk">
@@ -790,23 +814,27 @@ function Details(props) {
             <div className="crypto">
               <table className="rwd-table1">
                 <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Change 1h %</th>
-                    <th>Change 24h %</th>
+                  <tr className="table-header">
+                    <th className="name-column">Name</th>
+                    <th>1h%</th>
+                    <th>24h%</th>
                   </tr>
                 </thead>
                 <tbody>
                   {cryptos.map((crypto, index) => (
                     <tr key={crypto.id}>
-                      <td data-th="Name">{crypto.name}</td>
-                      <td data-th="% Change 1h" style={{color: crypto.quote.USD.percent_change_1h >= 0 ? 'green' : 'red'}}>
-                        {crypto.quote.USD.percent_change_1h.toFixed(2)}%
-                        <Image src={crypto.quote.USD.percent_change_1h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={20} height={20} />
+                      <td data-th="Name" className="name-column">{crypto.name}</td>
+                      <td data-th="% Change 1h" style={{color: crypto.quote.USD.percent_change_1h >= 0 ? 'rgb(91,193,137)' : 'red'}}>
+                        <div className="list-crypto-flex">
+                        <Image src={crypto.quote.USD.percent_change_1h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={15} height={15} />
+                          {crypto.quote.USD.percent_change_1h.toFixed(2)}%
+                        </div>
                       </td>
-                      <td data-th="% Change 24h" style={{color: crypto.quote.USD.percent_change_24h >= 0 ? 'green' : 'red'}}>
-                        {crypto.quote.USD.percent_change_24h.toFixed(2)}%
-                        <Image src={crypto.quote.USD.percent_change_24h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={20} height={20} />
+                      <td data-th="% Change 24h" style={{color: crypto.quote.USD.percent_change_24h >= 0 ? 'rgb(91,193,137)' : 'red'}}>
+                        <div className="list-crypto-flex">
+                          <Image src={crypto.quote.USD.percent_change_24h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={15} height={15}/>
+                          {crypto.quote.USD.percent_change_24h.toFixed(2)}%
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -816,6 +844,8 @@ function Details(props) {
           </div>
           <div className="chart-name">
                 <p>Chart</p>
+                <p>About</p>
+                <p>Trending</p>
               </div>
           <div className="chart-scrollable-container">
             <div className="chart-layout">
@@ -904,6 +934,18 @@ function Details(props) {
                       </div>
                     </div>
                     <div className="crypto-stats-details">
+                      <label htmlFor="shortSell" className="input-label">Short Sell Amount:</label>
+                      <input
+                        type="number"
+                        id="shortSell"
+                        value={shortSellAmount}
+                        onChange={(e) => setShortSellAmount(parseFloat(e.target.value))}
+                        placeholder="Enter short sell amount"
+                        className="input-field"
+                      />
+                      <button onClick={handleShortSellClick}>Short Sell</button>
+                    </div>
+                    <div className="crypto-stats-details">
                       <div className="input-group">
                         <label htmlFor="takeProfit" className="input-label">Take Profit:</label>
                         <input
@@ -928,7 +970,7 @@ function Details(props) {
                           <p>
                             <div className="stat">
                               <div className="stat-flex">
-                                <Image src="/up.png" height={20} width={20} className="trend"></Image>
+                                <Image src="/up.png" height={15} width={15} className="trend"></Image>
                                 <p style={{ color: '#16c784' }}><b>{cryptoDetails.market_data.market_cap_change_percentage_24h.toFixed(2)}%</b></p>
                               </div>
                               <b>${cryptoDetails.market_data.market_cap.usd.toLocaleString()}</b>
@@ -940,7 +982,7 @@ function Details(props) {
                           <p>
                             <div className="stat">
                               <div className="stat-flex">
-                              <Image src="/down.png" height={20} width={20}></Image> <p style={{ color: '#ea3943' }}><b>{cryptoDetails.market_data.market_cap_change_percentage_24h.toFixed(2)}%</b></p> <b>${cryptoDetails.market_data.market_cap.usd.toLocaleString()}</b>
+                              <Image src="/down.png" height={15} width={15}></Image> <p style={{ color: '#ea3943' }}><b>{cryptoDetails.market_data.market_cap_change_percentage_24h.toFixed(2)}%</b></p> <b>${cryptoDetails.market_data.market_cap.usd.toLocaleString()}</b>
                               </div>
 
                             </div>
@@ -957,7 +999,7 @@ function Details(props) {
                           <p>
                             <div className="stat">
                               <div className="stat-flex">
-                                <Image src="/up.png" height={20} width={20} className="trend"></Image>
+                                <Image src="/up.png" height={15} width={15} className="trend"></Image>
                                 <p style={{ color: '#16c784' }}><b>{cryptoDetails.market_data.price_change_percentage_24h.toFixed(2)}%</b></p>
                               </div>
                               <b>${cryptoDetails.market_data.total_volume.usd.toLocaleString()}</b>
@@ -967,7 +1009,7 @@ function Details(props) {
                           <p>
                             <div className="stat">
                               <div className="stat-flex">
-                                <Image src="/down.png" height={20} width={20}></Image>
+                                <Image src="/down.png" height={15} width={15}></Image>
                                 <p style={{ color: '#ea3943' }}><b>{cryptoDetails.market_data.price_change_percentage_24h.toFixed(2)}%</b></p>
                                 <b>${cryptoDetails.market_data.total_volume.usd.toLocaleString()}</b>
                               </div>
@@ -1000,7 +1042,7 @@ function Details(props) {
                           <p>Change 24h:</p>
                           <div className="stat">
                             <div className="stat-flex">
-                              <Image src="/up.png" height={20} width={20} className="trend"></Image>
+                              <Image src="/up.png" height={15} width={15} className="trend"></Image>
                               <p style={{ color: '#16c784' }}>
                                 <b>{cryptoDetails.market_data.price_change_24h.toFixed(2)}%</b>
                               </p>
@@ -1012,7 +1054,7 @@ function Details(props) {
                           <p>Change 7d:</p>
                           <div className="stat">
                             <div className="stat-flex">
-                              <Image src="/down.png" height={40} width={40}></Image>
+                              <Image src="/down.png" height={15} width={15}></Image>
                               <p style={{ color: '#ea3943' }}>
                                 <b>{cryptoDetails.market_data.price_change_24h.toFixed(2)}%</b>
                               </p>
@@ -1027,7 +1069,7 @@ function Details(props) {
                           <p>Change 7d:</p>
                           <div className="stat">
                             <div className="stat-flex">
-                              <Image src="/up.png" height={40} width={40} className="trend"></Image>
+                              <Image src="/up.png" height={15} width={15} className="trend"></Image>
                               <p style={{ color: '#16c784' }}>
                                 <b>{cryptoDetails.market_data.price_change_percentage_7d.toFixed(2)}%</b>
                               </p>
@@ -1039,7 +1081,7 @@ function Details(props) {
                           <p>Change 7d:</p>
                           <div className="stat">
                             <div className="stat-flex">
-                              <Image src="/down.png" height={40} width={40}></Image>
+                              <Image src="/down.png" height={15} width={15}></Image>
                               <p style={{ color: '#ea3943' }}>
                                 <b>{cryptoDetails.market_data.price_change_percentage_7d.toFixed(2)}%</b>
                               </p>
