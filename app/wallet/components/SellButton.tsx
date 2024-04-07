@@ -2,13 +2,14 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Modal, ModalBody } from "react-bootstrap";
-import SendForm from "./SendForm";
+import SellForm from "./SellForm";
 
 interface Props {
   coins: string[];
   token: number;
+  prices: { symbol: string; price: string }[];
 }
-const SendButton = ({ coins, token }: Props) => {
+const SellButton = ({ coins, token, prices }: Props) => {
   const [showComponent, setShowComponent] = useState(false);
 
   const handleButtonClick = () => {
@@ -22,18 +23,19 @@ const SendButton = ({ coins, token }: Props) => {
     <>
       <button
         type="button"
-        className="btn btn-outline-primary mx-11"
+        className="btn mx-11"
         onClick={handleButtonClick}
+        style={{ border: "2px solid black" }}
       >
-        Send
+        Sell
       </button>
       <Modal show={showComponent} onHide={handleCloseModal}>
         <Modal.Dialog>
           <Modal.Header closeButton>
-            <Modal.Title>Send Crypto</Modal.Title>
+            <Modal.Title>Sell Crypto</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <SendForm coins={coins} token={token} />
+            <SellForm coins={coins} token={token} prices={prices} />
           </Modal.Body>
         </Modal.Dialog>
       </Modal>
@@ -41,4 +43,4 @@ const SendButton = ({ coins, token }: Props) => {
   );
 };
 
-export default SendButton;
+export default SellButton;

@@ -2,12 +2,12 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Modal, ModalBody } from "react-bootstrap";
-import WithdrawForm from "./WithdrawForm";
+import DepositForm from "./DepositForm";
 
 interface Props {
   token: number;
 }
-const WithdrawButton = ({ token }: Props) => {
+const DepositButton = ({ token }: Props) => {
   const [showComponent, setShowComponent] = useState(false);
 
   const handleButtonClick = () => {
@@ -21,18 +21,19 @@ const WithdrawButton = ({ token }: Props) => {
     <>
       <button
         type="button"
-        className="btn btn-outline-primary mx-11"
+        className="btn mx-11"
         onClick={handleButtonClick}
+        style={{ border: "2px solid black" }}
       >
-        Withdraw
+        Deposit
       </button>
       <Modal show={showComponent} onHide={handleCloseModal} size="lg">
         <Modal.Dialog>
           <Modal.Header closeButton>
-            <Modal.Title>Withdraw USD</Modal.Title>
+            <Modal.Title>Deposit USD</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <WithdrawForm token={token} />
+            <DepositForm token={token} />
           </Modal.Body>
         </Modal.Dialog>
       </Modal>
@@ -40,4 +41,4 @@ const WithdrawButton = ({ token }: Props) => {
   );
 };
 
-export default WithdrawButton;
+export default DepositButton;

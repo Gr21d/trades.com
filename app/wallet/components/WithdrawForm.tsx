@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import {
   Button,
   Form,
@@ -15,33 +15,25 @@ import {
 } from "react-bootstrap";
 
 interface Props {
-  coins: string[];
   token: number;
 }
-const SendForm = ({ coins, token }: Props) => {
-  const [selectedCoin, setSelectedCoin] = useState("");
-  const [amount, setAmount] = useState(0.0);
-  const [destination, setDestination] = useState("");
+const WithdrawForm = ({ token }: Props) => {
   const [submitted, setSubmitted] = useState(false);
+  const [amount, setAmount] = useState(0);
   const [failed, setFailed] = useState(false);
-
+  const [beneficiery, setBeneficiery] = useState("");
+  const [sortCode, setSortCode] = useState("");
+  const [accNumber, setAccNumber] = useState("");
+  const [bankName, setBankName] = useState("");
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("Selected Coin:", selectedCoin);
-    console.log("Amount:", amount);
-    console.log("Destination:", destination);
-    setSelectedCoin("");
-    setAmount(0);
-    setDestination("");
     try {
-      const response = await fetch(`portfolio/api/sendAPI`, {
+      const response = await fetch(`wallet/walletAPIs/withdrawAPI`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          symbol: selectedCoin,
-          destination: destination,
           amount: amount,
           token: token,
         }),
@@ -68,53 +60,72 @@ const SendForm = ({ coins, token }: Props) => {
 
   return (
     <div className="p-3">
-      <h2>Enter Coin Details</h2>
+      <h2>Enter Bank Details</h2>
       <Form onSubmit={handleSubmit}>
         <FormGroup className="mb-2">
-          <FormLabel>Select Coin:</FormLabel>
-          <FormSelect
-            value={selectedCoin}
-            onChange={(e) => setSelectedCoin(e.target.value)}
-            required
-          >
-            <option value="">Select a coin</option>
-            {coins.map((coin, index) => (
-              <option key={index} value={coin}>
-                {coin}
-              </option>
-            ))}
-          </FormSelect>
-        </FormGroup>
-        <FormGroup className="mb-2">
-          <FormLabel>Enter Amount:</FormLabel>
+          <FormLabel>Beneficiery:</FormLabel>
           <FormControl
-            type="number"
-            value={amount}
-            placeholder="0"
-            onChange={(e) => setAmount(parseFloat(e.target.value))}
+            type="text"
+            value={beneficiery}
+            placeholder="Beneficiery Full Name Here"
+            onChange={(e) => setBeneficiery(e.target.value)}
             required
-            min="0.0001"
-            step="0.0001"
           />
         </FormGroup>
-        <div className="d-flex flex-column">
-          <FormGroup className="mb-4">
-            <FormLabel>Destination Number:</FormLabel>
+        <FormGroup className="mb-2">
+          <FormLabel>Bank Name</FormLabel>
+          <FormControl
+            type="text"
+            value={bankName}
+            placeholder="Bank Name Here"
+            onChange={(e) => setBankName(e.target.value)}
+            required
+          />
+        </FormGroup>
+        <FormGroup className="mb-3">
+          <FormLabel>Enter Account Number:</FormLabel>
+          <FormControl
+            type="text"
+            value={accNumber}
+            placeholder="Enter bank number here (8 digits)"
+            onChange={(e) => setAccNumber(e.target.value)}
+            required
+            pattern="\d{8}"
+          />
+        </FormGroup>
+        <FormGroup className="mb-2 d-flex flex-row">
+          <div className="me-5 d-flex flex-column justify-content-around">
+            <FormLabel>Enter Sort Code:</FormLabel>
             <FormControl
               type="text"
-              value={destination}
-              placeholder="Type in username"
-              onChange={(e) => setDestination(e.target.value)}
+              value={sortCode}
+              placeholder="XX-XX-XX"
+              onChange={(e) => setSortCode(e.target.value)}
               required
+              pattern="^\d{2}-\d{2}-\d{2}$"
             />
-          </FormGroup>
-          <Button type="submit">Send</Button>
+          </div>
+          <div className="d-flex flex-column justify-content-around">
+            <FormLabel>Enter Amount:</FormLabel>
+            <FormControl
+              type="number"
+              value={amount}
+              placeholder="0"
+              onChange={(e) => setAmount(parseFloat(e.target.value))}
+              required
+              min="0.01"
+              step="0.01"
+            />
+          </div>
+        </FormGroup>
+        <div className="d-flex flex-column">
+          <Button type="submit">Withdraw</Button>
         </div>
       </Form>
       <Modal show={submitted} onHide={handleCloseModal} backdrop="static">
         <ModalDialog>
           <ModalHeader>
-            <ModalTitle>Crypto Sent!</ModalTitle>
+            <ModalTitle>USD Withdrawn!</ModalTitle>
           </ModalHeader>
           <ModalBody className="d-flex flex-row justify-content-evenly">
             <button
@@ -130,7 +141,7 @@ const SendForm = ({ coins, token }: Props) => {
       <Modal show={failed} onHide={handleCloseModal} backdrop="static">
         <ModalDialog>
           <ModalHeader>
-            <ModalTitle>Crypto Could Not Be Sent!</ModalTitle>
+            <ModalTitle>Transaction Failed</ModalTitle>
           </ModalHeader>
           <ModalBody className="d-flex flex-row justify-content-evenly">
             <button
@@ -147,4 +158,4 @@ const SendForm = ({ coins, token }: Props) => {
   );
 };
 
-export default SendForm;
+export default WithdrawForm;

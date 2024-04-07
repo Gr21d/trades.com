@@ -43,24 +43,42 @@ export async function POST(req: NextRequest) {
       },
       where: {
         cryptoId: { equals: cryptos[0].id },
-        portfolioId: { equals: token }, //Should be origin!!
+        portfolioId: { equals: token },
       },
     });
-    const addCrypto = await prisma.cryptoPortfolioOwned.create({
-      data: {
-        id: ownedCrypto.length + 1,
+    const sentCrypto = await prisma.cryptoPortfolioOwned.findMany({
+      where: {
         portfolioId: investor[0].portfolioId,
         cryptoId: cryptos[0].id,
-        quantity: amount,
-        buyPrice: takenCrypto[0].buyPrice,
       },
     });
+    if (sentCrypto) {
+      const addCrypto = await prisma.cryptoPortfolioOwned.updateMany({
+        where: {
+          portfolioId: investor[0].portfolioId,
+          cryptoId: cryptos[0].id,
+        },
+        data: {
+          quantity: { increment: amount },
+        },
+      });
+    } else {
+      const createCrypto = await prisma.cryptoPortfolioOwned.create({
+        data: {
+          id: ownedCrypto.length + 1,
+          portfolioId: investor[0].portfolioId,
+          cryptoId: cryptos[0].id,
+          quantity: amount,
+          buyPrice: takenCrypto[0].buyPrice,
+        },
+      });
+    }
 
     if (takenCrypto[0].quantity - amount >= 0) {
       const alterCrypto = await prisma.cryptoPortfolioOwned.updateMany({
         where: {
           cryptoId: cryptos[0].id,
-          portfolioId: token, //Should be origin!!
+          portfolioId: token,
         },
         data: {
           quantity: { decrement: amount },
@@ -70,7 +88,7 @@ export async function POST(req: NextRequest) {
       const deleteCrypto = await prisma.cryptoPortfolioOwned.deleteMany({
         where: {
           cryptoId: cryptos[0].id,
-          portfolioId: token, //Should be origin!!
+          portfolioId: token,
         },
       });
     }
@@ -89,7 +107,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     return NextResponse.json(
-      { message: "Internal Server Error" },
+      { message: "Internal Server Error" + req.json },
       { status: 500 }
     );
   } finally {

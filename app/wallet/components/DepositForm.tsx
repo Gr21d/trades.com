@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Form,
@@ -17,18 +17,36 @@ import {
 interface Props {
   token: number;
 }
-const WithdrawForm = ({ token }: Props) => {
+const DepositForm = ({ token }: Props) => {
   const [submitted, setSubmitted] = useState(false);
   const [amount, setAmount] = useState(0);
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardName, setCardName] = useState("");
+  const [cardDate, setCardDate] = useState("");
+  const [cardCVC, setCardCVC] = useState("");
   const [failed, setFailed] = useState(false);
-  const [beneficiery, setBeneficiery] = useState("");
-  const [sortCode, setSortCode] = useState("");
-  const [accNumber, setAccNumber] = useState("");
-  const [bankName, setBankName] = useState("");
+  function validateDate(inputDate: string) {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear() % 100;
+    const [inputMonth, inputYear] = inputDate.split("/").map(Number);
+    if (inputYear < currentYear) {
+      return false;
+    }
+    if (inputMonth < 1 || inputMonth > 12) {
+      return false;
+    }
+    if (inputYear === currentYear && inputMonth < currentMonth) {
+      return false;
+    }
+
+    return true;
+  }
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await fetch(`portfolio/api/withdrawAPI`, {
+      const response = await fetch(`wallet/walletAPIs/depositAPI`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,11 +56,15 @@ const WithdrawForm = ({ token }: Props) => {
           token: token,
         }),
       });
-      if (response.ok) {
+      if (response.ok && validateDate(cardDate)) {
         const data = await response.json();
         console.log("Response from server:", data);
         setSubmitted(true);
         setFailed(false);
+      } else if (!validateDate(cardDate)) {
+        console.error("Invalid card date");
+        setSubmitted(false);
+        setFailed(true);
       } else {
         console.error("Error", response.statusText);
         setSubmitted(false);
@@ -60,72 +82,73 @@ const WithdrawForm = ({ token }: Props) => {
 
   return (
     <div className="p-3">
-      <h2>Enter Bank Details</h2>
+      <h2>Enter Card Details</h2>
       <Form onSubmit={handleSubmit}>
         <FormGroup className="mb-2">
-          <FormLabel>Beneficiery:</FormLabel>
+          <FormLabel>Enter Card Number:</FormLabel>
           <FormControl
             type="text"
-            value={beneficiery}
-            placeholder="Beneficiery Full Name Here"
-            onChange={(e) => setBeneficiery(e.target.value)}
+            value={cardNumber}
+            placeholder="XXXX-XXXX-XXXX-XXXX"
+            onChange={(e) => setCardNumber(e.target.value)}
             required
+            pattern="\d{16}"
           />
         </FormGroup>
         <FormGroup className="mb-2">
-          <FormLabel>Bank Name</FormLabel>
+          <FormLabel>Enter Card Name:</FormLabel>
           <FormControl
             type="text"
-            value={bankName}
-            placeholder="Bank Name Here"
-            onChange={(e) => setBankName(e.target.value)}
+            value={cardName}
+            placeholder="Your Name Here"
+            onChange={(e) => setCardName(e.target.value)}
             required
-          />
-        </FormGroup>
-        <FormGroup className="mb-3">
-          <FormLabel>Enter Account Number:</FormLabel>
-          <FormControl
-            type="text"
-            value={accNumber}
-            placeholder="Enter bank number here (8 digits)"
-            onChange={(e) => setAccNumber(e.target.value)}
-            required
-            pattern="\d{8}"
           />
         </FormGroup>
         <FormGroup className="mb-2 d-flex flex-row">
           <div className="me-5 d-flex flex-column justify-content-around">
-            <FormLabel>Enter Sort Code:</FormLabel>
+            <FormLabel>Enter Card Date:</FormLabel>
             <FormControl
               type="text"
-              value={sortCode}
-              placeholder="XX-XX-XX"
-              onChange={(e) => setSortCode(e.target.value)}
+              value={cardDate}
+              placeholder="MM/YY"
+              onChange={(e) => setCardDate(e.target.value)}
               required
-              pattern="^\d{2}-\d{2}-\d{2}$"
+              pattern="^([1-9]|1[0-2])\/\d{2}$"
             />
           </div>
           <div className="d-flex flex-column justify-content-around">
-            <FormLabel>Enter Amount:</FormLabel>
+            <FormLabel>Enter Card CVC:</FormLabel>
             <FormControl
-              type="number"
-              value={amount}
-              placeholder="0"
-              onChange={(e) => setAmount(parseFloat(e.target.value))}
+              type="text"
+              value={cardCVC}
+              placeholder="CVC"
+              onChange={(e) => setCardCVC(e.target.value)}
               required
-              min="0.01"
-              step="0.01"
+              pattern="\d{3}"
             />
           </div>
         </FormGroup>
+        <FormGroup className="mb-3">
+          <FormLabel>Enter Amount:</FormLabel>
+          <FormControl
+            type="number"
+            value={amount}
+            placeholder="0"
+            onChange={(e) => setAmount(parseFloat(e.target.value))}
+            required
+            min="0.01"
+            step="0.01"
+          />
+        </FormGroup>
         <div className="d-flex flex-column">
-          <Button type="submit">Withdraw</Button>
+          <Button type="submit">Deposit</Button>
         </div>
       </Form>
       <Modal show={submitted} onHide={handleCloseModal} backdrop="static">
         <ModalDialog>
           <ModalHeader>
-            <ModalTitle>USD Withdrawn!</ModalTitle>
+            <ModalTitle>USD Deposited!</ModalTitle>
           </ModalHeader>
           <ModalBody className="d-flex flex-row justify-content-evenly">
             <button
@@ -141,7 +164,10 @@ const WithdrawForm = ({ token }: Props) => {
       <Modal show={failed} onHide={handleCloseModal} backdrop="static">
         <ModalDialog>
           <ModalHeader>
-            <ModalTitle>Transaction Failed</ModalTitle>
+            <ModalTitle>
+              Transaction Failed
+              {!validateDate(cardDate) && ": Card Date Invalid"}
+            </ModalTitle>
           </ModalHeader>
           <ModalBody className="d-flex flex-row justify-content-evenly">
             <button
@@ -158,4 +184,4 @@ const WithdrawForm = ({ token }: Props) => {
   );
 };
 
-export default WithdrawForm;
+export default DepositForm;

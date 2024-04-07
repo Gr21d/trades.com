@@ -17,11 +17,11 @@ import {
 interface Props {
   coins: string[];
   token: number;
-  prices: { symbol: string; price: string }[];
 }
-const SellForm = ({ coins, token, prices }: Props) => {
+const SendForm = ({ coins, token }: Props) => {
   const [selectedCoin, setSelectedCoin] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(0.0);
+  const [destination, setDestination] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [failed, setFailed] = useState(false);
 
@@ -29,22 +29,21 @@ const SellForm = ({ coins, token, prices }: Props) => {
     event.preventDefault();
     console.log("Selected Coin:", selectedCoin);
     console.log("Amount:", amount);
+    console.log("Destination:", destination);
     setSelectedCoin("");
     setAmount(0);
-    const price = prices.filter(
-      (p) => p.symbol == selectedCoin.toUpperCase().concat("USDT")
-    )[0];
+    setDestination("");
     try {
-      const response = await fetch(`portfolio/api/sellAPI`, {
+      const response = await fetch(`wallet/walletAPIs/sendAPI`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           symbol: selectedCoin,
+          destination: destination,
           amount: amount,
           token: token,
-          price: parseFloat(price.price),
         }),
       });
       if (response.ok) {
@@ -53,7 +52,7 @@ const SellForm = ({ coins, token, prices }: Props) => {
         setSubmitted(true);
         setFailed(false);
       } else {
-        console.error("Error", response.statusText);
+        console.error("Error", response.json());
         setSubmitted(false);
         setFailed(true);
       }
@@ -86,7 +85,7 @@ const SellForm = ({ coins, token, prices }: Props) => {
             ))}
           </FormSelect>
         </FormGroup>
-        <FormGroup className="mb-4">
+        <FormGroup className="mb-2">
           <FormLabel>Enter Amount:</FormLabel>
           <FormControl
             type="number"
@@ -99,13 +98,23 @@ const SellForm = ({ coins, token, prices }: Props) => {
           />
         </FormGroup>
         <div className="d-flex flex-column">
-          <Button type="submit">Sell</Button>
+          <FormGroup className="mb-4">
+            <FormLabel>Destination Number:</FormLabel>
+            <FormControl
+              type="text"
+              value={destination}
+              placeholder="Type in username"
+              onChange={(e) => setDestination(e.target.value)}
+              required
+            />
+          </FormGroup>
+          <Button type="submit">Send</Button>
         </div>
       </Form>
       <Modal show={submitted} onHide={handleCloseModal} backdrop="static">
         <ModalDialog>
           <ModalHeader>
-            <ModalTitle>Crypto Sold!</ModalTitle>
+            <ModalTitle>Crypto Sent!</ModalTitle>
           </ModalHeader>
           <ModalBody className="d-flex flex-row justify-content-evenly">
             <button
@@ -121,7 +130,7 @@ const SellForm = ({ coins, token, prices }: Props) => {
       <Modal show={failed} onHide={handleCloseModal} backdrop="static">
         <ModalDialog>
           <ModalHeader>
-            <ModalTitle>Crypto Could Not Be Sold!</ModalTitle>
+            <ModalTitle>Crypto Could Not Be Sent!</ModalTitle>
           </ModalHeader>
           <ModalBody className="d-flex flex-row justify-content-evenly">
             <button
@@ -138,4 +147,4 @@ const SellForm = ({ coins, token, prices }: Props) => {
   );
 };
 
-export default SellForm;
+export default SendForm;

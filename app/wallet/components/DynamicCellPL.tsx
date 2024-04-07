@@ -7,11 +7,11 @@ interface Props {
 const DynamicCellPL = ({ content }: Props) => {
   const dynamicColor =
     parseFloat(content) < 0
-      ? "text-danger"
+      ? "red"
       : parseFloat(content) > 0
-      ? "text-success"
-      : "text-dark";
-  return <td className={dynamicColor}>{content}%</td>;
+      ? "#4caf50"
+      : "black";
+  return <p style={{ color: dynamicColor }}>{content}</p>;
 };
 
 export default DynamicCellPL;

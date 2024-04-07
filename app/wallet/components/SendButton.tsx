@@ -2,12 +2,13 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Modal, ModalBody } from "react-bootstrap";
-import DepositForm from "./DepositForm";
+import SendForm from "./SendForm";
 
 interface Props {
+  coins: string[];
   token: number;
 }
-const DepositButton = ({ token }: Props) => {
+const SendButton = ({ coins, token }: Props) => {
   const [showComponent, setShowComponent] = useState(false);
 
   const handleButtonClick = () => {
@@ -21,18 +22,19 @@ const DepositButton = ({ token }: Props) => {
     <>
       <button
         type="button"
-        className="btn btn-outline-primary mx-11"
+        className="btn mx-11"
         onClick={handleButtonClick}
+        style={{ border: "2px solid black" }}
       >
-        Deposit
+        Send
       </button>
-      <Modal show={showComponent} onHide={handleCloseModal} size="lg">
+      <Modal show={showComponent} onHide={handleCloseModal}>
         <Modal.Dialog>
           <Modal.Header closeButton>
-            <Modal.Title>Deposit USD</Modal.Title>
+            <Modal.Title>Send Crypto</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <DepositForm token={token} />
+            <SendForm coins={coins} token={token} />
           </Modal.Body>
         </Modal.Dialog>
       </Modal>
@@ -40,4 +42,4 @@ const DepositButton = ({ token }: Props) => {
   );
 };
 
-export default DepositButton;
+export default SendButton;
