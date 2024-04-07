@@ -4,9 +4,10 @@ import axios from 'axios';
 
 import React, { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import {createChart, UTCTimestamp, ColorType, IChartApi, ISeriesApi, Time, WhitespaceData, LineData, LineSeriesOptions, LineStyleOptions, DeepPartial, SeriesOptionsCommon, CandlestickData, CandlestickSeriesOptions, CandlestickStyleOptions, CrosshairMode, LineStyle} from 'lightweight-charts'
+import {createChart, UTCTimestamp, ColorType, IChartApi, ISeriesApi, Time, WhitespaceData, LineData, LineSeriesOptions, LineStyleOptions, DeepPartial, SeriesOptionsCommon, CandlestickData, CandlestickSeriesOptions, CandlestickStyleOptions, CrosshairMode, LineStyle} from 'lightweight-charts';
 import {jwtDecode} from 'jwt-decode';
 import { decode } from 'punycode';
+import {rsi2, bollingerBands} from 'indicatorts';
 import Image from 'next/image';
 
 import information from '../../.././public/information.png';
@@ -26,6 +27,7 @@ function Details(props) {
     const [decodedToken, setDecodedToken] = useState(0)
     const [isStopped, setIsStopped] = useState(false);
     const [data, setData] = useState(null);
+    const [portfolio, setPortfolio] = useState(null);
     const [prevPrice, setPrevPrice] = useState(0.0);
 
     const getToken = () => {
@@ -60,6 +62,23 @@ function Details(props) {
 
 
     const [buyAmount, setBuyAmount] = useState(0);
+
+
+
+
+
+
+
+    const [bollingerLowBands, setBollingerLowBands] = useState<ISeriesApi<"Line", Time, WhitespaceData<Time> | LineData<Time>, LineSeriesOptions, DeepPartial<LineStyleOptions & SeriesOptionsCommon>> | null>(null);
+    const [bollingerMidBands, setBollingerMidBands] = useState<ISeriesApi<"Line", Time, WhitespaceData<Time> | LineData<Time>, LineSeriesOptions, DeepPartial<LineStyleOptions & SeriesOptionsCommon>> | null>(null);
+    const [bollingerUpBands, setBollingerUpBands] = useState<ISeriesApi<"Line", Time, WhitespaceData<Time> | LineData<Time>, LineSeriesOptions, DeepPartial<LineStyleOptions & SeriesOptionsCommon>> | null>(null);
+
+
+
+
+
+
+    
 
     let cryptoName = pathname ? pathname.substring(1) : null; 
 
@@ -286,6 +305,10 @@ function Details(props) {
     }
   }, [realTimePrice]);
 
+  const { sma_inc } = require('./sma')
+
+
+  
   useEffect(() => {
     if (chartContainerRef.current && ohlc && cryptoSymbol) {
       let newChart: IChartApi | null = null;
@@ -297,15 +320,15 @@ function Details(props) {
               type: ColorType.Solid,
               color: 'transparent'
             },
-            textColor: 'white',
+            textColor: 'black',
           },
           grid: {
             vertLines: {
-              color: 'rgba(23, 48, 35, 0.8)',
+              color: 'transparent',
               style: LineStyle.Solid,
             },
             horzLines: {
-              color: 'rgba(23, 48, 35, 0.8)',
+              color: 'rgb(241,244,246)',
               style: LineStyle.Solid,
             },
           },
@@ -319,9 +342,13 @@ function Details(props) {
             borderColor: '#cccccc',
             timeVisible: true,
             secondsVisible: false,
+            fixLeftEdge: true,
+            visible: true,
+            rightOffset: 10,
+            barSpacing: 15,
           },
           width: 900,
-          height: 720,
+          height: 800,
         })
         setChart(newChart);
       } else {
@@ -331,12 +358,13 @@ function Details(props) {
       const newCandlestickSeries = newChart.addCandlestickSeries();
       setCandlestickSeries(newCandlestickSeries);
 
-      const lineSeries = newChart.addLineSeries();
+      // const lineSeries = newChart.addLineSeries();
 
-      lineSeries.applyOptions({
-        lineWidth: 2,
-        color: "#45E5CB",
-      });
+      // lineSeries.applyOptions({
+      //   lineWidth: 2,
+      //   color: "#45E5CB",
+      //   priceScaleId: '',
+      // });
 
       let data = ohlc.map(item => ({
         time: (item[0] / 1000) as CustomTimeType,
@@ -346,61 +374,331 @@ function Details(props) {
         close: parseFloat(item[4])
       }));
 
+      console.log('data', data)
+
       let from = data[0].time;
       let to = data[data.length - 1].time;
       let lineData = data.map(item => ({ time: item.time, value: (item.open + item.close) / 2 }));
+      
+      const rsiValues = rsi2(data.map(d => d.close));
 
-      console.log('line', lineData);
+      const volume = ohlc.map(item => ({
+        value: parseFloat(item[5]),
+      }))
+
+      const rsiData = data.map((d, i) => ({
+        time: d.time,
+        value: rsiValues[i],
+      }));
+
+      const bollingValues = bollingerBands(data.map(d => d.close));
+
+      const lowerBand = bollingValues.lowerBand
+      const upperBand = bollingValues.upperBand
+      const middleBand = bollingValues.middleBand
+
+      const lowerBandData = data.map((d, i) => ({
+        time: d.time,
+        value: lowerBand[i],
+      }));
+
+      const upperBandData = data.map((d, i) => ({
+        time: d.time,
+        value: upperBand[i],
+      }));
+
+
+      const middleBandData = data.map((d, i) => ({
+        time: d.time,
+        value: middleBand[i],
+      }));
+
+  
+      const bollingUpSeries = newChart.addLineSeries({
+        color: 'rgb(109,143,247)',
+        lineWidth: 1,
+        priceScaleId: 'right',
+      });
+      
+      const bollingLowSeries = newChart.addLineSeries({
+        color: 'rgb(109,143,247)',
+        lineWidth: 1,
+        priceScaleId: 'right',
+      });
+      
+      const bollingMidSeries = newChart.addLineSeries({
+        color: 'orange',
+        lineWidth: 1,
+        priceScaleId: 'right',
+      });
+      
+      bollingUpSeries.setData(upperBandData);
+      bollingLowSeries.setData(lowerBandData);
+      bollingMidSeries.setData(middleBandData);
+
+      setBollingerLowBands(bollingLowSeries);
+      setBollingerMidBands(bollingMidSeries);
+      setBollingerUpBands(bollingUpSeries);
+
+      let vol = ohlc.map(item => ({
+        time: (item[0] / 1000) as CustomTimeType,
+        value: parseFloat(item[5]),
+      }));
+
+      const histogramData = vol.map((d, i) => ({
+        time: d.time,
+        value: d.value,
+        color: 'rgb(242,244,247)',
+      }));
+
+      const volumeSeries = newChart.addHistogramSeries({
+        priceFormat: {
+            type: 'volume',
+        },
+        priceScaleId: '',
+    });
+
+      volumeSeries.priceScale().applyOptions({
+          scaleMargins: {
+              top: 0.8, 
+              bottom: 0,
+          },
+      });
+
+      volumeSeries.setData(histogramData);
+
+
+      const container = document.getElementById('chart-container')
+      const toolTipWidth = 240;
+      const toolTipHeight = 120;
+      const toolTipMargin = 15;
+
+      const toolTip = document.createElement('div');
+      toolTip.style = `width: 240px; height: 170px; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; top: 5px; left: 5px; pointer-events: none; border: 1px solid; border-radius: 2px;font-family: Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+      toolTip.style.background = 'white';
+      toolTip.style.color = 'black';
+      toolTip.style.borderColor = '#2962FF';
+      container.appendChild(toolTip);
+
+      newChart.subscribeCrosshairMove(param => {
+        if (
+            param.point === undefined ||
+            !param.time ||
+            param.point.x < 0 ||
+            param.point.y < 0
+        ) {
+            toolTip.style.display = 'none';
+          } else {
+            let dateStr = param.time as CustomTimeType;
+            const time = convertEpochToDate(dateStr);
+            toolTip.style.display = 'block';
+            const data = param.seriesData.get(newCandlestickSeries);
+            const price = data.close !== undefined ? data.close : data.close;
+            const open = data.open !== undefined ? data.open : data.open;
+            const high = data.high !== undefined ? data.high : data.high;
+            const low = data.low !== undefined ? data.low : data.low;
+            const close = data.close !== undefined ? data.close : data.close;
+            console.log('price', open);
+          
+            toolTip.innerHTML = `
+              <div class="tooltip-container">
+                <div class="tooltip-title">
+                 <div>
+                    <Image src=${cryptoDetails.image.small} alt="cryptoImage" width=${20} height=${20}></Image>
+                    ${cryptoSymbol}
+                 </div>
+                  <div class="tooltip-date">${time}</div>
+                </div>
+                <div class="tooltip-price">${price.toFixed(2)}</div>
+                <div class="tooltip-ohlc">Open: <b>$${open.toFixed(2)}</b></div>
+                <div class="tooltip-ohlc">High: <b>$${high.toFixed(2)}</b></div>
+                <div class="tooltip-ohlc">Low: <b>$${low.toFixed(2)}</b></div>
+                <div class="tooltip-ohlc">Close: <b>$${close.toFixed(2)}</b></div>
+                <div class="tooltip-ohlc">
+                Change: <span style="color: ${open - close >= 0 ? 'rgb(91,193,137)' : 'rgb(216,73,74)'}; font-weight: bold;">$${Math.abs(open - close).toFixed(2)} (${((open - close) / close * 100).toFixed(2)}%)</span>
+              </div>
+                
+              </div>
+            `;
+
+            const y = param.point.y;
+            let left = param.point.x + toolTipMargin;
+            if (left > container.clientWidth - toolTipWidth) {
+                left = param.point.x - toolTipMargin - toolTipWidth;
+            }
+    
+            let top = y + toolTipMargin;
+            if (top > container.clientHeight - toolTipHeight) {
+                top = y - toolTipHeight - toolTipMargin;
+            }
+            toolTip.style.left = left + 'px';
+            toolTip.style.top = top + 'px';
+        }
+    });
+
+
+    function convertEpochToDate(epochSeconds) {
+      const epochMilliseconds = epochSeconds * 1000;
+      
+      const date = new Date(epochMilliseconds);
+      
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+      
+      const formattedDateTime = `${year}/${month}/${day} ${hours}:${minutes}`;
+      return formattedDateTime;
+  }
+      // const rsiSeries = newChart.addLineSeries({
+      //   color: 'red',
+      //   lineWidth: 1 ,
+      //   priceScaleId: '',
+      // });
+      
+      // rsiSeries.setData(rsiData);
+      
+      // rsiSeries.priceScale().applyOptions({
+      //   scaleMargins: {
+      //     top: 0.9, 
+      //     bottom: 0,
+      //   },
+      // });
 
       console.log('loaded');
-      lineSeries.setData(lineData);
+      // lineSeries.setData(lineData);
       newCandlestickSeries.setData(data);
       setCandlestickSeries(newCandlestickSeries);
+
+      // newChart.timeScale().fitContent();
+      
     }
   }, [chartContainerRef.current, ohlc, cryptoSymbol]);
 
+
   const getPriceColor = () => {
     if (realTimePrice === null || prevPrice === null) {
-      return 'white';
+      return 'black';
     }
-    return realTimePrice > prevPrice ? 'green' : realTimePrice < prevPrice ? 'red' : 'white';
+    return realTimePrice > prevPrice ? 'green' : realTimePrice < prevPrice ? 'red' : 'black';
   };
 
+  const removeBollingBands = (newChart, bollingUpSeries, bollingLowSeries, bollingMidSeries) => {
+    newChart.removeSeries(bollingUpSeries);
+    newChart.removeSeries(bollingLowSeries);
+    newChart.removeSeries(bollingMidSeries);
+  }
 
-  // useEffect(() => {
-  //   if (!cryptoName) {
-  //     setIsLoading(true);
-  //     return;
-  //   }
-  
-  //   setIsLoading(true);
-  //   let name = cryptoName.split("/")[2].toLowerCase();
-  //   console.log('crypt', cryptoName);
-  
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(`/api/catalogue/specific/${cryptoName}`);
-  
-  //       if (response.status !== 200) {
-  //         throw new Error('Network response was not ok');
-  //       }
-  
-  //       const data = response.data;
-  //       console.log('crypto details',data);
-  //       // setCryptoDetails(data);
-  //       // setCryptoSymbol(data.symbol.toUpperCase());
-  //       setData(data);
+  const addBollingBands = (newChart) => {
+    if (newChart && ohlc) {
 
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //       setError(error);
-  //       setIsLoading(false);
-  //     }
-  //   };
+      let data = ohlc.map(item => ({
+        time: (item[0] / 1000) as CustomTimeType,
+        open: parseFloat(item[1]),
+        high: parseFloat(item[2]),
+        low: parseFloat(item[3]),
+        close: parseFloat(item[4])
+      }));
+
+      const bollingValues = bollingerBands(data.map(d => d.close));
+
+      const lowerBand = bollingValues.lowerBand
+      const upperBand = bollingValues.upperBand
+      const middleBand = bollingValues.middleBand
+
+      const lowerBandData = data.map((d, i) => ({
+        time: d.time,
+        value: lowerBand[i],
+      }));
+
+
+      const upperBandData = data.map((d, i) => ({
+        time: d.time,
+        value: upperBand[i],
+      }));
+
+
+      const middleBandData = data.map((d, i) => ({
+        time: d.time,
+        value: middleBand[i],
+      }));
+
   
-  //   fetchData();
-  // }, [cryptoName, cr]);
+      const bollingUpSeries = newChart.addLineSeries({
+        color: 'blue',
+        lineWidth: 1,
+        priceScaleId: 'left',
+      });
+      
+      const bollingLowSeries = newChart.addLineSeries({
+        color: 'blue',
+        lineWidth: 1,
+        priceScaleId: 'left',
+        
+      });
+      
+      const bollingMidSeries = newChart.addLineSeries({
+        color: 'red',
+        lineWidth: 1,
+        priceScaleId: 'left',
+      });
+      
+      bollingUpSeries.setData(upperBandData);
+      bollingLowSeries.setData(lowerBandData);
+      bollingMidSeries.setData(middleBandData);
+
+      newChart.addLineSeries(bollingUpSeries);
+      newChart.addLineSeries(bollingLowSeries);
+      newChart.addLineSeries(bollingMidSeries);
+    }
+  }
+
+  const handleBollingClick = (newChart) => {
+    if (newChart) {
+      bollingerUpBands.applyOptions(
+        {
+          priceScaleId: '',
+        }
+      );
+      bollingerLowBands.applyOptions(
+        {
+          priceScaleId: '',
+        }
+      );
+      bollingerMidBands.applyOptions(
+        {
+          priceScaleId: '',
+        }
+      );
+      console.log('removed')
+    }
+  }
+
+  useEffect(()=> {
+    const fetchPortfolioData = async () => {
+      try {
+        const response = await axios.get(`/api/dashboard/portfolio/${decodedToken.portfolioId}`);
+        console.log('response data', response.data)
+
+  
+        if (response.status === 200) {
+          setPortfolio(response.data);
+        } else {
+          throw new Error('Failed to fetch portfolio data');
+        }
+      } catch (error) {
+        console.error('Error fetching portfolio data:', error);
+      }
+    };
+
+  
+    if (decodedToken && decodedToken.portfolioId) {
+      fetchPortfolioData();
+    }
+
+  }, [decodedToken, transactionId]);
 
   useEffect(() => {
     if (cryptoSymbol) {
@@ -483,6 +781,7 @@ function Details(props) {
             list
           </div>
         </div> */}
+
         <div className="trading-area">
           <div className="crypto-details">
           <div className="list-name">
@@ -520,20 +819,10 @@ function Details(props) {
               </div>
           <div className="chart-scrollable-container">
             <div className="chart-layout">
-
-              <div className="ohlc">
-                    <p>{cryptoSymbol}/USDT</p>
-                    15M
-                    <p>O: {open !== null ? open : 'Loading...'}</p>
-                    <p>H: {high !== null ? high : 'Loading...'}</p>
-                    <p>L: {low !== null ? low : 'Loading...'}</p>
-                    <p>C: {close !== null ? close : 'Loading...'}</p>
-                  </div>
-
-              <div className="chart-container">
+              <div className="chart-container" id="chart-container">
 
                   {ohlc ? (
-                    <div ref={chartContainerRef} className="chart"></div>
+                    <div ref={chartContainerRef} className="chart" id="chart"> </div>
                   ) : (
                     <div>Loading chart...</div>
                   )}
@@ -558,7 +847,9 @@ function Details(props) {
           <div className="chart">
           </div>
 
-          <Image src="/bull1.png" alt="cryptoImage" width={850} height={800} className="logoooo"></Image>
+          {/* <Image src="/bull1.png" alt="cryptoImage" width={850} height={800} className="logoooo"></Image> */}
+          <Image src="/images/iconBull.png" alt="Logo" width={550} height={542} className="logoooo" />
+
 
           <div className="crypto-details">
               {cryptoDetails && (
@@ -578,9 +869,53 @@ function Details(props) {
                       <p style={{ color: getPriceColor() }}>
                         ${realTimePrice !== null ? realTimePrice : 'Loading...'}
                       </p>
+                      <p style={{ color: 'black', fontSize: '15px' }}>
+                        Balance: ${portfolio.portfolio.balance !== null ? portfolio.portfolio.balance : 'Loading...'}
+                      </p>
                     </div>
 
                     <div className="crypto-stats">
+                    <div className="crypto-stats-details">
+                      <label htmlFor="buy" className="input-label">Amount:</label>
+
+                      <input
+                        type="number"
+                        id='buy'
+                        value={buyAmount}
+                        onChange={(e) => setBuyAmount(parseFloat(e.target.value))}
+                        placeholder="Enter buy amount"
+                        className="input-field"
+                      />
+                      <button onClick={handleBuyClick}>Buy</button>
+                      <button onClick={handleBollingClick}>Bolling</button>
+                      <button onClick={handleStopClick}>Stop</button>
+                    </div>
+                    <div className="crypto-stats-details">
+                      <div className="input-group">
+                        <label htmlFor="stopLoss" className="input-label">Stop Loss:</label>
+                        <input
+                          type="number"
+                          id="stopLoss"
+                          value={stopLoss || ''}
+                          onChange={(e) => setStopLoss(e.target.value)}
+                          placeholder="Enter stop loss"
+                          className="input-field"
+                        />
+                      </div>
+                    </div>
+                    <div className="crypto-stats-details">
+                      <div className="input-group">
+                        <label htmlFor="takeProfit" className="input-label">Take Profit:</label>
+                        <input
+                          type="number"
+                          id="takeProfit"
+                          value={takeProfit || ''}
+                          onChange={(e) => setTakeProfit(e.target.value)}
+                          placeholder="Enter take profit"
+                          className="input-field"
+                        />
+                      </div>
+                    </div>
                       <div className="crypto-stats-details">
                         <div className="volume-info">
                           <p>Market Cap: </p>
@@ -718,34 +1053,10 @@ function Details(props) {
                         <p><b>${cryptoDetails.market_data.fully_diluted_valuation.usd.toLocaleString()}</b></p>
                       </div>
                     </div>
-                    <input
-                      type="number"
-                      value={buyAmount}
-                      onChange={(e) => setBuyAmount(parseFloat(e.target.value))}
-                      placeholder="Enter buy amount"
-                    />
-                    <button onClick={handleBuyClick}>Buy</button>
-                    <button onClick={handleStopClick}>Stop</button>
                   </div>
                   <div>
-                    <label htmlFor="stopLoss">Stop Loss:</label>
-                    <input
-                      type="number"
-                      id="stopLoss"
-                      value={stopLoss || ''}
-                      onChange={(e) => setStopLoss(e.target.value)}
-                      placeholder="Enter stop loss"
-                    />
                   </div>
                   <div>
-                    <label htmlFor="takeProfit">Take Profit:</label>
-                    <input
-                      type="number"
-                      id="takeProfit"
-                      value={takeProfit || ''}
-                      onChange={(e) => setTakeProfit(e.target.value)}
-                      placeholder="Enter take profit"
-                    />
                   </div>
                 </div>
               )}

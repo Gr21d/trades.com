@@ -10,7 +10,7 @@ function Header(props) {
             <a href="#">
               <div className="logo-title">
                 <Image src="/images/iconBull.png" alt="Logo" width={97} height={92} />
-                <h1>Trades.com</h1>
+                <p id="web-title">Trades.com</p>
               </div>
 
             </a>
