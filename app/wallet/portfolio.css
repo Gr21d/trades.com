@@ -29,8 +29,7 @@ header {
 .btn {
   background-color: #4caf50;
   color: white;
-  margin: auto;
-  margin-bottom: 2em;
+  margin-right: 1em;
 }
 .btn:hover {
   background-color: #157347;

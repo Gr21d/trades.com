@@ -19,12 +19,7 @@ const DepositButton = ({ token }: Props) => {
   };
   return (
     <>
-      <button
-        type="button"
-        className="btn mx-11"
-        onClick={handleButtonClick}
-        style={{ border: "2px solid black" }}
-      >
+      <button type="button" className="btn mx-11" onClick={handleButtonClick}>
         Deposit
       </button>
       <Modal show={showComponent} onHide={handleCloseModal} size="lg">

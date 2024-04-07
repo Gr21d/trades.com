@@ -123,35 +123,7 @@ const OwnedCrypto = () => {
               Trades.com Cryptocurrencies Portfolio Dashboard Community Learn
             </header>
           </div>
-          <div className="row d-flex flex-row justify-content-between align-items-top">
-            <div className="col d-flex flex-row justify-content-between align-items-center">
-              <SendButton
-                coins={cryptos
-                  .filter((c) =>
-                    ownedCrypto.map((cr) => cr.cryptoId).includes(c.id)
-                  )
-                  .map((c) => c.symbol)}
-                token={decodedToken}
-              />
-            </div>
-            <div className="col d-flex flex-row justify-content-between align-items-center">
-              <SellButton
-                coins={cryptos
-                  .filter((c) =>
-                    ownedCrypto.map((cr) => cr.cryptoId).includes(c.id)
-                  )
-                  .map((c) => c.symbol)}
-                token={decodedToken}
-                prices={prices}
-              />
-            </div>
-            <div className="col d-flex flex-row justify-content-between align-items-center">
-              <DepositButton token={decodedToken} />
-            </div>
-            <div className="col d-flex flex-row justify-content-between align-items-center">
-              <WithdrawButton token={decodedToken} />
-            </div>
-          </div>
+
           <div className="row d-flex flex-row justify-content-between align-items-center mx-2">
             <div className="col">
               <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
@@ -201,6 +173,25 @@ const OwnedCrypto = () => {
                   prices={prices}
                 />
               </div>
+            </div>
+            <div
+              className="col d-flex flex-row align-items-center justify-content-start"
+              style={{ height: 142.2 }}
+            >
+              <SendButton
+                coins={cryptos
+                  .filter(
+                    (c) =>
+                      ownedCrypto
+                        .filter((f) => f.portfolioId == decodedToken)
+                        .map((cr) => cr.cryptoId)
+                        .includes(c.id) && c.name != "USD"
+                  )
+                  .map((c) => c.symbol)}
+                token={decodedToken}
+              />
+              <DepositButton token={decodedToken} />
+              <WithdrawButton token={decodedToken} />
             </div>
           </div>
           <div className="row">
