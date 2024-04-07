@@ -69,7 +69,6 @@ const InfoModal: React.FC<InfoModalProps> = ({ isOpen, section, onClose }) => {
   );
 };
 
-// ParentComponent that uses InfoButton and InfoModal
 const ParentComponent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentSection, setCurrentSection] = useState('');
@@ -123,7 +122,7 @@ const ParentComponent = () => {
         <InfoButton section="fully-diluted-valuation" onClick={handleInfoButtonClick} />
       </div>
       
-      {/* InfoModal will be reused for different sections */}
+      {/* InfoModal to be reused for different sections */}
       <InfoModal
         isOpen={isModalOpen}
         section={currentSection}
