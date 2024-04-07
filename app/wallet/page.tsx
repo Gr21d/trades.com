@@ -7,13 +7,15 @@ import { jwtDecode } from "jwt-decode";
 import TotalFundsCard from "./components/TotalFundsCard";
 import TotalValueCard from "./components/TotalValueCard";
 import TotalProfitsCard from "./components/TotalProfitsCard";
-import Chart from "./components/Chart";
+import Chart from "./components/PieChart";
 import SendButton from "./components/SendButton";
 import SellButton from "./components/SellButton";
 import DepositButton from "./components/DepositButton";
 import WithdrawButton from "./components/WithdrawButton";
 import BiggestEarner from "./components/BIggestEarner";
 import BiggestLose from "./components/BiggestLose";
+import HistoryChart from "./components/HistoryChart";
+import PerformanceChart from "./components/PerformanceChart";
 interface Crypto {
   id: number;
   symbol: string;
@@ -121,7 +123,7 @@ const OwnedCrypto = () => {
               Trades.com Cryptocurrencies Portfolio Dashboard Community Learn
             </header>
           </div>
-          <div className="row d-flex flex-row justify-content-between align-items-center">
+          <div className="row d-flex flex-row justify-content-between align-items-top">
             <div className="col d-flex flex-row justify-content-between align-items-center">
               <SendButton
                 coins={cryptos
@@ -150,63 +152,71 @@ const OwnedCrypto = () => {
               <WithdrawButton token={decodedToken} />
             </div>
           </div>
-          <div className="row d-flex flex-row align-items-center justify-content-between mx-2">
-            <div className="col" style={{ height: "390px" }}>
-              <div className="d-flex flex-column align-items-center justify-content-between h-100">
-                <div>
-                  <BiggestEarner
-                    cryptos={cryptos}
-                    cryptosOwned={ownedCrypto}
-                    decodedToken={decodedToken}
-                    prices={prices}
-                  />
-                </div>
-                <div className="mb-3">
-                  <BiggestLose
-                    cryptos={cryptos}
-                    cryptosOwned={ownedCrypto}
-                    decodedToken={decodedToken}
-                    prices={prices}
-                  />
-                </div>
+          <div className="row d-flex flex-row justify-content-between align-items-center mx-2">
+            <div className="col">
+              <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
+                <TotalFundsCard
+                  cryptos={cryptos}
+                  cryptosOwned={ownedCrypto}
+                  decodedToken={decodedToken}
+                />
               </div>
             </div>
-            <div className="col" style={{ height: "390px" }}>
-              <div className="mb-3 d-flex flex-column align-items-center justify-content-between">
-                <Chart
+            <div className="col">
+              <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
+                <TotalProfitsCard
                   cryptos={cryptos}
                   cryptosOwned={ownedCrypto}
                   decodedToken={decodedToken}
                   prices={prices}
-                ></Chart>
+                />
               </div>
             </div>
-            <div className="col" style={{ height: "390px" }}>
-              <div className="d-flex flex-column align-items-center justify-content-between h-100">
-                <div className="mb-3">
-                  <TotalFundsCard
-                    cryptos={cryptos}
-                    cryptosOwned={ownedCrypto}
-                    decodedToken={decodedToken}
-                  />
-                </div>
-                <div className="mb-3">
-                  <TotalValueCard
-                    cryptos={cryptos}
-                    cryptosOwned={ownedCrypto}
-                    decodedToken={decodedToken}
-                    prices={prices}
-                  />
-                </div>
-                <div className="mb-3">
-                  <TotalProfitsCard
-                    cryptos={cryptos}
-                    cryptosOwned={ownedCrypto}
-                    decodedToken={decodedToken}
-                    prices={prices}
-                  />
-                </div>
+            <div className="col">
+              <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
+                <TotalValueCard
+                  cryptos={cryptos}
+                  cryptosOwned={ownedCrypto}
+                  decodedToken={decodedToken}
+                  prices={prices}
+                />
               </div>
+            </div>
+            <div className="col">
+              <div className="d-flex flex-row align-items-center justify-content-center mb-3 ms-3">
+                <BiggestEarner
+                  cryptos={cryptos}
+                  cryptosOwned={ownedCrypto}
+                  decodedToken={decodedToken}
+                  prices={prices}
+                />
+              </div>
+            </div>
+            <div className="col">
+              <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
+                <BiggestLose
+                  cryptos={cryptos}
+                  cryptosOwned={ownedCrypto}
+                  decodedToken={decodedToken}
+                  prices={prices}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col mb-3" style={{ height: "390px" }}>
+              <HistoryChart />
+            </div>
+            <div className="col mb-3" style={{ height: "390px" }}>
+              <PerformanceChart />
+            </div>
+            <div className="col mb-3" style={{ height: "390px" }}>
+              <Chart
+                cryptos={cryptos}
+                cryptosOwned={ownedCrypto}
+                decodedToken={decodedToken}
+                prices={prices}
+              />
             </div>
           </div>
 

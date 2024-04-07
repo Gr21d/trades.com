@@ -73,11 +73,11 @@ const BiggestEarner = ({
   if (sortedProfit[0]) {
     return (
       <Card
-        style={{ width: "18rem" }}
+        style={{ width: "9rem" }}
         className="bg-light text-dark text-center react-card"
       >
         <Card.Body>
-          <Card.Title className="mx-2">
+          <Card.Title className="mx-2" style={{ fontSize: 12 }}>
             <DynamicCellPL
               content={
                 sortedProfit[0] &&
@@ -86,7 +86,7 @@ const BiggestEarner = ({
             />
           </Card.Title>
           <CardSubtitle className="text-center d-flex flex-row justify-content-center gap-3">
-            <span className="align-self-center" style={{ fontSize: 20 }}>
+            <span className="align-self-center" style={{ fontSize: 10 }}>
               {sortedProfit[0] &&
                 "$" +
                   sortedProfit[0].profit.toLocaleString() +
@@ -97,7 +97,9 @@ const BiggestEarner = ({
               namen={sortedProfit[0].name.toLowerCase().replaceAll(" ", "")}
             />
           </CardSubtitle>
-          <Card.Text>Worst Performer</Card.Text>
+          <Card.Text>
+            <span style={{ fontSize: 8 }}>Worst Performer</span>
+          </Card.Text>
         </Card.Body>
       </Card>
     );

@@ -66,7 +66,7 @@ const TotalFundsCard = ({
   }, 0);
   return (
     <Card
-      style={{ width: "18rem" }}
+      style={{ width: "18rem", height: 125.2 }}
       className="bg-light text-dark text-center react-card"
     >
       <Card.Body>

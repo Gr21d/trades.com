@@ -26,7 +26,7 @@ const FetchImage = ({ namen }: Props) => {
   useEffect(() => {
     fetchImage(namen);
   }, []);
-  return <Card.Img style={{ width: 50, height: 50 }} src={imageData} />;
+  return <Card.Img style={{ width: 30, height: 30 }} src={imageData} />;
 };
 
 export default FetchImage;
