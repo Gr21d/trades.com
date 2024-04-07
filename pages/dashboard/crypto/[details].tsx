@@ -62,7 +62,7 @@ function Details(props) {
     const [supplyPercentage, setSupplyPercentage] = useState(0);
 
 
-    const [buyAmount, setBuyAmount] = useState(0);
+    const [buyAmount, setBuyAmount] = useState(0.00);
 
 
 
@@ -231,7 +231,7 @@ function Details(props) {
             throw new Error('Failed to create transaction')
           }
 
-          setBuyAmount(0);
+          setBuyAmount(0.00);
           setTransactionId(response.data.transactionId);
           alert(`Transaction successful bought at: ${realTimePrice}`)
           setIdPortfolioCrypto(response.data.cryptoPortfolioOwned.id);
@@ -266,7 +266,7 @@ function Details(props) {
   
         const { updatedBuyOrder } = response.data;
         console.log(updatedBuyOrder)
-        setBuyAmount(0);
+        setBuyAmount(0.00);
         setStopLoss(null);
         setTakeProfit(null);
         setTransactionId(null);
@@ -700,6 +700,33 @@ function Details(props) {
 
   }, [decodedToken, transactionId]);
 
+  const changeColorBuy = () => {
+    const buy = document.getElementById('buy');
+    const sell = document.getElementById('sell');
+    const buybtn = document.getElementsByClassName('buybtn')[0];
+    const shortbtn = document.getElementsByClassName('shortbtn')[0];
+    const header = document.getElementsByClassName('header-element')[0];
+  
+    buy.style.backgroundColor = 'white';
+    sell.style.backgroundColor = 'rgb(241,244,246)';
+    buybtn.style.display = 'block';
+    shortbtn.style.display = 'none';
+    // buy.style.width = '100%';
+    // buy.style.textAlign = 'center';
+  };
+  
+  const changeColorSell = () => {
+    const buy = document.getElementById('buy');
+    const sell = document.getElementById('sell');
+    const buybtn = document.getElementsByClassName('buybtn')[0];
+    const shortbtn = document.getElementsByClassName('shortbtn')[0];
+
+    buy.style.backgroundColor = 'rgb(241,244,246)';
+    sell.style.backgroundColor = 'white';
+    buybtn.style.display = 'none';
+    shortbtn.style.display = 'block';
+  } 
+
   useEffect(() => {
     if (cryptoSymbol) {
       let getLatest = cryptoName.split("/")[2];
@@ -858,7 +885,7 @@ function Details(props) {
                   )}
                 </div>
             </div>
-            <div className="about-layout">
+            {/* <div className="about-layout">
               <p>About bitcoin</p>
             </div>
             <div className="most-visited-crypto-layout">
@@ -869,241 +896,252 @@ function Details(props) {
             </div>
             <div className="trending-layout">
               <p>Trending</p>
-            </div>
-
+            </div> */}
 
           </div>
 
           <div className="chart">
           </div>
-
           {/* <Image src="/bull1.png" alt="cryptoImage" width={850} height={800} className="logoooo"></Image> */}
           <Image src="/images/iconBull.png" alt="Logo" width={550} height={542} className="logoooo" />
-
-
           <div className="crypto-details">
               {cryptoDetails && (
                 <div>
-                  <div>
-                    <div className="crypto_name">
-                      <Image src={cryptoDetails.image.small} alt="cryptoImage" width={30} height={30}></Image>
-                      <p className="crypto-name">{cryptoDetails.name}</p>
-                      <p className="crypto-symbol">${cryptoSymbol}</p>
-
-                      <div className="crypto-socials">
-                        {/* <p>{cryptoDetails.homepage[0]}</p> */}
+                  <div className="right">
+                          <div className="right-box">
+                            <div className="crypto_name">
+                              <Image src={cryptoDetails.image.small} alt="cryptoImage" width={30} height={30}></Image>
+                              <p className="crypto-name">{cryptoDetails.name}</p>
+                              <p className="crypto-symbol">${cryptoSymbol}</p>
+                              <div className="crypto-socials">
+                                {/* <p>{cryptoDetails.homepage[0]}</p> */}
+                              </div>
+                            </div>
+                            <div className="real-time">
+                              <p style={{ color: getPriceColor() }}>
+                                ${realTimePrice !== null ? realTimePrice : 'Loading...'}
+                              </p>
+                              <p style={{ color: 'black', fontSize: '15px' }}>
+                                Balance: ${portfolio.portfolio.balance !== null ? portfolio.portfolio.balance : 'Loading...'}
+                              </p>
+                            </div>
+                            <div className="crypto-stats">
+                              <div className="wrapper-details">
+                                <div className="header-element">
+                                  <div id="buy" onClick={changeColorBuy}>Buy</div>
+                                  <div id="sell" onClick={changeColorSell}>Sell</div>
+                                </div>
+                                <div className="details">
+                                  <div className="details-label">
+                                    <label htmlFor="buyhey" className="input-label">Quantity</label>
+                                    <div className="realtime-label">
+                                      <label htmlFor="realtime" className="input-label">Price Per Coin</label>
+                                      <p>$</p>
+                                    </div>
+                                  </div>
+                                  <div className="detail-input">
+                                    <input
+                                      type="number"
+                                      id='buyhey'
+                                      value={buyAmount}
+                                      onChange={(e) => setBuyAmount(parseFloat(e.target.value))}
+                                      placeholder="0.00"
+                                      className="input-field buybtn"
+                                    />
+                                    <input
+                                      type="number"
+                                      id='buyhey'
+                                      value={shortSellAmount}
+                                      onChange={(e) => setShortSellAmount(parseFloat(e.target.value))}
+                                      placeholder="0.00 short"
+                                      className="input-field shortbtn"
+                                    />
+                                    <input
+                                      type="number"
+                                      placeholder={realTimePrice !== undefined ? realTimePrice.toString() : "0"}
+                                      className="input-field"
+                                      readOnly
+                                    />
+                                  </div>
+                                  <div className="details-label"  id="tk">
+                                    <label htmlFor="buyhey" className="input-label">Stop Loss</label>
+                                    <label htmlFor="realtime" className="input-label">Take Profit</label>
+                                  </div>
+                                  <div className="detail-input">
+                                    <input
+                                      type="number"
+                                      id="stopLoss"
+                                      value={stopLoss || ''}
+                                      onChange={(e) => setStopLoss(e.target.value)}
+                                      placeholder="Enter stop loss"
+                                      className="input-field"
+                                    />
+                                    <input
+                                      type="number"
+                                      id="takeProfit"
+                                      value={takeProfit || ''}
+                                      onChange={(e) => setTakeProfit(e.target.value)}
+                                      placeholder="Enter take profit"
+                                      className="input-field"
+                                    />
+                                  </div>
+                                  <div className="total-spent">
+                                    <p className="total-label">Total Spent</p>
+                                    <p className="total-label">${buyAmount * realTimePrice}</p>
+                                  </div>
+                                </div>
+                                <div className="detail-input">
+                                  <div>
+                                    <button onClick={handleBuyClick} className="buy-button">Buy</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                       </div>
-                    </div>
-                    
-                    <div className="real-time">
-                      <p style={{ color: getPriceColor() }}>
-                        ${realTimePrice !== null ? realTimePrice : 'Loading...'}
-                      </p>
-                      <p style={{ color: 'black', fontSize: '15px' }}>
-                        Balance: ${portfolio.portfolio.balance !== null ? portfolio.portfolio.balance : 'Loading...'}
-                      </p>
-                    </div>
+                        <div className="sticky">
+                        <div className="crypto-stats-details">
+                          <div className="volume-info">
+                            <p>Market Cap: </p>
+                            <Image src={information} width={20} height={20}></Image>
+                          </div>
 
-                    <div className="crypto-stats">
-                    <div className="crypto-stats-details">
-                      <label htmlFor="buy" className="input-label">Amount:</label>
-
-                      <input
-                        type="number"
-                        id='buy'
-                        value={buyAmount}
-                        onChange={(e) => setBuyAmount(parseFloat(e.target.value))}
-                        placeholder="Enter buy amount"
-                        className="input-field"
-                      />
-                      <button onClick={handleBuyClick}>Buy</button>
-                      <button onClick={handleBollingClick}>Bolling</button>
-                      <button onClick={handleStopClick}>Stop</button>
-                    </div>
-                    <div className="crypto-stats-details">
-                      <div className="input-group">
-                        <label htmlFor="stopLoss" className="input-label">Stop Loss:</label>
-                        <input
-                          type="number"
-                          id="stopLoss"
-                          value={stopLoss || ''}
-                          onChange={(e) => setStopLoss(e.target.value)}
-                          placeholder="Enter stop loss"
-                          className="input-field"
-                        />
-                      </div>
-                    </div>
-                    <div className="crypto-stats-details">
-                      <label htmlFor="shortSell" className="input-label">Short Sell Amount:</label>
-                      <input
-                        type="number"
-                        id="shortSell"
-                        value={shortSellAmount}
-                        onChange={(e) => setShortSellAmount(parseFloat(e.target.value))}
-                        placeholder="Enter short sell amount"
-                        className="input-field"
-                      />
-                      <button onClick={handleShortSellClick}>Short Sell</button>
-                    </div>
-                    <div className="crypto-stats-details">
-                      <div className="input-group">
-                        <label htmlFor="takeProfit" className="input-label">Take Profit:</label>
-                        <input
-                          type="number"
-                          id="takeProfit"
-                          value={takeProfit || ''}
-                          onChange={(e) => setTakeProfit(e.target.value)}
-                          placeholder="Enter take profit"
-                          className="input-field"
-                        />
-                      </div>
-                    </div>
-                      <div className="crypto-stats-details">
-                        <div className="volume-info">
-                          <p>Market Cap: </p>
-                          <Image src={information} width={20} height={20}></Image>
+                          <div className="crypto-stats-details">
                         </div>
+                          {cryptoDetails.market_data.market_cap_change_percentage_24h >= 0 ? (
+                            <p>
+                              <div className="stat">
+                                <div className="stat-flex">
+                                  <Image src="/up.png" height={15} width={15} className="trend"></Image>
+                                  <p style={{ color: '#16c784' }}><b>{cryptoDetails.market_data.market_cap_change_percentage_24h.toFixed(2)}%</b></p>
+                                </div>
+                                <b>${cryptoDetails.market_data.market_cap.usd.toLocaleString()}</b>
+
+
+                              </div>
+                            </p>
+                          ) : (
+                            <p>
+                              <div className="stat">
+                                <div className="stat-flex">
+                                <Image src="/down.png" height={15} width={15}></Image> <p style={{ color: '#ea3943' }}><b>{cryptoDetails.market_data.market_cap_change_percentage_24h.toFixed(2)}%</b></p> <b>${cryptoDetails.market_data.market_cap.usd.toLocaleString()}</b>
+                                </div>
+
+                              </div>
+                            </p>
+                          )}
+                        </div>
+                        <hr className='hey'/>
+                        <div className="crypto-stats-details">
+                          <div className="volume-info">
+                            <p>Volume (24h): </p>
+                            <Image src={information} width={20} height={20}></Image>
+                          </div>
+                          {cryptoDetails.market_data.price_change_percentage_24h >= 0 ? (
+                            <p>
+                              <div className="stat">
+                                <div className="stat-flex">
+                                  <Image src="/up.png" height={15} width={15} className="trend"></Image>
+                                  <p style={{ color: '#16c784' }}><b>{cryptoDetails.market_data.price_change_percentage_24h.toFixed(2)}%</b></p>
+                                </div>
+                                <b>${cryptoDetails.market_data.total_volume.usd.toLocaleString()}</b>
+                              </div>
+                            </p>
+                          ) : (
+                            <p>
+                              <div className="stat">
+                                <div className="stat-flex">
+                                  <Image src="/down.png" height={15} width={15}></Image>
+                                  <p style={{ color: '#ea3943' }}><b>{cryptoDetails.market_data.price_change_percentage_24h.toFixed(2)}%</b></p>
+                                  <b>${cryptoDetails.market_data.total_volume.usd.toLocaleString()}</b>
+                                </div>
+                              </div>
+                            </p>
+                          )}
+                        </div>
+                        <hr className='hey'/>
+                        <div className="crypto-stats-details">
+                          <p>Circulating Supply: </p>
+                          <p><b>{cryptoDetails.market_data.circulating_supply} {cryptoSymbol}</b></p>
+                        </div>
+                        <div className="progress-thing">
+                          <div className="progress-bar">
+                            <div className="progress" style={{ width: `${supplyPercentage}%` }}></div>
+                          </div>
+                          <p style={{ marginRight: 20 }}>{supplyPercentage}%</p>
+                        </div>
+
+                        <hr className='hey'/>
 
                         <div className="crypto-stats-details">
-                      </div>
-                        {cryptoDetails.market_data.market_cap_change_percentage_24h >= 0 ? (
-                          <p>
-                            <div className="stat">
-                              <div className="stat-flex">
-                                <Image src="/up.png" height={15} width={15} className="trend"></Image>
-                                <p style={{ color: '#16c784' }}><b>{cryptoDetails.market_data.market_cap_change_percentage_24h.toFixed(2)}%</b></p>
-                              </div>
-                              <b>${cryptoDetails.market_data.market_cap.usd.toLocaleString()}</b>
-
-
-                            </div>
-                          </p>
-                        ) : (
-                          <p>
-                            <div className="stat">
-                              <div className="stat-flex">
-                              <Image src="/down.png" height={15} width={15}></Image> <p style={{ color: '#ea3943' }}><b>{cryptoDetails.market_data.market_cap_change_percentage_24h.toFixed(2)}%</b></p> <b>${cryptoDetails.market_data.market_cap.usd.toLocaleString()}</b>
-                              </div>
-
-                            </div>
-                          </p>
-                        )}
-                      </div>
-                      <hr className='hey'/>
-                      <div className="crypto-stats-details">
-                        <div className="volume-info">
-                          <p>Volume (24h): </p>
-                          <Image src={information} width={20} height={20}></Image>
+                          <p>Total Supply: </p>
+                          <p><b>{cryptoDetails.market_data.total_supply} {cryptoSymbol}</b></p>
                         </div>
-                        {cryptoDetails.market_data.price_change_percentage_24h >= 0 ? (
-                          <p>
+                        <hr className='hey'/>
+
+                        {cryptoDetails.market_data.price_change_24h >= 0 ? (
+                          <div className="crypto-stats-details">
+                            <p>Change 24h:</p>
                             <div className="stat">
                               <div className="stat-flex">
                                 <Image src="/up.png" height={15} width={15} className="trend"></Image>
-                                <p style={{ color: '#16c784' }}><b>{cryptoDetails.market_data.price_change_percentage_24h.toFixed(2)}%</b></p>
+                                <p style={{ color: '#16c784' }}>
+                                  <b>{cryptoDetails.market_data.price_change_24h.toFixed(2)}%</b>
+                                </p>
                               </div>
-                              <b>${cryptoDetails.market_data.total_volume.usd.toLocaleString()}</b>
                             </div>
-                          </p>
+                          </div>
                         ) : (
-                          <p>
+                          <div className="crypto-stats-details">
+                            <p>Change 7d:</p>
                             <div className="stat">
                               <div className="stat-flex">
                                 <Image src="/down.png" height={15} width={15}></Image>
-                                <p style={{ color: '#ea3943' }}><b>{cryptoDetails.market_data.price_change_percentage_24h.toFixed(2)}%</b></p>
-                                <b>${cryptoDetails.market_data.total_volume.usd.toLocaleString()}</b>
+                                <p style={{ color: '#ea3943' }}>
+                                  <b>{cryptoDetails.market_data.price_change_24h.toFixed(2)}%</b>
+                                </p>
                               </div>
                             </div>
-                          </p>
+                          </div>
                         )}
-                      </div>
-                      <hr className='hey'/>
-                      <div className="crypto-stats-details">
-                        <p>Circulating Supply: </p>
-                        <p><b>{cryptoDetails.market_data.circulating_supply} {cryptoSymbol}</b></p>
-                      </div>
-                      <div className="progress-thing">
-                        <div className="progress-bar">
-                          <div className="progress" style={{ width: `${supplyPercentage}%` }}></div>
-                        </div>
-                        <p style={{ marginRight: 20 }}>{supplyPercentage}%</p>
-                      </div>
+                        <hr className='hey'/>
 
-                      <hr className='hey'/>
-
-                      <div className="crypto-stats-details">
-                        <p>Total Supply: </p>
-                        <p><b>{cryptoDetails.market_data.total_supply} {cryptoSymbol}</b></p>
-                      </div>
-                      <hr className='hey'/>
-
-                      {cryptoDetails.market_data.price_change_24h >= 0 ? (
-                        <div className="crypto-stats-details">
-                          <p>Change 24h:</p>
-                          <div className="stat">
-                            <div className="stat-flex">
-                              <Image src="/up.png" height={15} width={15} className="trend"></Image>
-                              <p style={{ color: '#16c784' }}>
-                                <b>{cryptoDetails.market_data.price_change_24h.toFixed(2)}%</b>
-                              </p>
+                        {cryptoDetails.market_data.price_change_percentage_7d >= 0 ? (
+                          <div className="crypto-stats-details">
+                            <p>Change 7d:</p>
+                            <div className="stat">
+                              <div className="stat-flex">
+                                <Image src="/up.png" height={15} width={15} className="trend"></Image>
+                                <p style={{ color: '#16c784' }}>
+                                  <b>{cryptoDetails.market_data.price_change_percentage_7d.toFixed(2)}%</b>
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ) : (
-                        <div className="crypto-stats-details">
-                          <p>Change 7d:</p>
-                          <div className="stat">
-                            <div className="stat-flex">
-                              <Image src="/down.png" height={15} width={15}></Image>
-                              <p style={{ color: '#ea3943' }}>
-                                <b>{cryptoDetails.market_data.price_change_24h.toFixed(2)}%</b>
-                              </p>
+                        ) : (
+                          <div className="crypto-stats-details">
+                            <p>Change 7d:</p>
+                            <div className="stat">
+                              <div className="stat-flex">
+                                <Image src="/down.png" height={15} width={15}></Image>
+                                <p style={{ color: '#ea3943' }}>
+                                  <b>{cryptoDetails.market_data.price_change_percentage_7d.toFixed(2)}%</b>
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
-                      <hr className='hey'/>
-
-                      {cryptoDetails.market_data.price_change_percentage_7d >= 0 ? (
+                        )}
+                        <hr className='hey'/>
                         <div className="crypto-stats-details">
-                          <p>Change 7d:</p>
-                          <div className="stat">
-                            <div className="stat-flex">
-                              <Image src="/up.png" height={15} width={15} className="trend"></Image>
-                              <p style={{ color: '#16c784' }}>
-                                <b>{cryptoDetails.market_data.price_change_percentage_7d.toFixed(2)}%</b>
-                              </p>
-                            </div>
-                          </div>
+                          <p>Fully Diluted Valuation:</p>
+                          <p><b>${cryptoDetails.market_data.fully_diluted_valuation.usd.toLocaleString()}</b></p>
                         </div>
-                      ) : (
-                        <div className="crypto-stats-details">
-                          <p>Change 7d:</p>
-                          <div className="stat">
-                            <div className="stat-flex">
-                              <Image src="/down.png" height={15} width={15}></Image>
-                              <p style={{ color: '#ea3943' }}>
-                                <b>{cryptoDetails.market_data.price_change_percentage_7d.toFixed(2)}%</b>
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                      <hr className='hey'/>
-                      <div className="crypto-stats-details">
-                        <p>Fully Diluted Valuation:</p>
-                        <p><b>${cryptoDetails.market_data.fully_diluted_valuation.usd.toLocaleString()}</b></p>
-                      </div>
                     </div>
                   </div>
-                  <div>
-                  </div>
-                  <div>
-                  </div>
-                </div>
               )}
           </div>
         </div>
+        <Footer/>
       </div>
     );
     
