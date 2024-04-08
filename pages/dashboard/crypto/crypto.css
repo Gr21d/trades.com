@@ -1,7 +1,7 @@
 @import 'https://fonts.googleapis.com/css?family=Open+Sans:600,700';
 
 * {
-  font-family: 'Helvetica Neue', sans-serif;
+  font-family: Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif;
   -ms-overflow-style: none; 
   scrollbar-width: none; 
 }
@@ -14,8 +14,14 @@
   height: 100vh;
 }
 
+.chart-scrollable-container{
+  display: flex;
+  flex-direction: column;
+}
+
+
 .list-name{
-  color: white;
+  color: gray;
   font-weight: bold;
   position: absolute;
   max-height: 10px;
@@ -23,23 +29,83 @@
 }
 
 .list-name p{
-  font-size: 34px;
+  font-size: 15px;
+}
+.list-crypto-flex{
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.list-name p:hover{
+  color: rgb(32, 64, 60);
+  transition: ease-in-out 0.5s;
+  border-bottom: 2px solid rgb(32, 64, 60);
 }
 
 .chart{
   margin-top: 80px;
+  /* border: 1px solid rgb(241,244,246); */
 }
 
+.tooltip-container {
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+.flex-title{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+}
+.tooltip-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 4px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tooltip-price {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.tooltip-ohlc {
+  font-size: 12px;
+  color: #666666;
+}
+
+.tooltip-date {
+  font-size: 12px;
+  color: #666666;
+}
+
+.table-header{
+  font-size: 14px;
+  color: gray;
+  position: sticky;
+}
+
+.short{
+  display: none;
+}
 .crypto{
   overflow-y: auto;
-  margin-top: 100px;
-  max-height: 1000px;
-  width: 300x;
+  margin-top: 50px;
+  max-height: 90%;
   -ms-overflow-style: none; 
   scrollbar-width: none; 
   margin-left: 20px;
   margin-right: 20px;
   margin-bottom: 20px;
+  font-size: 14px;
 }
 
 .crypto::-webkit-scrollbar {
@@ -48,9 +114,13 @@
 
 .rwd-table1 {
   margin: auto;
-  max-width: 100%;
-  height: 100px;
+  max-width: 90%;
+  height: 100%;
   border-collapse: collapse;
+}
+
+#all_list{
+  width: 30px;
 }
 
 
@@ -65,6 +135,7 @@
   opacity: 0.1;
   position: absolute;
   margin-left: 250px;
+  z-index: 1;
 
 }
 .ohlc{
@@ -73,24 +144,38 @@
   align-items: center;
   position: absolute;
   z-index: 4;
-  color: white;
+  color: black;
   font-weight: bold;
-  margin-left: 460px;
-  margin-bottom: 100px;
-  margin-top: 80px;
+  margin-left: 40px;
+  margin-bottom: 200px;
+  margin-top: 60px;
   gap: 30px;
 }
 
 .chart-name{
   position: absolute;
-  color: white;
+  color: rgb(169,175,187);
   font-weight: bold;
-  margin-bottom: 150px;
-  margin-left: 420px
+  margin-bottom: 130px;
+  margin-top: 20px;
+  margin-left: 420px;
+  width: 50%;
+  display: flex;
+  gap: 20px;
+  z-index: 15;
+  border-bottom: 2px solid rgb(205, 206, 207);
 }
 .chart-name p{
-  font-size: 34px;
+  font-size: 15px;
 }
+
+.chart-name p:hover{
+  color: rgb(32, 64, 60);
+  transition: ease-in-out 0.5s;
+  border-bottom: 2px solid rgb(32, 64, 60);
+}
+
+
 /* .empty-area{
   height: 200px;
   width: 1100px;
@@ -117,7 +202,7 @@
   justify-content: center;
   align-items: center;
   z-index: 4;
-  color: white;
+  color: black;
   gap: 5px;
 
 }
@@ -144,6 +229,10 @@
   position: relative;
 }
 
+.rwd-table1 .name-column {
+  width: 10px;
+}
+
 .progress {
   height: 100%;
   background-color: #4caf50;
@@ -153,6 +242,181 @@
   transition: width 0.3s ease-in-out;
 }
 
+.wrapper-details{
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  height: 370px;
+  /* justify-content: center; */
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px solid rgb(241,244,246);
+}
+
+.sticky {
+  top: 0;
+  z-index: 10;
+  max-height: 340px; /* Adjust the height as needed */
+  overflow-y: auto;
+  overflow-x: scrollable;
+}
+
+.header-element{
+  width: 350px;
+  display: flex;
+  align-items: center;
+  /* gap: 5px; */
+  background-color: rgb(241,244,246);
+  justify-content: center;
+  padding: 5px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#buy{
+  margin-right: 10px;
+  border-radius: 5px;
+  text-align: center;
+  padding: 10px;
+  background-color: white;
+  background-size: 100% 10px;
+  width: 100%;
+}
+
+.details-label{
+  display: flex;
+  gap: 120px;
+  align-items: center;
+  color: black;
+  margin-bottom: 5px;
+}
+
+#tk{
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.total-spent{
+  /* display: flex; */
+  flex-direction: column;
+  background-color: rgb(241,244,246);
+  height: 70px;
+  border-radius: 10px;
+}
+
+.total-label{
+  height: 10px;
+  margin-top: 15px;
+}
+
+.total-spent p:nth-child(1){
+  font-size: 14px;
+  color: rgb(169,175,187);
+  font-weight: bold;
+  margin-left: 20px;
+  margin-top: 10px;
+  position: absolute; 
+}
+.total-spent p:nth-child(2){
+  font-size: 23px;
+  color: black;
+  font-weight: bold;
+  position: absolute;
+  margin-left: 20px;
+  margin-top: 30px;
+}
+
+#sell{
+  margin-right: 10px;
+  border-radius: 5px;
+  text-align: center;
+  padding: 10px;
+  /* background-color: #c0bfbf; */
+  background-size: 100% 10px;
+  width: 100%;
+}
+
+.realtime-label{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-bottom: 0px;
+  height: 10px;
+}
+
+.buy-button{
+  width: 340px;
+  margin-top: 10px;
+  height: 40px;
+  background-color: #4caf50;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+
+.sell-button{
+  width: 340px;
+  margin-top: 10px;
+  height: 40px;
+  background-color: red;
+  border-radius: 10px;
+  border: none;
+  display: none;
+  cursor: pointer;
+  color: white;
+}
+
+.buy-button:hover{
+  background-color: #398f3c;
+  transition: ease-in-out 0.5s;
+}
+
+.detail-input{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.input-label {
+  /* font-weight: bold; */
+  font-size: 14px;
+  color: black; /* Adjust the color as needed */
+}
+
+.input-field {
+  padding: 0.5rem;
+  border: 2px solid rgb(241,244,246);
+  border-radius: 4px;
+
+  /* color: #fff; */
+  -webkit-appearance: none;
+  width: 100%;
+}
+
+.input-field::placeholder {
+  color: black;
+  font-weight: bold; /* Change the color to your desired value */
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #45e5cb; /* Adjust the focus border color as needed */
+  box-shadow: 0 0 5px rgba(69, 229, 203, 0.5); /* Adjust the focus box-shadow as needed */
+}
+
 .crypto-stats-details{
   flex: 1;
   display: flex;
@@ -160,7 +424,8 @@
   align-items: center;
   margin-left: 20px;
   margin-right: 20px;
-  max-height: 50px;
+  height: 60px;
+  font-size: 12px;
   /* padding: 10px; */
   /* background-color: #1a1a1a; */
   border-radius: 4px;
@@ -170,6 +435,7 @@
 .hey {
   margin-left: 20px;
   margin-right: 20px;
+  border: 1px solid rgb(241,244,246);
 }
 
 .stat-flex{
@@ -180,7 +446,7 @@
 }
 
 .crypto-stats-details p{
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .crypto_name{
@@ -190,12 +456,13 @@
   max-height: 10px;
   margin-top: 30px;
   margin-left: 20px;
-  font-size: 32px;
+  font-size: 20px;
 }
 
 .real-time{
   font-size: 32px;
   margin-left: 20px;
+  color: black;
 }
 
 .crypto-name{
@@ -207,13 +474,22 @@
   color: gray;
 }
 
+.right{
+  height: 550px;
+  overflow: hidden;
+  border-bottom: 2px solid rgb(241,244,246);
+}
+
 .crypto-details {
   background-color: rgba(23, 23, 23, 1);
   background: transparent;
-  height: 95vh;
-  color: white;
+  height: 900px;
+  color: black;
   width: 380px;
-  border: 1px solid rgb(0, 0, 0);
+  border-right: 1px solid rgb(241,244,246);
+  border-bottom: 1px solid rgb(241,244,246);
+  border-left: 1px solid rgb(241,244,246);
+  overflow: hidden;
 }
 
 .crypto-details1 {
@@ -223,7 +499,7 @@
   padding: 20px;
   background-color: #f5f5f5;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
 }
 
 .crypto-details1 h2 {
@@ -234,6 +510,7 @@
 .crypto-details1 p {
   font-size: 18px;
   margin-bottom: 20px;
+  color: rgb(169,175,187)
 }
 
 .crypto-details1 div {
@@ -264,6 +541,11 @@
   margin-bottom: 0;
 }
 
+.chart-layout{
+  height: 901px;
+  border-bottom: 1px solid rgb(241,244,246);
+}
+
 .chart-container{
   margin: 50px;
   /* border: 1px solid black; */
@@ -271,19 +553,20 @@
 
 .trading-area{
   display: flex;
-  background: linear-gradient(to bottom, rgba(23, 23, 23, 1), rgba(23, 48, 35, 0.5));
+  /* background: linear-gradient(to bottom, rgba(23, 23, 23, 1), rgba(23, 48, 35, 0.5)); */
+  background-color: white;
 
 }
 
 .rwd-table1 tr:first-child {
   /* background: rgb(82,112,106); */
-  color: #fff;
+  color: black;
 }
 
 .rwd-table1 tr {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid rgb(241,244,246); 
   background-color: transparent;
-  color: white;
+  color: black;
 }
 
 .rwd-table1 tr:nth-child(odd):not(:first-child) {
@@ -320,7 +603,6 @@
 }
 
 .rwd-table1 {
-  color: #333;
   /* border-radius: .4em; */
   overflow: hidden;
 }
@@ -420,6 +702,5 @@ h3:after {
 .trading-area{
   display: flex;
   justify-content: space-between;
-
-  border: 1px solid rgba(23, 23, 23, 1);
+  /* border: 2px solid rgb(241,244,246); */
 }
