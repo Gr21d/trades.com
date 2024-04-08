@@ -27,8 +27,9 @@ export async function GET(request: NextRequest) {
         },
       },
     });
+    const totalBlogsCount = await db.blog.count();
 
-    return NextResponse.json(blogs);
+    return NextResponse.json({ blogs, totalBlogsCount });
   } catch (error) {
     console.error("Error fetching blogs:", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
