@@ -1,14 +1,26 @@
 .header {
-  background-color: rgba(23,23,23,1);
+  background-color: white;
   padding: 1.25rem 0;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
-  border: 1px solid rgb(0, 0, 0);
+  border: 1px solid rgb(241,244,246);
+  color: black;
+
+}
+
+
+#web-title{
+  color: black;
+  font-size: 20px;
+  text-decoration: none;
 }
 
 .container {
   max-width: 100%;
   margin: 0 auto;
   padding: 0 1.25rem;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .header-content {
@@ -22,6 +34,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  color: black;
+  
 }
 
 .logo-title h1 {
@@ -49,13 +63,13 @@
 }
 
 .navigation ul li a {
-  color: #fff;
   text-decoration: none;
   font-size: 1rem;
   font-weight: bold;
+  color: rgb(31, 57, 39);
   transition: color 0.3s ease;
 }
 
 .navigation ul li a:hover {
-  color: rgb(31, 57, 39);
+  color: rgb(52, 146, 80);
 }
