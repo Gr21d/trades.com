@@ -35,5 +35,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+
+.vscode/settings.json
+package-lock.json
+package.json
 prisma/dev.db
-prisma/
+prisma/schema.prisma
+prisma/dev.db

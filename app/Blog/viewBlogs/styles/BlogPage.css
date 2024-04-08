@@ -1,0 +1,164 @@
+.blog-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgb(244, 240, 232);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  body{
+    background: white;
+    margin: 0%;
+  }
+  .All-Blog-Post
+  {
+    background: #e9e9e9;
+    padding: 0.5rem;
+  }
+  
+  .blog-header {
+    text-align: center;
+    color: #333;
+    font-weight: 1000;
+  }
+  
+  .blog-post {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    margin-top: 2rem;
+  }
+  
+  .blog-editing {
+    /* Styles for editing area */
+    padding: 0.5rem;
+    width: 98%;
+  }
+  
+  .blog-edit-title,
+  .blog-edit-content {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .blog-title {
+    color: #4A9F04;
+    font-size: 2rem;
+    font-weight: 800;
+  }
+  
+  .blog-content {
+    color: black;
+    font-size: 1.2rem;
+  }
+  
+  .blog-author,
+  .blog-date {
+    color: #777;
+    font-style: italic;
+    font-size: 0.8rem;
+  }
+  
+  .blog-comments {
+    background: rgb(215, 212, 212);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 2rem;
+  }
+  
+  .blog-comment {
+    background: #f5f5f5;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  
+  .comment-content {
+    color: rgb(127, 163, 189);
+  }
+  
+  .comment-author,
+  .comment-date {
+    color: #777;
+    font-size: 0.7em;
+  }
+  .view-all-btn{
+    background-color: #33920d;
+    color: white;
+    padding: 3px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    font-size: 1.8rem;
+    text-decoration: none;
+  }
+  .view-all-btn:hover
+  {
+    background-color: #007bff;
+  }
+  
+  .comment-input-area {
+    margin-top: 20px;
+  }
+  
+  .comment-input {
+    width: 70%;
+    margin-right: 10px;
+  }
+  
+  .comment-add-button,
+  .comment-post-button,
+  .comment-delete-button,
+  .blog-edit-button,
+  .blog-delete-button,
+  .blog-save-edit ,
+  .blog-cancel-edit{
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 1rem;
+    padding: 0.4rem;
+  }
+  .comment-add-button:hover,
+  .comment-post-button:hover,
+  .comment-delete-button:hover,
+  .blog-edit-button:hover,
+  .blog-delete-button:hover,
+  .blog-save-edit:hover ,
+  .blog-cancel-edit:hover {
+    background-color: #0056b3;
+  }
+
+  .blog-actions{
+    display: flex;
+    justify-content: flex-start;
+  }
+  
+  .blog-navigation {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .page-previous-button,
+  .page-next-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    margin: 1rem;
+  }
+  .page-next-button:hover,
+  .page-previous-button:hover{
+    background-color: #30b300;
+  }
+
+  

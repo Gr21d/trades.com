@@ -23,6 +23,8 @@
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.5",
+    "fs": "^0.0.1-security",
+    "indicatorts": "^1.0.18",
     "iron-session": "^8.0.1",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
@@ -40,6 +42,9 @@
     "socket.io-client": "^4.7.5",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
+    "tailwind": "^4.0.0",
+    "tulind": "^0.8.20",
+    "utils": "^0.3.1",
     "ws": "^8.16.0"
   },
   "devDependencies": {
