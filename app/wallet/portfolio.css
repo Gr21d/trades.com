@@ -1,0 +1,41 @@
+html {
+  background-color: white;
+}
+body {
+  background-color: white;
+  background-image: url("/imageAssets/bull2.png");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+header {
+  min-height: 10vh;
+  max-height: 10vh;
+}
+.react-card {
+  border-color: #4caf50;
+  border-width: 3px;
+}
+.flexofButtons {
+  min-width: 10vh;
+  max-width: 10vh;
+  max-height: 25vh;
+  min-height: 25vh;
+}
+.tableHeadCell {
+  background-color: #4caf50;
+}
+.btn {
+  background-color: #4caf50;
+  color: white;
+  margin-right: 1em;
+}
+.btn:hover {
+  background-color: #157347;
+  color: white;
+}
+.table {
+  margin-left: 1em;
+  margin-right: 1em;
+}
