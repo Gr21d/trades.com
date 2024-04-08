@@ -131,13 +131,6 @@ export default function Form(props) {
             </div>
           </form>
           <div className="separator">-or-</div>
-          <div className="socialForm">
-            <button>
-              {props.type === "signIn"
-                ? "Sign in with your Gmail account"
-                : "Sign up with your Gmail account"}
-            </button>
-          </div>
         </div>
       </div>
     </div>
