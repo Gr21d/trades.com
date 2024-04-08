@@ -705,12 +705,17 @@ function Details(props) {
     const sell = document.getElementById('sell');
     const buybtn = document.getElementsByClassName('buybtn')[0];
     const shortbtn = document.getElementsByClassName('shortbtn')[0];
+
+    const buybutton = document.getElementsByClassName('buy-button')[0];
+    const sellbutton = document.getElementsByClassName('sell-button')[0];
     const header = document.getElementsByClassName('header-element')[0];
   
     buy.style.backgroundColor = 'white';
     sell.style.backgroundColor = 'rgb(241,244,246)';
     buybtn.style.display = 'block';
     shortbtn.style.display = 'none';
+    buybutton.style.display = 'block';
+    sellbutton.style.display = 'none';
     // buy.style.width = '100%';
     // buy.style.textAlign = 'center';
   };
@@ -721,10 +726,15 @@ function Details(props) {
     const buybtn = document.getElementsByClassName('buybtn')[0];
     const shortbtn = document.getElementsByClassName('shortbtn')[0];
 
+    const buybutton = document.getElementsByClassName('buy-button')[0];
+    const sellbutton = document.getElementsByClassName('sell-button')[0];
+
     buy.style.backgroundColor = 'rgb(241,244,246)';
     sell.style.backgroundColor = 'white';
     buybtn.style.display = 'none';
     shortbtn.style.display = 'block';
+    buybutton.style.display = 'none';
+    sellbutton.style.display = 'block';
   } 
 
   useEffect(() => {
@@ -993,6 +1003,7 @@ function Details(props) {
                                 <div className="detail-input">
                                   <div>
                                     <button onClick={handleBuyClick} className="buy-button">Buy</button>
+                                    <button onClick={handleShortSellClick} className="sell-button">Sell</button>
                                   </div>
                                 </div>
                               </div>

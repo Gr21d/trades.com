@@ -17,7 +17,6 @@ function Header(props) {
         </div>
         <nav className="navigation">
             <ul>
-              {props.type !== "Cryptocurrencies" && <li><a href="./blog">Cryptocurrencies</a></li>}
               {props.type !== "portfolio" &&<li><a href="./portfolio">Portfolio</a></li>}
               {props.type !== "dashboard" && <li><a href="./dashboard">Dashboard</a></li>}
               {props.type !== "blog" && <li><a href="./blog">Community</a></li>}

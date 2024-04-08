@@ -265,13 +265,14 @@
   width: 350px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  /* gap: 5px; */
   background-color: rgb(241,244,246);
   justify-content: center;
   padding: 5px;
   height: 40px;
   border-radius: 10px;
   font-size: 14px;
+  cursor: pointer;
 }
 
 #buy{
@@ -352,6 +353,20 @@
   background-color: #4caf50;
   border-radius: 10px;
   border: none;
+  cursor: pointer;
+  color: white;
+}
+
+
+.sell-button{
+  width: 340px;
+  margin-top: 10px;
+  height: 40px;
+  background-color: red;
+  border-radius: 10px;
+  border: none;
+  display: none;
+  cursor: pointer;
   color: white;
 }
 

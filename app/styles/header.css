@@ -14,8 +14,6 @@
   text-decoration: none;
 }
 
-
-
 .container {
   max-width: 100%;
   margin: 0 auto;
@@ -68,9 +66,10 @@
   text-decoration: none;
   font-size: 1rem;
   font-weight: bold;
+  color: rgb(31, 57, 39);
   transition: color 0.3s ease;
 }
 
 .navigation ul li a:hover {
-  color: rgb(31, 57, 39);
+  color: rgb(52, 146, 80);
 }
