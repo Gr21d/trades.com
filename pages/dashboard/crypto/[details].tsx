@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import {createChart, UTCTimestamp, ColorType, IChartApi, ISeriesApi, Time, WhitespaceData, LineData, LineSeriesOptions, LineStyleOptions, DeepPartial, SeriesOptionsCommon, CandlestickData, CandlestickSeriesOptions, CandlestickStyleOptions, CrosshairMode, LineStyle} from 'lightweight-charts';
 import {jwtDecode} from 'jwt-decode';
 import { decode } from 'punycode';
+import { useRouter } from 'next/navigation';
 import {rsi2, bollingerBands} from 'indicatorts';
 import Image from 'next/image';
 
@@ -30,6 +31,8 @@ function Details(props) {
     const [portfolio, setPortfolio] = useState(null);
     const [prevPrice, setPrevPrice] = useState(0.0);
     const [shortSellAmount, setShortSellAmount] = useState(0);
+    const [crypto_name, setCryptoName] = useState(null);
+    const router = useRouter();
 
     const getToken = () => {
       if (typeof window !== 'undefined' && window.localStorage) {
@@ -73,6 +76,7 @@ function Details(props) {
     const [bollingerLowBands, setBollingerLowBands] = useState<ISeriesApi<"Line", Time, WhitespaceData<Time> | LineData<Time>, LineSeriesOptions, DeepPartial<LineStyleOptions & SeriesOptionsCommon>> | null>(null);
     const [bollingerMidBands, setBollingerMidBands] = useState<ISeriesApi<"Line", Time, WhitespaceData<Time> | LineData<Time>, LineSeriesOptions, DeepPartial<LineStyleOptions & SeriesOptionsCommon>> | null>(null);
     const [bollingerUpBands, setBollingerUpBands] = useState<ISeriesApi<"Line", Time, WhitespaceData<Time> | LineData<Time>, LineSeriesOptions, DeepPartial<LineStyleOptions & SeriesOptionsCommon>> | null>(null);
+
 
 
 
@@ -309,10 +313,15 @@ function Details(props) {
 
   
   useEffect(() => {
-    if (chartContainerRef.current && ohlc && cryptoSymbol) {
+    if (chartContainerRef.current && ohlc && cryptoSymbol && cryptoName) {
+      console.log('creating chart')
       let newChart: IChartApi | null = null;
 
-      if (!chart) {
+      if (chart) {
+        chart.remove();
+        setChart(null);
+      }
+
         newChart = createChart(chartContainerRef.current, {
           layout: {
             background: {
@@ -349,10 +358,9 @@ function Details(props) {
           width: 900,
           height: 800,
         })
+        
         setChart(newChart);
-      } else {
-        newChart = chart;
-      }
+
 
       const newCandlestickSeries = newChart.addCandlestickSeries();
       setCandlestickSeries(newCandlestickSeries);
@@ -575,7 +583,7 @@ function Details(props) {
       // newChart.timeScale().fitContent();
       
     }
-  }, [chartContainerRef.current, ohlc, cryptoSymbol]);
+  }, [chartContainerRef.current, ohlc, cryptoSymbol, cryptoName]);
 
 
   const getPriceColor = () => {
@@ -737,6 +745,14 @@ function Details(props) {
     sellbutton.style.display = 'block';
   } 
 
+  const handleCryptoClick = (cryptoName) => {
+    console.log('hello', cryptoName)
+    // cryptoName = cryptoName
+    router.push(`/dashboard/crypto/${cryptoName.toLowerCase()}`);
+    
+  };
+  
+
   useEffect(() => {
     if (cryptoSymbol) {
       let getLatest = cryptoName.split("/")[2];
@@ -857,25 +873,25 @@ function Details(props) {
                     <th>24h%</th>
                   </tr>
                 </thead>
-                <tbody>
-                  {cryptos.map((crypto, index) => (
-                    <tr key={crypto.id}>
-                      <td data-th="Name" className="name-column">{crypto.name}</td>
-                      <td data-th="% Change 1h" style={{color: crypto.quote.USD.percent_change_1h >= 0 ? 'rgb(91,193,137)' : 'red'}}>
-                        <div className="list-crypto-flex">
-                        <Image src={crypto.quote.USD.percent_change_1h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={15} height={15} />
-                          {crypto.quote.USD.percent_change_1h.toFixed(2)}%
-                        </div>
-                      </td>
-                      <td data-th="% Change 24h" style={{color: crypto.quote.USD.percent_change_24h >= 0 ? 'rgb(91,193,137)' : 'red'}}>
-                        <div className="list-crypto-flex">
-                          <Image src={crypto.quote.USD.percent_change_24h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={15} height={15}/>
-                          {crypto.quote.USD.percent_change_24h.toFixed(2)}%
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+                  <tbody>
+                    {cryptos.map((crypto, index) => (
+                      <tr key={crypto.id} onClick={() => handleCryptoClick(crypto.name)}>
+                        <td data-th="Name" className="name-column">{crypto.name}</td>
+                        <td data-th="% Change 1h" style={{color: crypto.quote.USD.percent_change_1h >= 0 ? 'rgb(91,193,137)' : 'red'}}>
+                          <div className="list-crypto-flex">
+                            <Image src={crypto.quote.USD.percent_change_1h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={15} height={15} />
+                            {crypto.quote.USD.percent_change_1h.toFixed(2)}%
+                          </div>
+                        </td>
+                        <td data-th="% Change 24h" style={{color: crypto.quote.USD.percent_change_24h >= 0 ? 'rgb(91,193,137)' : 'red'}}>
+                          <div className="list-crypto-flex">
+                            <Image src={crypto.quote.USD.percent_change_24h >= 0 ? "/up.png" : "/down.png"} alt="Change" width={15} height={15}/>
+                            {crypto.quote.USD.percent_change_24h.toFixed(2)}%
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
               </table>                
           </div>
           </div>
