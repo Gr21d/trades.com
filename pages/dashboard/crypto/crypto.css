@@ -117,6 +117,7 @@
   max-width: 90%;
   height: 100%;
   border-collapse: collapse;
+  cursor: pointer;
 }
 
 #all_list{
