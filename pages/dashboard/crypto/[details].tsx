@@ -250,6 +250,7 @@ function Details(props) {
             investorId: decodedToken.investorId,
             portfolioId: decodedToken.portfolioId,
             currentPrice: realTimePrice,
+            priceBought: realTimePrice,
             cryptoSymbol: cryptoSymbol.toLowerCase(),
           });
     
@@ -267,7 +268,7 @@ function Details(props) {
           setBuyAmount(0.00);
           setTransactionId(response.data.transactionId);
           alert(`Transaction successful bought at: ${realTimePrice}`);
-          setIdPortfolioCrypto(response.data.cryptoPortfolioOwned.id);
+          setPortfolio(response.data.cryptoPortfolioOwned.id);
     
           if (isStopped) {
             const response = await axios.post('/api/dashboard/limit', {

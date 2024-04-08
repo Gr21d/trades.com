@@ -65,6 +65,7 @@ model CryptoPortfolioOwned {
   portfolioId  Int
   cryptoId     Int
   quantity     Float
+  priceBought  Float
   portfolio    Portfolio     @relation(fields: [portfolioId], references: [id])
   cryptocurrency Cryptocurrency @relation(fields: [cryptoId], references: [id])
   @@unique([portfolioId, cryptoId])

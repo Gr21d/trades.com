@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { type, amount, investorId, portfolioId, currentPrice, cryptoSymbol } = req.body;
+    const { type, amount, investorId, portfolioId, currentPrice,priceBought, cryptoSymbol } = req.body;
     console.log('Request body:', req.body);
 
     try {
@@ -93,6 +93,7 @@ export default async function handler(req, res) {
           portfolioId: portfolioId,
           cryptoId: cryptocurrency.id,
           quantity: amount,
+          priceBought: priceBought,
         },
       });
     
