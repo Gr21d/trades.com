@@ -20,6 +20,9 @@ export async function POST(req: NextRequest) {
         cryptoId: true,
         portfolioId: token,
       },
+      where: {
+        portfolioId: { equals: token },
+      },
     });
     if (!idOfUSD) {
       const createUSD = await prisma.cryptocurrency.create({
@@ -38,11 +41,7 @@ export async function POST(req: NextRequest) {
         },
       });
     }
-    if (
-      !portfolio.some(
-        (o) => o.cryptoId == idOfUSD[0].id && o.portfolioId == token
-      )
-    ) {
+    if (!portfolio.some((o) => o.cryptoId == idOfUSD[0].id)) {
       const createUSD = await prisma.cryptoPortfolioOwned.create({
         data: {
           portfolioId: token,
