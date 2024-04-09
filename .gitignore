@@ -40,4 +40,7 @@ next-env.d.ts
 package-lock.json
 package.json
 prisma/schema.prisma
+<<<<<<< Updated upstream
 /prisma/dev.db
+=======
+>>>>>>> Stashed changes
