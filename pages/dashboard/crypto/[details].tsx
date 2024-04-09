@@ -245,6 +245,7 @@ function Details(props) {
           }
     
           const response = await axios.post('/api/dashboard/transaction', {
+            name: cryptoDetails.name,
             type: 'BUY',
             amount: buyAmount,
             investorId: decodedToken.investorId,
@@ -871,6 +872,7 @@ function Details(props) {
       if (window.confirm('Do you want to short sell this crypto?')) {
         try {
           const response = await axios.post('/api/dashboard/transaction', {
+            name: cryptoDetails.name,
             type: 'SHORT_SELL',
             amount: shortSellAmount,
             investorId: decodedToken.investorId,

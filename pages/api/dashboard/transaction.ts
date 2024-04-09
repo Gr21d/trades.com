@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { type, amount, investorId, portfolioId, currentPrice,priceBought, cryptoSymbol } = req.body;
+    const { name, type, amount, investorId, portfolioId, currentPrice,priceBought, cryptoSymbol } = req.body;
     console.log('Request body:', req.body);
 
     try {
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
       if (!cryptocurrency) {
         cryptocurrency = await prisma.cryptocurrency.create({
           data: {
-            name: cryptoSymbol,
+            name: name,
             symbol: cryptoSymbol,
             currentPrice: currentPrice,
           },

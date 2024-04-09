@@ -14,8 +14,8 @@ header {
   max-height: 10vh;
 }
 .react-card {
-  border-color: #4caf50;
-  border-width: 3px;
+  /* border-color: #4caf50; */
+  /* border-width: 3px; */
 }
 .flexofButtons {
   min-width: 10vh;
@@ -24,18 +24,29 @@ header {
   min-height: 25vh;
 }
 .tableHeadCell {
-  background-color: #4caf50;
+  /* background-color: #4caf50; */
 }
 .btn {
-  background-color: #4caf50;
+  /* background-color: #4caf50; */
   color: white;
   margin-right: 1em;
 }
 .btn:hover {
-  background-color: #157347;
+  /* background-color: #157347; */
   color: white;
 }
 .table {
   margin-left: 1em;
   margin-right: 1em;
+}
+
+.portfolio-area{
+  margin-top: 1em;
+  margin-bottom: 1em;
+  display: flex;
+}
+
+.portfolio-area .left-area{
+  width: 400px;
+  /* background-color: #4caf50; */
 }

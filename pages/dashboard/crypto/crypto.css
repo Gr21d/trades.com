@@ -121,7 +121,7 @@
 
 .rwd-table1 {
   margin: auto;
-  width: 300px;
+  width: 100px;
   height: 100%;
   border-collapse: collapse;
 }
@@ -163,6 +163,9 @@
   gap: 30px;
 }
 
+.amk{
+  position: absolute;
+}
 .chart-name{
   position: absolute;
   color: rgb(169,175,187);
@@ -234,6 +237,7 @@
 .crypto-stat-details{
   position: relative;
 }
+
 .progress-bar {
   width: 300px;
   height: 5px;
@@ -725,5 +729,6 @@ h3:after {
 .trading-area{
   display: flex;
   justify-content: space-between;
+  width: 100vw;
   /* border: 2px solid rgb(241,244,246); */
 }
