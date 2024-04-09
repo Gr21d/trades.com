@@ -118,127 +118,139 @@ const OwnedCrypto = () => {
   };
   return (
     <div className=" container-fluid pb-1">
+      <Header />
+
       {loading == 0 && (
         <div className="container-fuid">
-          <div className="row">
-            <Header />
-          </div>
+          <div className="portfolio-area">
+            <div className="left-area">left</div>
 
-          <div className="row d-flex flex-row justify-content-between align-items-center mx-2">
-            <div className="col">
-              <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
-                <TotalFundsCard
-                  cryptos={cryptos}
-                  cryptosOwned={ownedCrypto}
-                  decodedToken={decodedToken}
-                />
+            <div className="right-area">
+              <div className="row d-flex flex-row justify-content-between align-items-center mx-2">
+                <div className="col">
+                  <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
+                    <TotalFundsCard
+                      cryptos={cryptos}
+                      cryptosOwned={ownedCrypto}
+                      decodedToken={decodedToken}
+                    />
+                  </div>
+                </div>
+                <div className="col">
+                  <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
+                    <TotalProfitsCard
+                      cryptos={cryptos}
+                      cryptosOwned={ownedCrypto}
+                      decodedToken={decodedToken}
+                      prices={prices}
+                    />
+                  </div>
+                </div>
+                <div className="col">
+                  <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
+                    <TotalValueCard
+                      cryptos={cryptos}
+                      cryptosOwned={ownedCrypto}
+                      decodedToken={decodedToken}
+                      prices={prices}
+                    />
+                  </div>
+                </div>
+                <div className="col">
+                  <div className="d-flex flex-row align-items-center justify-content-center mb-3 ms-3">
+                    <BiggestEarner
+                      cryptos={cryptos}
+                      cryptosOwned={ownedCrypto}
+                      decodedToken={decodedToken}
+                      prices={prices}
+                    />
+                  </div>
+                </div>
+                <div className="col">
+                  <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
+                    <BiggestLose
+                      cryptos={cryptos}
+                      cryptosOwned={ownedCrypto}
+                      decodedToken={decodedToken}
+                      prices={prices}
+                    />
+                  </div>
+                </div>
+                <div
+                  className="col d-flex flex-row align-items-center justify-content-start"
+                  style={{ height: 142.2 }}
+                >
+                  <SendButton
+                    coins={cryptos
+                      .filter(
+                        (c) =>
+                          ownedCrypto
+                            .filter((f) => f.portfolioId == decodedToken)
+                            .map((cr) => cr.cryptoId)
+                            .includes(c.id) && c.name != "USD"
+                      )
+                      .map((c) => c.symbol)}
+                    token={decodedToken}
+                  />
+                  <DepositButton token={decodedToken} />
+                  <WithdrawButton token={decodedToken} />
+                </div>
               </div>
-            </div>
-            <div className="col">
-              <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
-                <TotalProfitsCard
-                  cryptos={cryptos}
-                  cryptosOwned={ownedCrypto}
-                  decodedToken={decodedToken}
-                  prices={prices}
-                />
+              <div className="row">
+                <div className="col mb-3" style={{ height: "390px" }}>
+                  <HistoryChart />
+                </div>
+                <div className="col mb-3" style={{ height: "390px" }}>
+                  <PerformanceChart />
+                </div>
+                <div className="col mb-3" style={{ height: "390px" }}>
+                  <Chart
+                    cryptos={cryptos}
+                    cryptosOwned={ownedCrypto}
+                    decodedToken={decodedToken}
+                    prices={prices}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="col">
-              <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
-                <TotalValueCard
-                  cryptos={cryptos}
-                  cryptosOwned={ownedCrypto}
-                  decodedToken={decodedToken}
-                  prices={prices}
-                />
-              </div>
-            </div>
-            <div className="col">
-              <div className="d-flex flex-row align-items-center justify-content-center mb-3 ms-3">
-                <BiggestEarner
-                  cryptos={cryptos}
-                  cryptosOwned={ownedCrypto}
-                  decodedToken={decodedToken}
-                  prices={prices}
-                />
-              </div>
-            </div>
-            <div className="col">
-              <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
-                <BiggestLose
-                  cryptos={cryptos}
-                  cryptosOwned={ownedCrypto}
-                  decodedToken={decodedToken}
-                  prices={prices}
-                />
-              </div>
-            </div>
-            <div
-              className="col d-flex flex-row align-items-center justify-content-start"
-              style={{ height: 142.2 }}
-            >
-              <SendButton
-                coins={cryptos
-                  .filter(
-                    (c) =>
-                      ownedCrypto
-                        .filter((f) => f.portfolioId == decodedToken)
-                        .map((cr) => cr.cryptoId)
-                        .includes(c.id) && c.name != "USD"
-                  )
-                  .map((c) => c.symbol)}
-                token={decodedToken}
-              />
-              <DepositButton token={decodedToken} />
-              <WithdrawButton token={decodedToken} />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col mb-3" style={{ height: "390px" }}>
-              <HistoryChart />
-            </div>
-            <div className="col mb-3" style={{ height: "390px" }}>
-              <PerformanceChart />
-            </div>
-            <div className="col mb-3" style={{ height: "390px" }}>
-              <Chart
-                cryptos={cryptos}
-                cryptosOwned={ownedCrypto}
-                decodedToken={decodedToken}
-                prices={prices}
-              />
-            </div>
-          </div>
 
-          <div className="row mx-2">
-            <table
-              className="table"
-              style={{
-                borderRadius: "10px",
-                overflow: "hidden",
-                margin: "auto",
-              }}
-            >
-              <thead>
-                <tr>
-                  <td style={{ backgroundColor: "#4caf50" }}></td>
-                  <td style={{ backgroundColor: "#4caf50" }}>Crypto Symbol</td>
-                  <td style={{ backgroundColor: "#4caf50" }}>Crypto Name</td>
-                  <td style={{ backgroundColor: "#4caf50" }}>Owned Amount</td>
-                  <td style={{ backgroundColor: "#4caf50" }}>Current Price</td>
-                  <td style={{ backgroundColor: "#4caf50" }}>Value</td>
-                  <td style={{ backgroundColor: "#4caf50" }}>P/L</td>
-                </tr>
-              </thead>
+              <div className="row mx-2">
+                <table
+                  className="table"
+                  style={{
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                    margin: "auto",
+                  }}
+                >
+                  <thead>
+                    <tr>
+                      <td style={{ backgroundColor: "#4caf50" }}></td>
+                      <td style={{ backgroundColor: "#4caf50" }}>
+                        Crypto Symbol
+                      </td>
+                      <td style={{ backgroundColor: "#4caf50" }}>
+                        Crypto Name
+                      </td>
+                      <td style={{ backgroundColor: "#4caf50" }}>
+                        Owned Amount
+                      </td>
+                      <td style={{ backgroundColor: "#4caf50" }}>
+                        Current Price
+                      </td>
+                      <td style={{ backgroundColor: "#4caf50" }}>Value</td>
+                      <td style={{ backgroundColor: "#4caf50" }}>P/L</td>
+                    </tr>
+                  </thead>
 
-              <TableClient
-                cryptos={cryptos}
-                cryptosOwned={ownedCrypto}
-                prices={prices}
-                decodedToken={decodedToken}
-              />
-            </table>
+                  <TableClient
+                    cryptos={cryptos}
+                    cryptosOwned={ownedCrypto}
+                    prices={prices}
+                    decodedToken={decodedToken}
+                  />
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       )}
