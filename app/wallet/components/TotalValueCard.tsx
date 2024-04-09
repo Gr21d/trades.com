@@ -27,31 +27,31 @@ const TotalFundsCard = ({
   decodedToken,
   prices,
 }: Props) => {
-  const value = (
-    parseFloat(
-      cryptosOwned
-        .filter((o) => o.portfolioId == decodedToken)
-        .reduce((accumulator, cryptoOwned) => {
-          const price = prices.filter((price) =>
-            cryptos
-              .filter((c) => c.id == cryptoOwned.cryptoId)
-              .some(
-                (crypto) =>
-                  crypto.symbol.toUpperCase().concat("USDT") === price.symbol
-              )
+  let value = parseFloat(
+    cryptosOwned
+      .filter((o) => o.portfolioId == decodedToken)
+      .reduce((accumulator, cryptoOwned) => {
+        const price = prices.filter((price) =>
+          cryptos
+            .filter((c) => c.id == cryptoOwned.cryptoId)
+            .some(
+              (crypto) =>
+                crypto.symbol.toUpperCase().concat("USDT") === price.symbol
+            )
+        );
+        if (price) {
+          const sum = price.reduce(
+            (acc, p) => acc + parseFloat(p.price) * cryptoOwned.quantity,
+            0
           );
-          if (price) {
-            const sum = price.reduce(
-              (acc, p) => acc + parseFloat(p.price) * cryptoOwned.quantity,
-              0
-            );
-            accumulator += sum;
-          }
+          accumulator += sum;
+        }
 
-          return accumulator;
-        }, 0)
-        .toFixed(2)
-    ) +
+        return accumulator;
+      }, 0)
+      .toFixed(2)
+  ).toLocaleString();
+  if (
     cryptosOwned
       .filter(
         (o) =>
@@ -59,7 +59,15 @@ const TotalFundsCard = ({
           o.cryptoId == cryptos.filter((cr) => cr.name == "USD")[0].id
       )
       .map((m) => m.quantity)[0]
-  ).toLocaleString();
+  ) {
+    value += cryptosOwned
+      .filter(
+        (o) =>
+          o.portfolioId == decodedToken &&
+          o.cryptoId == cryptos.filter((cr) => cr.name == "USD")[0].id
+      )
+      .map((m) => m.quantity)[0];
+  }
   return (
     <Card
       style={{ width: "18rem", height: 125.2 }}

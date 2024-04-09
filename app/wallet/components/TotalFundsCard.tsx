@@ -30,10 +30,11 @@ const TotalFundsCard = ({ cryptos, cryptosOwned, decodedToken }: Props) => {
     >
       <Card.Body>
         <Card.Title>
-          {funds &&
-            "$" + parseFloat(funds.quantity.toFixed(2)).toLocaleString()}
+          {funds
+            ? "$" + parseFloat(funds.quantity.toFixed(2)).toLocaleString()
+            : "$0"}
         </Card.Title>
-        <Card.Text>Total Funds Available to Invest</Card.Text>
+        <Card.Text>Total Balance</Card.Text>
       </Card.Body>
     </Card>
   );

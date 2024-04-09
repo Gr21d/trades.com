@@ -3,7 +3,7 @@ html {
 }
 body {
   background-color: white;
-  background-image: url("/imageAssets/bull2.png");
+  background-image: url("../../public/bull2.png");
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -40,13 +40,13 @@ header {
   margin-right: 1em;
 }
 
-.portfolio-area{
+.portfolio-area {
   margin-top: 1em;
   margin-bottom: 1em;
   display: flex;
 }
 
-.portfolio-area .left-area{
+.portfolio-area .left-area {
   width: 400px;
   /* background-color: #4caf50; */
 }
