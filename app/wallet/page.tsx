@@ -217,28 +217,29 @@ const OwnedCrypto = () => {
                 <table
                   className="table"
                   style={{
-                    borderRadius: "10px",
                     overflow: "hidden",
+                    backgroundColor: "transparent",
+                    padding: "20px",
                     margin: "auto",
                   }}
                 >
                   <thead>
                     <tr>
-                      <td style={{ backgroundColor: "#4caf50" }}></td>
-                      <td style={{ backgroundColor: "#4caf50" }}>
-                        Crypto Symbol
+                      <td></td>
+                      <td>
+                        Symbol
                       </td>
-                      <td style={{ backgroundColor: "#4caf50" }}>
-                        Crypto Name
+                      <td>
+                        Name
                       </td>
-                      <td style={{ backgroundColor: "#4caf50" }}>
-                        Owned Amount
+                      <td>
+                        Holdings
                       </td>
-                      <td style={{ backgroundColor: "#4caf50" }}>
+                      <td>
                         Current Price
                       </td>
-                      <td style={{ backgroundColor: "#4caf50" }}>Value</td>
-                      <td style={{ backgroundColor: "#4caf50" }}>P/L</td>
+                      <td>Value</td>
+                      <td>P/L</td>
                     </tr>
                   </thead>
 

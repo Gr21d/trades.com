@@ -26,7 +26,7 @@ const TotalFundsCard = ({ cryptos, cryptosOwned, decodedToken }: Props) => {
   return (
     <Card
       style={{ width: "18rem", height: 125.2 }}
-      className="bg-light text-dark text-center react-card"
+      className="bg-white text-dark text-center react-card"
     >
       <Card.Body>
         <Card.Title>

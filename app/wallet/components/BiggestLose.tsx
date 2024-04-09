@@ -74,7 +74,7 @@ const BiggestEarner = ({
     return (
       <Card
         style={{ width: "9rem" }}
-        className="bg-light text-dark text-center react-card"
+        className="bg-white text-dark text-center react-card"
       >
         <Card.Body>
           <Card.Title className="mx-2" style={{ fontSize: 12 }}>

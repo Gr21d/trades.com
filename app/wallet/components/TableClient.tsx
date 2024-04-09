@@ -43,20 +43,20 @@ const TableClient = ({
           )
           .sort((a, b) => a.id - b.id)
           .map((cryptoOwned) => (
-            <tr key={cryptoOwned.cryptoId} className="table-light">
+            <tr key={cryptoOwned.cryptoId}>
               <td></td>
               <th>
                 {cryptos
                   .filter((c) => c.id == cryptoOwned.cryptoId)
                   .map((c) => c.symbol)}
               </th>
-              <td>
+              <td className="align-items-center">
                 {cryptos
                   .filter((c) => c.id == cryptoOwned.cryptoId)
                   .map((c) => c.name)}
               </td>
               <td>{cryptoOwned.quantity}</td>
-              <td>
+              <td  className="align-items-center">
                 $
                 {prices
                   .filter((price) =>

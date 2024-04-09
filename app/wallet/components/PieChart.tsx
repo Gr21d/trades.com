@@ -119,7 +119,7 @@ const Chart = ({ cryptos, cryptosOwned, decodedToken, prices }: Props) => {
   return (
     <Card
       style={{ width: "30vw" }}
-      className="bg-light text-dark text-center react-card"
+      className="bg-white text-dark text-center react-card"
     >
       <CardTitle className="mt-3">Wealth Distribution</CardTitle>
       <CardBody>

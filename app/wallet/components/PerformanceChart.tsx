@@ -43,7 +43,7 @@ const PerformanceChart = () => {
   const off = gradientOffset();
   return (
     <Card
-      className="bg-light text-dark text-center react-card"
+      className="bg-white text-dark text-center react-card"
       style={{ width: "30vw" }}
     >
       <CardTitle className="mt-3">Performance (Cumulative)</CardTitle>

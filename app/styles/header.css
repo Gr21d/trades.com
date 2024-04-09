@@ -4,6 +4,7 @@
   border: 1px solid rgb(241,244,246);
   display: flex;
   justify-content: space-between;
+  width: 100vw;
   /* margin-bttom: 10px; */
 }
 
@@ -24,8 +25,8 @@
 } */
 
 .header-content {
-  margin-left: 20px;
-  width: 1200px;
+  /* margin-left: 20px; */
+  width: 1300px;
   display: flex;
   align-items: center;
   justify-content: space-between;
