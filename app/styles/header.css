@@ -22,10 +22,11 @@
 }
 
 .header-content {
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 75rem;
+  gap: 100%
 }
 
 .logo-title-title{
@@ -46,7 +47,10 @@
   height: 2.5rem;
   width: auto;
 }
-
+.navigation{
+  display: flex;
+  justify-content: left;
+}
 .navigation ul {
   list-style: none;
   padding: 0;
