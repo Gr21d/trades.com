@@ -7,7 +7,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/Blog/viewBlogs/page.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/Blog/viewBlogs/page.js", "tutorials/portfoliopagetutorial/route.js", "tutorials/portfoliopagetutorial/page4.js", "tutorials/portfoliopagetutorial/page3.js", "tutorials/portfoliopagetutorial/page2.js", "tutorials/portfoliopagetutorial/page1.js"],
   "exclude": ["node_modules"]
 }
