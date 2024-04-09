@@ -130,7 +130,7 @@ export default function Form(props) {
               </div>
             </div>
           </form>
-          <div className="separator">-or-</div>
+         
         </div>
       </div>
     </div>
