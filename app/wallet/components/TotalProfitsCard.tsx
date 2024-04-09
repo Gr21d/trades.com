@@ -69,7 +69,7 @@ const TotalFundsCard = ({
   }, 0);
   return (
     <Card
-      style={{ width: "150px", height: 120 }}
+      style={{ width: "200px", height: 100, border: "none", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)"}}
       className="bg-white text-dark react-card"
     >
       <Card.Body>
@@ -79,7 +79,7 @@ const TotalFundsCard = ({
         <CardSubtitle className="mb-1">
           ${parseFloat(totalProfit.toFixed(2)).toLocaleString()}
         </CardSubtitle>
-        <CardSubtitle className="mx-2 amk" style={{marginTop: "20px", fontSize: "14px"}}>
+        <CardSubtitle className="mx-2 amk" style={{marginTop: "10px", fontSize: "14px"}}>
         <DynamicCellPL
           content={
             (

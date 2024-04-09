@@ -11,7 +11,7 @@ const DynamicCellPL = ({ content }: Props) => {
       : parseFloat(content) > 0
       ? "#4caf50"
       : "black";
-  return <p style={{ color: dynamicColor }}>{content}</p>;
+  return <p style={{ color: dynamicColor, fontSize: "12px", marginTop: "7px"}}>{content}</p>;
 };
 
 export default DynamicCellPL;

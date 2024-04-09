@@ -118,18 +118,38 @@ const Chart = ({ cryptos, cryptosOwned, decodedToken, prices }: Props) => {
   }, [dataArray.length]);
   return (
     <Card
-      style={{ width: "30vw" }}
-      className="bg-light text-dark text-center react-card"
+      style={{ width: "26vw", border: "none", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)" }}
+      className="bg-white text-dark align-items-left react-card"
     >
-      <CardTitle className="mt-3">Wealth Distribution</CardTitle>
+      <CardTitle className="mt-3 chart-title">Allocation</CardTitle>
       <CardBody>
-        <PieChart width={400} height={290}>
-          <Legend
-            height={36}
-            layout="vertical"
-            verticalAlign="top"
-            align="right"
-          />
+        <PieChart width={400} height={200}>
+        <Legend
+          height={36}
+          layout="vertical"
+          verticalAlign="top"
+          align="right"
+          payload={dataArray.map((item, index) => ({
+            id: item.name,
+            type: "square",
+            value: `${item.name}`,
+            color: colors[index % colors.length],
+            formatter: (value: string) => (
+              <span style={{ marginRight: "10px" }}>
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: "12px",
+                    height: "12px",
+                    marginRight: "5px",
+                    backgroundColor: colors[index % colors.length],
+                  }}
+                ></span>
+                <span style={{ color: "black" }}>{value}</span>
+              </span>
+            ),
+          }))}
+        />
           <Pie
             dataKey="totalValue"
             isAnimationActive={true}

@@ -57,7 +57,7 @@ const BiggestEarner = ({
             (c) => c.symbol == price.symbol.replace("USDT", "").toLowerCase()
           )[0].name,
           symbol: price.symbol,
-          profit: parseFloat(totalValue.toFixed(2)),
+          profit: parseFloat(totalValue),
           percentProfit: parseFloat(percentProfit),
           price: price.price,
         };
@@ -73,32 +73,38 @@ const BiggestEarner = ({
   if (sortedProfit[0]) {
     return (
       <Card
-        style={{ width: "9rem" }}
-        className="bg-light text-dark text-center react-card"
+        style={{ width: "200px", height: 100, border: "none", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)"}}
+        className="bg-white text-dark align-items-left react-card"
       >
         <Card.Body>
           <Card.Title className="mx-2" style={{ fontSize: 12 }}>
-            <DynamicCellPL
-              content={
-                sortedProfit[0] &&
-                sortedProfit[0].percentProfit.toLocaleString().concat("%")
-              }
-            />
+          <span style={{ fontSize: 12 }}>Best Performer</span>
           </Card.Title>
-          <CardSubtitle className="text-center d-flex flex-row justify-content-center gap-3">
-            <span className="align-self-center" style={{ fontSize: 10 }}>
+          <CardSubtitle className="text-center d-flex flex-row justify-content-center gap-2">
+          <div className="title-relax">
+              <FetchImage
+                namen={sortedProfit[0].name.toLowerCase().replaceAll(" ", "")}
+              />
               {sortedProfit[0] &&
                 "$" +
-                  sortedProfit[0].profit.toLocaleString() +
-                  " - " +
                   sortedProfit[0].symbol.replace("USDT", "")}
-            </span>
-            <FetchImage
-              namen={sortedProfit[0].name.toLowerCase().replaceAll(" ", "")}
-            />
+            </div>
           </CardSubtitle>
           <Card.Text>
-            <span style={{ fontSize: 8 }}>Best Performer</span>
+            <div className="displayflexx">
+              <span style={{ fontSize: 12, marginBottom: "10px"}}>
+                {sortedProfit[0] &&
+                  "$" +
+                    sortedProfit[0].profit.toLocaleString()}
+              </span>
+              <DynamicCellPL
+                content={
+                  sortedProfit[0] &&
+                  sortedProfit[0].percentProfit.toLocaleString().concat("%")
+                }
+              />
+            </div>
+
           </Card.Text>
         </Card.Body>
       </Card>

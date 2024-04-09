@@ -56,21 +56,21 @@ const HistoryChart = () => {
   ];
   return (
     <Card
-      className="bg-light text-dark text-center react-card"
-      style={{ width: "30vw" }}
+      className="bg-white text-dark align-items-left react-card"
+      style={{ width: "25vw", border: "none", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)"}}
     >
-      <CardTitle className="mt-3">History of value</CardTitle>
+      <CardTitle className="mt-3 chart-title">History</CardTitle>
       <CardBody>
-        <AreaChart width={254} height={290} data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
+        <AreaChart width={320} height={200} data={data}>
+          <CartesianGrid vertical={false} stroke="rgb(241,244,246)"/>
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
           <Area
             type="monotone"
             dataKey="value"
-            stroke="#8884d8"
-            fill="#8884d8"
+            stroke="white"
+            fill="orange"
           />
         </AreaChart>
       </CardBody>

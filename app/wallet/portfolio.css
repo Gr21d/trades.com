@@ -1,12 +1,25 @@
 html {
   background-color: white;
+  overflow-x: hidden;
+  
 }
+
+html ::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   background-color: white;
-  background-image: url("/imageAssets/bull2.png");
+  /* background-image: url("../../public/bull2.png"); */
   background-size: cover;
   background-position: center;
   min-height: 100vh;
+}
+
+.titleasd{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 header {
@@ -17,12 +30,26 @@ header {
   /* border-color: #4caf50; */
   /* border-width: 3px; */
 }
+
+
+
+.realtimedatas{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  gap: 30px;
+
+}
+
 .flexofButtons {
   min-width: 10vh;
   max-width: 10vh;
   max-height: 25vh;
   min-height: 25vh;
 }
+
 .tableHeadCell {
   /* background-color: #4caf50; */
 }
@@ -35,18 +62,63 @@ header {
   /* background-color: #157347; */
   color: white;
 }
+.width{
+  width: 100%;
+}
 .table {
   margin-left: 1em;
   margin-right: 1em;
 }
 
-.portfolio-area{
-  margin-top: 1em;
-  margin-bottom: 1em;
-  display: flex;
+.right-area{
+  margin-left: 2em;
+  margin-bottom: 35px;
+  width: 1535px;
 }
 
-.portfolio-area .left-area{
-  width: 400px;
+.chart-title{
+  margin-left: 30px;
+  font-weight: bold;
+}
+
+.portfolio-area {
+  /* margin-top: 1em; */
+  /* margin-bottom: 1em; */
+  display: flex;
+}
+.title-relax{
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  margin-right: 70px;
+  gap: 3px;
+}
+.amk{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+
+}
+
+.col1{
+  width: 200px;
+}
+
+.displayflexx{
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.realtimepriceval{
+  font-size: 32px;
+  font-weight: bold;
+}
+.portfolio-area .left-area {
+  width: 250px;
+  border-right: 1px solid rgb(241,244,246);
   /* background-color: #4caf50; */
 }
