@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 const Page2 = () => {
   const leftContainerStyle: React.CSSProperties = {
-    backgroundColor: '#000000', 
+    backgroundColor: '#FFF', 
     color: 'white',
     padding: '50px',
     display: 'flex',
@@ -16,14 +16,27 @@ const Page2 = () => {
     float: 'left',
   };
 
-  const rightImageStyle: React.CSSProperties = {
+  const contentBoxStyle: React.CSSProperties = {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    borderRadius: '15px',
+    padding: '20px',
+    margin: '0 0 20px 0',
+    width: 'fit-content',
+  };
+
+  const rightImageContainerStyle: React.CSSProperties = {
     position: 'absolute',
     top: 0,
-    right: 0,
-    bottom: 0,
+    left: '50%',
     width: '50%',
-    height: '112.3vh',
-    zIndex: -1,
+    height: '100vh',
+    overflow: 'hidden', 
+  };
+  
+  const rightImageStyle: React.CSSProperties = {
+    width: '100%', 
+    height: 'auto', 
+    position: 'relative', 
   };
 
   const textStyle: React.CSSProperties = {
@@ -45,6 +58,7 @@ const Page2 = () => {
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <div style={leftContainerStyle}>
+      <div style={contentBoxStyle}>
         <h2 style={textStyle}>Chart Details</h2>
         <p style={textStyle}>This page provides detailed chart information for a selected cryptocurrency:</p>
         <ul style={textStyle}>
@@ -70,14 +84,13 @@ const Page2 = () => {
           </Link>
         </div>
       </div>
-      <div style={rightImageStyle}>
-        <Image
-          src="/images/backgroundimage.png"
-          alt="Background"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-        />
+      </div>
+      <div style={rightImageContainerStyle}>
+      <img
+        src="/images/bull.png"
+        alt="Background"
+        style={rightImageStyle}
+      />
       </div>
     </div>
   );

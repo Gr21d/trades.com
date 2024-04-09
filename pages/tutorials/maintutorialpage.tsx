@@ -1,10 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 const Page1 = () => {
   const leftContainerStyle: React.CSSProperties = {
-    background: 'linear-gradient(to right, #000000, #000000)', 
+    background: 'linear-gradient(to right, #FFF, #FFF)', 
     color: 'white',
     padding: '50px',
     display: 'flex',
@@ -16,15 +15,21 @@ const Page1 = () => {
     float: 'left',
   };
 
-  const rightImageStyle: React.CSSProperties = {
+  const rightImageContainerStyle: React.CSSProperties = {
     position: 'absolute',
     top: 0,
-    right: 0,
-    bottom: 0,
+    left: '50%',
     width: '50%',
-    height: '112.3vh',
-    zIndex: -1,
+    height: '100vh',
+    overflow: 'hidden', 
   };
+  
+  const rightImageStyle: React.CSSProperties = {
+    width: '100%', 
+    height: 'auto', 
+    position: 'relative', 
+  };
+  
 
   const contentBoxStyle: React.CSSProperties = {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -60,14 +65,12 @@ const Page1 = () => {
           </Link>
         </div>
       </div>
-      <div style={rightImageStyle}>
-        <Image
-          src="/images/backgroundimage.png"
-          alt="Background"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-        />
+      <div style={rightImageContainerStyle}>
+      <img
+        src="/images/bull.png"
+        alt="Background"
+        style={rightImageStyle}
+      />
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ const VideoComponent = () => {
 
 const Page4 = () => {
   const leftContainerStyle: React.CSSProperties = {
-    backgroundColor: '#000000',
+    backgroundColor: '#FFF',
     color: 'white',
     padding: '50px',
     display: 'flex',
@@ -25,13 +25,27 @@ const Page4 = () => {
     left: 0, 
   };
 
-  const rightImageStyle: React.CSSProperties = {
+  const rightImageContainerStyle: React.CSSProperties = {
     position: 'absolute',
     top: 0,
-    right: 0,
+    left: '50%',
     width: '50%',
     height: '100vh',
-    zIndex: -1,
+    overflow: 'hidden', 
+  };
+
+  const contentBoxStyle: React.CSSProperties = {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    borderRadius: '15px',
+    padding: '20px',
+    margin: '0 0 20px 0',
+    width: 'fit-content',
+  };
+  
+  const rightImageStyle: React.CSSProperties = {
+    width: '100%', 
+    height: 'auto', 
+    position: 'relative', 
   };
 
   const buttonStyle: React.CSSProperties = {
@@ -46,9 +60,12 @@ const Page4 = () => {
     textDecoration: 'none',
   };
 
+  
+
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <div style={leftContainerStyle}>
+      <div style={contentBoxStyle}>
       <h1><strong>Educational Tutorial Video</strong> </h1>
         <VideoComponent />
         <Link href="/tutorials/dashboardpagetutorial/page3" passHref>
@@ -58,16 +75,15 @@ const Page4 = () => {
           <span style={buttonStyle}>Tutorial Main</span>
         </Link>
       </div>
-      <div style={rightImageStyle}>
-        <Image
-          src="/images/backgroundimage.png"
-          alt="Background"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-        />
       </div>
-    </div>
+      <div style={rightImageContainerStyle}>
+      <img
+        src="/images/bull.png"
+        alt="Background"
+        style={rightImageStyle}
+      />
+      </div>
+      </div>
   );
 };
 

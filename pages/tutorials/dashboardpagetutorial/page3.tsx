@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 const Page3 = () => {
   const leftContainerStyle: React.CSSProperties = {
-    backgroundColor: '#000000', 
+    backgroundColor: '#FFF', 
     color: 'white',
     padding: '50px',
     display: 'flex',
@@ -16,14 +16,27 @@ const Page3 = () => {
     float: 'left',
   };
 
-  const rightImageStyle: React.CSSProperties = {
+  const rightImageContainerStyle: React.CSSProperties = {
     position: 'absolute',
     top: 0,
-    right: 0,
-    bottom: 0,
+    left: '50%',
     width: '50%',
-    height: '112.3vh',
-    zIndex: -1,
+    height: '100vh',
+    overflow: 'hidden', 
+  };
+  
+  const rightImageStyle: React.CSSProperties = {
+    width: '100%', 
+    height: 'auto', 
+    position: 'relative', 
+  };
+
+  const contentBoxStyle: React.CSSProperties = {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    borderRadius: '15px',
+    padding: '20px',
+    margin: '0 0 20px 0',
+    width: 'fit-content',
   };
 
   const textStyle: React.CSSProperties = {
@@ -46,6 +59,7 @@ const Page3 = () => {
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <div style={leftContainerStyle}>
+      <div style={contentBoxStyle}>
         <h2 style={textStyle}>Chart Details</h2>
         <p style={textStyle}>This page provides detailed chart information for a selected cryptocurrency:</p>
         <ul style={textStyle}>
@@ -53,14 +67,9 @@ const Page3 = () => {
           <li><strong>Volume (24h):</strong> The total value of all transactions for this cryptocurrency over the past 24 hours.</li>
           <li><strong>Circulating Supply:</strong> The amount of cryptocurrency that is currently circulating in the market and available to the public.</li>
           <li><strong>Change 7d:</strong> The percentage change in the cryptocurrency's price over the last week.</li>
-          <li><strong>Stop Loss/Take Profit:</strong> Stop-Loss and Take-Profit are conditional orders that automatically place a mark or limit order when the mark price reaches a trigger price specified by the trader. If the mark price reaches or exceeds the trigger price, the Stop-Loss/Take-Profit order will be converted to a live order and placed in the order book</li>
-          <li><strong>Fully Diluted Valuation:</strong> The valuation of the cryptocurrency after assuming all tokens in the total supply are issued and in circulation. Here's the formula for a cryptocurrency's fully diluted valuation:
-Fully Diluted Valuation (FDV)
-=
-Maximum Supply
-x
-Current Price per Coin/Token
-Fully Diluted Valuation (FDV)=Maximum Supply x Current Price per Coin/Token</li>
+          <li><strong>Stop Loss/Take Profit:</strong> Conditional orders that automatically place a mark or limit order when the mark price reaches a trigger price specified by the trader. If the mark price reaches or exceeds the trigger price, the Stop-Loss/Take-Profit order will be converted to a live order and placed in the order book</li>
+          <li><strong>Fully Diluted Valuation:</strong> The valuation of the cryptocurrency after assuming all tokens in the total supply are issued and in circulation.
+Fully Diluted Valuation (FDV)=Maximum Supply x Current Price per Coin</li>
         </ul>
         <Image
           src="/images/page3image-1.png"
@@ -78,14 +87,13 @@ Fully Diluted Valuation (FDV)=Maximum Supply x Current Price per Coin/Token</li>
           </Link>
         </div>
       </div>
-      <div style={rightImageStyle}>
-        <Image
-          src="/images/backgroundimage.png"
-          alt="Background"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-        />
+      </div>
+      <div style={rightImageContainerStyle}>
+      <img
+        src="/images/bull.png"
+        alt="Background"
+        style={rightImageStyle}
+      />
       </div>
     </div>
   );
