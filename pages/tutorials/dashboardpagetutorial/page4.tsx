@@ -5,7 +5,7 @@ import Image from 'next/image';
 const VideoComponent = () => {
   return (
     <video width="620" height="440" controls>
-      <source src="/videotutorial.mp4" type="video/mp4" />
+      <source src="/videotutorial2.mp4" type="video/mp4" />
     </video>
   );
 };

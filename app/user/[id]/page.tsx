@@ -2,6 +2,8 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import prisma from "@/server/prisma";
 import TableClient from "@/app/components/TableClient";
+import InfoButton from "/tutorials/portfoliopageinfobutton"; 
+import InfoModal from "/tutorials/portfoliopageinfobutton"; 
 
 interface Props {
   params: { id: number };
@@ -28,6 +30,10 @@ const OwnedCrypto = async ({ params: { id } }: Props) => {
     },
   });
 
+  const handleInfoButtonClick = (section: string) => {
+    setCurrentSection(section);
+    setIsModalOpen(true);
+
   return (
     <>
       <table className="table table-striped table-bordered">
@@ -41,9 +47,13 @@ const OwnedCrypto = async ({ params: { id } }: Props) => {
             <td>P/L</td>
           </tr>
         </thead>
-
-        <TableClient cryptos={cryptos} cryptosOwned={ownedCrypto} />
+        <TableClient cryptos={cryptos} cryptosOwned={ownedCrypto} onInfoClick={handleInfoButtonClick} />
       </table>
+      <InfoModal
+        isOpen={isModalOpen}
+        section={currentSection}
+        onClose={() => setIsModalOpen(false)}
+      />
     </>
   );
 };

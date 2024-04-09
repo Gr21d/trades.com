@@ -948,7 +948,8 @@ function Details(props) {
                                 ${realTimePrice !== null ? realTimePrice : 'Loading...'}
                               </p>
                               <p style={{ color: 'black', fontSize: '15px' }}>
-                                Balance: ${portfolio.portfolio.balance !== null ? portfolio.portfolio.balance : 'Loading...'}
+                                Balance: ${portfolio ? (portfolio.portfolio.balance !== null ? portfolio.portfolio.balance : 'Loading...') : 'Loading...'}
+
                               </p>
                             </div>
                             <div className="crypto-stats">
@@ -1031,6 +1032,7 @@ function Details(props) {
                           <div className="volume-info">
                             <p>Market Cap: </p>
                             <Image src={information} width={20} height={20}></Image>
+                            <InfoButton section="market-cap" onClick={handleInfoButtonClick} />
                           </div>
 
                           <div className="crypto-stats-details">
@@ -1058,11 +1060,15 @@ function Details(props) {
                             </p>
                           )}
                         </div>
+                        const CryptoStatsComponent = () => {
+                        const [isModalOpen, setIsModalOpen] = useState(false);
+                        const [currentSection, setCurrentSection] = useState('');
                         <hr className='hey'/>
                         <div className="crypto-stats-details">
                           <div className="volume-info">
                             <p>Volume (24h): </p>
                             <Image src={information} width={20} height={20}></Image>
+                            <InfoButton section="market-cap" onClick={handleInfoButtonClick} />
                           </div>
                           {cryptoDetails.market_data.price_change_percentage_24h >= 0 ? (
                             <p>
@@ -1164,8 +1170,13 @@ function Details(props) {
                           <p><b>${cryptoDetails.market_data.fully_diluted_valuation.usd.toLocaleString()}</b></p>
                         </div>
                     </div>
-                  </div>
+                  </div>  
               )}
+              <InfoModal
+        isOpen={isModalOpen}
+        section={currentSection}
+        onClose={() => setIsModalOpen(false)}
+      />
           </div>
         </div>
         <Footer/>

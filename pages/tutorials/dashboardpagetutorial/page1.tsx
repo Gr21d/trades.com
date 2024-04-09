@@ -80,10 +80,10 @@ const Page1 = () => {
             </li>
           </ul>
           <Image
-            src="/images/page1image.png"
+            src="/images/page1image-3.png"
             alt=" "
-            width={500} 
-            height={350} 
+            width={150} 
+            height={250} 
             layout="intrinsic"
           />
           <Link href="/tutorials/dashboardpagetutorial/page2" passHref>

@@ -55,7 +55,7 @@ const Page2 = () => {
           <li><strong>C:</strong> The closing price of the cryptocurrency in the selected time frame.</li>
         </ul>
         <Image
-            src="/images/page2image.png"
+            src="/images/page2image-2.png"
             alt=" "
             width={500} 
             height={200} 
