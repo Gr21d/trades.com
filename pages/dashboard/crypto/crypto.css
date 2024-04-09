@@ -12,6 +12,7 @@
 
 .amk{
   height: 100vh;
+  background-color: white;
 }
 
 .chart-scrollable-container{
@@ -21,27 +22,33 @@
 
 
 .list-name{
-  color: gray;
+  color: rgb(169,175,187);
   font-weight: bold;
   position: absolute;
   max-height: 10px;
   margin-left: 20px;
+  margin-top: 10px;
 }
 
 .list-name p{
   font-size: 15px;
+  width: 1720px;
+  padding: 8px;
+  border-bottom: 1px solid rgb(241,244,246);
 }
+
 .list-crypto-flex{
   display: flex;
   align-items: center;
   gap: 2px;
 }
 
+/* 
 .list-name p:hover{
   color: rgb(32, 64, 60);
   transition: ease-in-out 0.5s;
   border-bottom: 2px solid rgb(32, 64, 60);
-}
+} */
 
 .chart{
   margin-top: 80px;
@@ -98,7 +105,7 @@
 }
 .crypto{
   overflow-y: auto;
-  margin-top: 50px;
+  margin-top: 70px;
   max-height: 90%;
   -ms-overflow-style: none; 
   scrollbar-width: none; 
@@ -114,7 +121,7 @@
 
 .rwd-table1 {
   margin: auto;
-  max-width: 90%;
+  width: 300px;
   height: 100%;
   border-collapse: collapse;
 }
@@ -137,7 +144,8 @@
 .logoooo{
   opacity: 0.1;
   position: absolute;
-  margin-left: 250px;
+  margin-left: 200px;
+  /* margin-top: 200px; */
   z-index: 1;
 
 }
@@ -160,13 +168,13 @@
   color: rgb(169,175,187);
   font-weight: bold;
   margin-bottom: 130px;
-  margin-top: 20px;
+  margin-top: 15px;
   margin-left: 420px;
   width: 50%;
   display: flex;
   gap: 20px;
   z-index: 15;
-  border-bottom: 2px solid rgb(205, 206, 207);
+  /* border-bottom: 2px solid rgb(205, 206, 207); */
 }
 .chart-name p{
   font-size: 15px;
@@ -222,6 +230,10 @@
   /* gap: 10px; */
   
 }
+
+.crypto-stat-details{
+  position: relative;
+}
 .progress-bar {
   width: 300px;
   height: 5px;
@@ -232,9 +244,9 @@
   position: relative;
 }
 
-.rwd-table1 .name-column {
+/* .rwd-table1 .name-column {
   width: 10px;
-}
+} */
 
 .progress {
   height: 100%;
@@ -492,13 +504,13 @@
 }
 
 .crypto-details {
-  background-color: rgba(23, 23, 23, 1);
+  background-color: white;
   background: transparent;
   height: 900px;
   color: black;
   width: 380px;
   border-right: 1px solid rgb(241,244,246);
-  border-bottom: 1px solid rgb(241,244,246);
+  /* border-bottom: 1px solid rgb(241,244,246); */
   border-left: 1px solid rgb(241,244,246);
   overflow: hidden;
 }
@@ -554,7 +566,7 @@
 
 .chart-layout{
   height: 901px;
-  border-bottom: 1px solid rgb(241,244,246);
+  /* border-bottom: 1px solid rgb(241,244,246); */
 }
 
 .chart-container{

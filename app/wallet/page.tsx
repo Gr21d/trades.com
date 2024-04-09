@@ -17,6 +17,8 @@ import BiggestLose from "./components/BiggestLose";
 import HistoryChart from "./components/HistoryChart";
 import PerformanceChart from "./components/PerformanceChart";
 import Header from "../components/header";
+import Footer from "../components/footer";
+
 interface Crypto {
   id: number;
   symbol: string;
@@ -240,6 +242,8 @@ const OwnedCrypto = () => {
           </div>
         </div>
       )}
+
+      <Footer />
     </div>
   );
 };

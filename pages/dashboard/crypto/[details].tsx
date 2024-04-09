@@ -943,7 +943,7 @@ function Details(props) {
           <div className="chart-name">
                 <p>Chart</p>
                 <p>About</p>
-                <p>Trending</p>
+                {/* <p>Trending</p> */}
               </div>
           <div className="chart-scrollable-container">
             <div className="chart-layout">
@@ -1073,6 +1073,13 @@ function Details(props) {
                           </div>
                       </div>
                         <div className="sticky">
+
+                        <div className="crypto-stats-details">
+                        <div className="volume-info" style={{ position: "sticky", top: "0", zIndex: "6" }}>
+                          <p style={{ fontSize: "20px", borderBottom: "1px solid rgb(241,244,246)", paddingBottom: "10px", width: "340px", color: "rgb(169,175,187)", fontWeight: 'bold'}}>About</p>
+                        </div>
+                        </div>
+                          
                         <div className="crypto-stats-details">
                           <div className="volume-info">
                             <p>Market Cap: </p>
