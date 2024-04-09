@@ -1,6 +1,9 @@
 "use client";
+
 import { useEffect } from "react";
+
 import DynamicCellPL from "./DynamicCellPL";
+
 import "bootstrap/dist/css/bootstrap.css";
 
 interface Props {
@@ -22,6 +25,7 @@ interface Props {
   }[];
   decodedToken: number;
 }
+
 const TableClient = ({
   cryptos,
   cryptosOwned,
@@ -31,7 +35,9 @@ const TableClient = ({
   const fetchLogos = async () => {
     cryptos.forEach;
   };
+
   useEffect(() => {}, []);
+
   return (
     <>
       <tbody>
@@ -48,15 +54,15 @@ const TableClient = ({
               <th>
                 {cryptos
                   .filter((c) => c.id == cryptoOwned.cryptoId)
-                  .map((c) => c.symbol)}
+                  .map((c) => c.name)}
               </th>
               <td className="align-items-center">
                 {cryptos
                   .filter((c) => c.id == cryptoOwned.cryptoId)
-                  .map((c) => c.name)}
+                  .map((c) => c.symbol)}
               </td>
               <td>{cryptoOwned.quantity}</td>
-              <td  className="align-items-center">
+              <td className="align-items-center">
                 $
                 {prices
                   .filter((price) =>

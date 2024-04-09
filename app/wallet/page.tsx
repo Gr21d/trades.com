@@ -123,21 +123,26 @@ const OwnedCrypto = () => {
       {loading == 0 && (
         <div className="container-fuid">
           <div className="portfolio-area">
-            <div className="left-area">left</div>
-
+            <div className="left-area">
+              <h6 style={{color: "black", fontWeight:"bold", marginTop: "10px"}}>My Portfolio</h6>
+            </div>
             <div className="right-area">
-              <div className="row d-flex flex-row justify-content-between align-items-center mx-2">
-                <div className="col">
-                  <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
-                    <TotalFundsCard
+            <div className="titleasd">
+            <h6 style={{color: "black", fontWeight:"bold", marginTop: "10px"}}>My Portfolio</h6>
+              <div className="show-charts">
+                <div>showcharts</div>
+              </div>
+              </div>
+
+            <TotalValueCard
                       cryptos={cryptos}
                       cryptosOwned={ownedCrypto}
                       decodedToken={decodedToken}
+                      prices={prices}
                     />
-                  </div>
-                </div>
-                <div className="col">
-                  <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
+              <div className="realtimedatas">
+                <div className="col1">
+                  <div className="width">
                     <TotalProfitsCard
                       cryptos={cryptos}
                       cryptosOwned={ownedCrypto}
@@ -146,18 +151,8 @@ const OwnedCrypto = () => {
                     />
                   </div>
                 </div>
-                <div className="col">
-                  <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
-                    <TotalValueCard
-                      cryptos={cryptos}
-                      cryptosOwned={ownedCrypto}
-                      decodedToken={decodedToken}
-                      prices={prices}
-                    />
-                  </div>
-                </div>
-                <div className="col">
-                  <div className="d-flex flex-row align-items-center justify-content-center mb-3 ms-3">
+                <div className="col1">
+                  <div className="width">
                     <BiggestEarner
                       cryptos={cryptos}
                       cryptosOwned={ownedCrypto}
@@ -166,8 +161,8 @@ const OwnedCrypto = () => {
                     />
                   </div>
                 </div>
-                <div className="col">
-                  <div className="d-flex flex-row align-items-center justify-content-start mb-3 ms-3">
+                <div className="col1">
+                  <div className="width">
                     <BiggestLose
                       cryptos={cryptos}
                       cryptosOwned={ownedCrypto}
@@ -178,7 +173,7 @@ const OwnedCrypto = () => {
                 </div>
                 <div
                   className="col d-flex flex-row align-items-center justify-content-start"
-                  style={{ height: 142.2 }}
+                  style={{ height: "100"}}
                 >
                   <SendButton
                     coins={cryptos
@@ -196,14 +191,14 @@ const OwnedCrypto = () => {
                   <WithdrawButton token={decodedToken} />
                 </div>
               </div>
-              <div className="row">
-                <div className="col mb-3" style={{ height: "390px" }}>
+              <div className="row amk">
+                <div className="col mb-3" style={{ height: "100%" }}>
                   <HistoryChart />
                 </div>
-                <div className="col mb-3" style={{ height: "390px" }}>
+                <div className="col mb-3" style={{ height: "100%" }}>
                   <PerformanceChart />
                 </div>
-                <div className="col mb-3" style={{ height: "390px" }}>
+                <div className="col mb-3" style={{ height: "100%" }}>
                   <Chart
                     cryptos={cryptos}
                     cryptosOwned={ownedCrypto}
@@ -212,6 +207,7 @@ const OwnedCrypto = () => {
                   />
                 </div>
               </div>
+              <h6 style={{color: "black", fontWeight:"bold", marginTop: "10px"}}>Assets</h6>
 
               <div className="row mx-2">
                 <table
@@ -223,25 +219,25 @@ const OwnedCrypto = () => {
                     margin: "auto",
                   }}
                 >
-                  <thead>
-                    <tr>
-                      <td></td>
-                      <td>
-                        Symbol
-                      </td>
-                      <td>
-                        Name
-                      </td>
-                      <td>
-                        Holdings
-                      </td>
-                      <td>
-                        Current Price
-                      </td>
-                      <td>Value</td>
-                      <td>P/L</td>
-                    </tr>
-                  </thead>
+                <thead>
+                  <tr>
+                    <td></td>
+                    <td>
+                      Name
+                    </td>
+                    <td>
+                      Symbol
+                    </td>
+                    <td>
+                      Holdings
+                    </td>
+                    <td>
+                      Current Price
+                    </td>
+                    <td>Value</td>
+                    <td>P/L</td>
+                  </tr>
+                </thead>
 
                   <TableClient
                     cryptos={cryptos}

@@ -25,16 +25,17 @@ const TotalFundsCard = ({ cryptos, cryptosOwned, decodedToken }: Props) => {
   )[0];
   return (
     <Card
-      style={{ width: "18rem", height: 125.2 }}
+      style={{ width: "200px", height: 100 }}
       className="bg-white text-dark text-center react-card"
     >
       <Card.Body>
+      <Card.Text>Total Balance</Card.Text>
+
         <Card.Title>
           {funds
             ? "$" + parseFloat(funds.quantity.toFixed(2)).toLocaleString()
             : "$0"}
         </Card.Title>
-        <Card.Text>Total Balance</Card.Text>
       </Card.Body>
     </Card>
   );

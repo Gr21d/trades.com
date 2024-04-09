@@ -69,15 +69,9 @@ const TotalFundsCard = ({
       .map((m) => m.quantity)[0];
   }
   return (
-    <Card
-      style={{ width: "18rem", height: 125.2 }}
-      className="bg-white text-dark text-center react-card"
-    >
-      <Card.Body>
-        <Card.Title>${value}</Card.Title>
-        <Card.Text>Total Value of Portfolio</Card.Text>
-      </Card.Body>
-    </Card>
+    <div className="realtimeprice">
+      <p className="realtimepriceval">${value}</p>
+    </div>
   );
 };
 
