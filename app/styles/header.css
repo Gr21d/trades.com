@@ -1,52 +1,56 @@
-.header {
+.header-header-container {
   background-color: white;
   padding: 1.25rem 0;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
   border: 1px solid rgb(241,244,246);
-  color: black;
-
+  /* margin-bottom: 10px; */
 }
 
 
 #web-title{
-  color: black;
   font-size: 20px;
   text-decoration: none;
 }
 
-.container {
+.container-container {
+  background-image: linear-gradient(to bottom, rgb(71, 32, 32), rgba(23, 48, 35, 0.5));
   max-width: 100%;
   margin: 0 auto;
   padding: 0 1.25rem;
   align-items: center;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .header-content {
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* gap: 55rem; */
+  gap: 100%
 }
 
-.logo-title{
+.logo-title-title{
   display: flex;
   align-items: center;
   gap: 10px;
   color: black;
+  justify-content: center;
   
 }
 
-.logo-title h1 {
+.logo-title-title p {
   text-decoration: none;
+  margin: 0;
 }
 
 .logo img {
   height: 2.5rem;
   width: auto;
 }
-
+.navigation{
+  display: flex;
+  justify-content: left;
+}
 .navigation ul {
   list-style: none;
   padding: 0;
@@ -73,3 +77,4 @@
 .navigation ul li a:hover {
   color: rgb(52, 146, 80);
 }
+

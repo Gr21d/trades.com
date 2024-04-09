@@ -48,7 +48,8 @@ const AddPostForm = () => {
     }
   };
   return (
-    <body><Header/>
+    <body>
+      <Header type="blog"/>
       <div className='blog-area'>
       <h2>Add a New Post</h2>
       {message && <p className="message">{message}</p>}

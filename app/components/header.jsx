@@ -1,16 +1,16 @@
 import React from "react";
 import '../styles/header.css';
 import Image from "next/image";
-import Link from "next/link";
+import Link from 'next/link';
 
 function Header(props) {
   return (
-    <header className="header">
-      <div className="container">
+    <div className="header-header-container">
+      <div className="container-container">
         <div className="header-content">
           <div className="logo">
             <Link href="/">
-              <div className="logo-title">
+              <div className="logo-title-title">
                 <Image src="/images/iconBull.png" alt="Logo" width={97} height={92} />
                 <p id="web-title">Trades.com</p>
               </div>
@@ -20,7 +20,7 @@ function Header(props) {
             <ul>
               {props.type !== "portfolio" && (
                 <li>
-                  <Link href="/portfolio">Portfolio</Link>
+                  <Link href="/wallet">Portfolio</Link>
                 </li>
               )}
               {props.type !== "dashboard" && (
@@ -42,7 +42,7 @@ function Header(props) {
           </nav>
         </div>
       </div>
-    </header>
+    </div>
   );
 }
 

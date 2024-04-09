@@ -213,49 +213,82 @@ function Details(props) {
     const handleBuyClick = async () => {
       if (window.confirm('Do you want to buy this crypto?')) {
         try {
-
-          console.log('Investorid',decodedToken.investorId)
-          console.log('portfolioid',decodedToken.portfolioId)
-          console.log(realTimePrice)
-          console.log(buyAmount)
-          console.log(cryptoSymbol.toLowerCase())
-
-          
+          console.log('Investorid', decodedToken.investorId);
+          console.log('portfolioid', decodedToken.portfolioId);
+          console.log(realTimePrice);
+          console.log(buyAmount);
+          console.log(cryptoSymbol.toLowerCase());
+    
+          // Input validations
+          if (buyAmount <= 0 && buyAmount !== undefined) {
+            console.error('Invalid buyAmount', buyAmount);
+            alert('Buy amount must be greater than zero.');
+            return;
+          }
+    
+          if (!cryptoSymbol || cryptoSymbol.trim() === '') {
+            console.error('Empty cryptoSymbol');
+            alert('Please provide a valid crypto symbol.');
+            return;
+          }
+    
+          if (realTimePrice <= 0) {
+            console.error('Invalid realTimePrice', realTimePrice);
+            alert('Real-time price must be greater than zero.');
+            return;
+          }
+    
+          if (!decodedToken.investorId || !decodedToken.portfolioId) {
+            console.error('Missing investorId or portfolioId');
+            alert('Investor ID and Portfolio ID are required.');
+            return;
+          }
+    
           const response = await axios.post('/api/dashboard/transaction', {
+            name: cryptoDetails.name,
             type: 'BUY',
             amount: buyAmount,
             investorId: decodedToken.investorId,
             portfolioId: decodedToken.portfolioId,
             currentPrice: realTimePrice,
+            priceBought: realTimePrice,
             cryptoSymbol: cryptoSymbol.toLowerCase(),
-
-          })
-
-          if (response.status !== 200){
-            throw new Error('Failed to create transaction')
+          });
+    
+          if (response.status !== 200) {
+            throw new Error('Failed to create transaction');
           }
-
+    
+          // Handle unexpected API response format
+          if (!response.data.transactionId || !response.data.cryptoPortfolioOwned || !response.data.cryptoPortfolioOwned.id) {
+            console.error('Unexpected API response format', response.data);
+            alert('An error occurred while processing the transaction.');
+            return;
+          }
+    
           setBuyAmount(0.00);
           setTransactionId(response.data.transactionId);
-          alert(`Transaction successful bought at: ${realTimePrice}`)
-          setIdPortfolioCrypto(response.data.cryptoPortfolioOwned.id);
-          if(isStopped){
+          alert(`Transaction successful bought at: ${realTimePrice}`);
+          setPortfolio(response.data.cryptoPortfolioOwned.id);
+    
+          if (isStopped) {
             const response = await axios.post('/api/dashboard/limit', {
               orderId: transactionId,
               currentPrice: realTimePrice,
-            })
-            if (response.status !== 200){
-              throw new Error('Failed to create transaction')
+            });
+    
+            if (response.status !== 200) {
+              throw new Error('Failed to create transaction');
             }
-            alert('Transaction stopped')
+    
+            alert('Transaction stopped');
           }
-
-        }  catch (error) {
+        } catch (error) {
           console.error('Error buying crypto', error);
-          // alert('Error buying crypto');
+          // alert('An error occurred while buying crypto. Please try again.');
         }
       }
-    }
+    };
 
     const stop = async () => {
       try {
@@ -716,6 +749,10 @@ function Details(props) {
 
     const buybutton = document.getElementsByClassName('buy-button')[0];
     const sellbutton = document.getElementsByClassName('sell-button')[0];
+
+    const buyInput = document.getElementsByClassName('buyInput')[0];
+    const sellInput = document.getElementsByClassName('sellInput')[0];
+
     const header = document.getElementsByClassName('header-element')[0];
   
     buy.style.backgroundColor = 'white';
@@ -724,6 +761,9 @@ function Details(props) {
     shortbtn.style.display = 'none';
     buybutton.style.display = 'block';
     sellbutton.style.display = 'none';
+
+    buyInput.style.display = 'block';
+    sellInput.style.display = 'none';
     // buy.style.width = '100%';
     // buy.style.textAlign = 'center';
   };
@@ -737,12 +777,18 @@ function Details(props) {
     const buybutton = document.getElementsByClassName('buy-button')[0];
     const sellbutton = document.getElementsByClassName('sell-button')[0];
 
+    const buyInput = document.getElementsByClassName('buyInput')[0];
+    const sellInput = document.getElementsByClassName('sellInput')[0];
+
     buy.style.backgroundColor = 'rgb(241,244,246)';
     sell.style.backgroundColor = 'white';
     buybtn.style.display = 'none';
     shortbtn.style.display = 'block';
     buybutton.style.display = 'none';
     sellbutton.style.display = 'block';
+
+    buyInput.style.display = 'none';
+    sellInput.style.display = 'block';
   } 
 
   const handleCryptoClick = (cryptoName) => {
@@ -826,6 +872,7 @@ function Details(props) {
       if (window.confirm('Do you want to short sell this crypto?')) {
         try {
           const response = await axios.post('/api/dashboard/transaction', {
+            name: cryptoDetails.name,
             type: 'SHORT_SELL',
             amount: shortSellAmount,
             investorId: decodedToken.investorId,
@@ -898,7 +945,7 @@ function Details(props) {
           <div className="chart-name">
                 <p>Chart</p>
                 <p>About</p>
-                <p>Trending</p>
+                {/* <p>Trending</p> */}
               </div>
           <div className="chart-scrollable-container">
             <div className="chart-layout">
@@ -1014,7 +1061,8 @@ function Details(props) {
                                   </div>
                                   <div className="total-spent">
                                     <p className="total-label">Total Spent</p>
-                                    <p className="total-label">${buyAmount * realTimePrice}</p>
+                                    <p className="total-label buyInput">${buyAmount * realTimePrice}</p>
+                                    <p className="total-label sellInput">${shortSellAmount * realTimePrice}</p>
                                   </div>
                                 </div>
                                 <div className="detail-input">
@@ -1028,6 +1076,13 @@ function Details(props) {
                           </div>
                       </div>
                         <div className="sticky">
+
+                        <div className="crypto-stats-details">
+                        <div className="volume-info" style={{ position: "sticky", top: "0", zIndex: "6" }}>
+                          <p style={{ fontSize: "20px", borderBottom: "1px solid rgb(241,244,246)", paddingBottom: "10px", width: "340px", color: "rgb(169,175,187)", fontWeight: 'bold'}}>About</p>
+                        </div>
+                        </div>
+                          
                         <div className="crypto-stats-details">
                           <div className="volume-info">
                             <p>Market Cap: </p>
