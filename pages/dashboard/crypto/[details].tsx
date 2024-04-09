@@ -995,8 +995,7 @@ function Details(props) {
                                 ${realTimePrice !== null ? realTimePrice : 'Loading...'}
                               </p>
                               <p style={{ color: 'black', fontSize: '15px' }}>
-                                Balance: ${portfolio ? (portfolio.portfolio.balance !== null ? portfolio.portfolio.balance : 'Loading...') : 'Loading...'}
-
+                                Balance: ${portfolio.portfolio.balance !== null ? portfolio.portfolio.balance : 'Loading...'}
                               </p>
                             </div>
                             <div className="crypto-stats">
@@ -1076,7 +1075,6 @@ function Details(props) {
                           </div>
                       </div>
                         <div className="sticky">
-
                         <div className="crypto-stats-details">
                         <div className="volume-info" style={{ position: "sticky", top: "0", zIndex: "6" }}>
                           <p style={{ fontSize: "20px", borderBottom: "1px solid rgb(241,244,246)", paddingBottom: "10px", width: "340px", color: "rgb(169,175,187)", fontWeight: 'bold'}}>About</p>
@@ -1087,9 +1085,7 @@ function Details(props) {
                           <div className="volume-info">
                             <p>Market Cap: </p>
                             <Image src={information} width={20} height={20}></Image>
-                            <InfoButton section="market-cap" onClick={handleInfoButtonClick} />
                           </div>
-
                           <div className="crypto-stats-details">
                         </div>
                           {cryptoDetails.market_data.market_cap_change_percentage_24h >= 0 ? (
@@ -1100,8 +1096,6 @@ function Details(props) {
                                   <p style={{ color: '#16c784' }}><b>{cryptoDetails.market_data.market_cap_change_percentage_24h.toFixed(2)}%</b></p>
                                 </div>
                                 <b>${cryptoDetails.market_data.market_cap.usd.toLocaleString()}</b>
-
-
                               </div>
                             </p>
                           ) : (
@@ -1110,20 +1104,15 @@ function Details(props) {
                                 <div className="stat-flex">
                                 <Image src="/down.png" height={15} width={15}></Image> <p style={{ color: '#ea3943' }}><b>{cryptoDetails.market_data.market_cap_change_percentage_24h.toFixed(2)}%</b></p> <b>${cryptoDetails.market_data.market_cap.usd.toLocaleString()}</b>
                                 </div>
-
                               </div>
                             </p>
                           )}
                         </div>
-                        const CryptoStatsComponent = () => {
-                        const [isModalOpen, setIsModalOpen] = useState(false);
-                        const [currentSection, setCurrentSection] = useState('');
                         <hr className='hey'/>
                         <div className="crypto-stats-details">
                           <div className="volume-info">
                             <p>Volume (24h): </p>
                             <Image src={information} width={20} height={20}></Image>
-                            <InfoButton section="market-cap" onClick={handleInfoButtonClick} />
                           </div>
                           {cryptoDetails.market_data.price_change_percentage_24h >= 0 ? (
                             <p>
@@ -1158,15 +1147,12 @@ function Details(props) {
                           </div>
                           <p style={{ marginRight: 20 }}>{supplyPercentage}%</p>
                         </div>
-
                         <hr className='hey'/>
-
                         <div className="crypto-stats-details">
                           <p>Total Supply: </p>
                           <p><b>{cryptoDetails.market_data.total_supply} {cryptoSymbol}</b></p>
                         </div>
                         <hr className='hey'/>
-
                         {cryptoDetails.market_data.price_change_24h >= 0 ? (
                           <div className="crypto-stats-details">
                             <p>Change 24h:</p>
@@ -1193,7 +1179,6 @@ function Details(props) {
                           </div>
                         )}
                         <hr className='hey'/>
-
                         {cryptoDetails.market_data.price_change_percentage_7d >= 0 ? (
                           <div className="crypto-stats-details">
                             <p>Change 7d:</p>
@@ -1225,13 +1210,8 @@ function Details(props) {
                           <p><b>${cryptoDetails.market_data.fully_diluted_valuation.usd.toLocaleString()}</b></p>
                         </div>
                     </div>
-                  </div>  
+                  </div>
               )}
-              <InfoModal
-        isOpen={isModalOpen}
-        section={currentSection}
-        onClose={() => setIsModalOpen(false)}
-      />
           </div>
         </div>
         <Footer/>
@@ -1239,5 +1219,4 @@ function Details(props) {
     );
     
 }
-
 export default Details;
