@@ -13,6 +13,7 @@ import Image from 'next/image';
 
 import information from '../../.././public/information.png';
 
+
 import Header from '../../../app/components/Header';
 import Footer from '../../../app/components/Footer';
 

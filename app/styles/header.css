@@ -6,6 +6,8 @@
   justify-content: space-between;
   width: 100vw;
   /* margin-bttom: 10px; */
+  overflow-x: hidden;
+  
 }
 
 
@@ -26,7 +28,7 @@
 
 .header-content {
   /* margin-left: 20px; */
-  width: 1300px;
+  width: 1200px;
   display: flex;
   align-items: center;
   justify-content: space-between;

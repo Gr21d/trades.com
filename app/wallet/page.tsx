@@ -193,18 +193,18 @@ const OwnedCrypto = () => {
               </div>
               <div className="row amk">
                 <div className="col mb-3" style={{ height: "100%" }}>
-                  <HistoryChart />
-                </div>
-                <div className="col mb-3" style={{ height: "100%" }}>
-                  <PerformanceChart />
-                </div>
-                <div className="col mb-3" style={{ height: "100%" }}>
                   <Chart
                     cryptos={cryptos}
                     cryptosOwned={ownedCrypto}
                     decodedToken={decodedToken}
                     prices={prices}
                   />
+                </div>
+                <div className="col mb-3" style={{ height: "100%" }}>
+                  <HistoryChart />
+                </div>
+                <div className="col mb-3" style={{ height: "100%" }}>
+                  <PerformanceChart />
                 </div>
               </div>
               <h6 style={{color: "black", fontWeight:"bold", marginTop: "10px"}}>Assets</h6>
