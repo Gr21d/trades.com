@@ -121,7 +121,7 @@
 
 .rwd-table1 {
   margin: auto;
-  width: 300px;
+  width: 100px;
   height: 100%;
   border-collapse: collapse;
 }
@@ -729,5 +729,6 @@ h3:after {
 .trading-area{
   display: flex;
   justify-content: space-between;
+  width: 100vw;
   /* border: 2px solid rgb(241,244,246); */
 }
