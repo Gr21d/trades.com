@@ -1,5 +1,6 @@
 .blog-area {
   max-width: 600px;
+  height: 60vh;
   margin: 0 auto;
   padding: 20px;
   background-color: rgb(244, 240, 232);
@@ -15,13 +16,13 @@
   .add-post-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    
+    gap: 30px;
   }
   
   body
   {
     background: white;
-    overflow: hidden;
     margin: 0%;
   }
   
@@ -50,7 +51,7 @@
   
   .form-textarea {
     resize: vertical;
-    height: 150px;
+    height: 400px;
   }
   
   .submit-btn {

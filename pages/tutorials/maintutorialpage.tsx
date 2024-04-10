@@ -24,7 +24,7 @@ const Page1 = () => {
 
   const leftContainerStyle: React.CSSProperties = {
     background: 'linear-gradient(to right, #FFF, #FFF)', 
-    color: 'white',
+    color: 'black',
     fontFamily: '"Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
     padding: '50px',
     display: 'flex',
@@ -48,7 +48,7 @@ const Page1 = () => {
   };
 
   const contentBoxStyle: React.CSSProperties = {
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: 'rgba(0, 0, 0, 0)',
     borderRadius: '0',
     padding: '20px',
     margin: '0 0 20px 0',
@@ -94,7 +94,7 @@ const Page1 = () => {
           </div>
         </div>
         <div style={rightImageContainerStyle}>
-          <img src="/images/bull.png" alt="Background" style={rightImageStyle} />
+          <img src="/images/Project.jpg" alt="Background" style={rightImageStyle} />
         </div>
       </main>
       <Footer />

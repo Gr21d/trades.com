@@ -119,7 +119,13 @@ function MyComponent() {
   
   return (
     <div className='App'>
-      <img src={robotPNG} onClick={handleButtonClick} />
+      <img src={robotPNG} onClick={handleButtonClick}  style={{
+        height:"35px",
+        width:"35px",
+        marginRight:"0.5rem",
+        marginBottom:"2rem",
+    
+      }}   />
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
