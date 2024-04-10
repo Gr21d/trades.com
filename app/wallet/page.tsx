@@ -18,6 +18,7 @@ import HistoryChart from "./components/HistoryChart";
 import PerformanceChart from "./components/PerformanceChart";
 import Header from "../components/header";
 import Footer from "../components/footer";
+import ClickableInfo from "./components/HoverableInfo";
 
 interface Crypto {
   id: number;
@@ -124,22 +125,39 @@ const OwnedCrypto = () => {
         <div className="container-fuid">
           <div className="portfolio-area">
             <div className="left-area">
-              <h6 style={{color: "black", fontWeight:"bold", marginTop: "10px"}}>My Portfolio</h6>
+              <h6
+                style={{
+                  color: "black",
+                  fontWeight: "bold",
+                  marginTop: "10px",
+                }}
+              >
+                My Portfolio
+              </h6>
             </div>
             <div className="right-area">
-            <div className="titleasd">
-            <h6 style={{color: "black", fontWeight:"bold", marginTop: "10px"}}>My Portfolio</h6>
-              <div className="show-charts">
-                <div>showcharts</div>
-              </div>
+              <div className="titleasd">
+                <h6
+                  style={{
+                    color: "black",
+                    fontWeight: "bold",
+                    marginTop: "10px",
+                  }}
+                >
+                  My Portfolio
+                </h6>{" "}
+                <ClickableInfo />
+                <div className="show-charts">
+                  <div>showcharts</div>
+                </div>
               </div>
 
-            <TotalValueCard
-                      cryptos={cryptos}
-                      cryptosOwned={ownedCrypto}
-                      decodedToken={decodedToken}
-                      prices={prices}
-                    />
+              <TotalValueCard
+                cryptos={cryptos}
+                cryptosOwned={ownedCrypto}
+                decodedToken={decodedToken}
+                prices={prices}
+              />
               <div className="realtimedatas">
                 <div className="col1">
                   <div className="width">
@@ -173,7 +191,7 @@ const OwnedCrypto = () => {
                 </div>
                 <div
                   className="col d-flex flex-row align-items-center justify-content-start"
-                  style={{ height: "100"}}
+                  style={{ height: "100" }}
                 >
                   <SendButton
                     coins={cryptos
@@ -207,7 +225,15 @@ const OwnedCrypto = () => {
                   <PerformanceChart />
                 </div>
               </div>
-              <h6 style={{color: "black", fontWeight:"bold", marginTop: "10px"}}>Assets</h6>
+              <h6
+                style={{
+                  color: "black",
+                  fontWeight: "bold",
+                  marginTop: "10px",
+                }}
+              >
+                Assets
+              </h6>
 
               <div className="row mx-2">
                 <table
@@ -219,25 +245,17 @@ const OwnedCrypto = () => {
                     margin: "auto",
                   }}
                 >
-                <thead>
-                  <tr>
-                    <td></td>
-                    <td>
-                      Name
-                    </td>
-                    <td>
-                      Symbol
-                    </td>
-                    <td>
-                      Holdings
-                    </td>
-                    <td>
-                      Current Price
-                    </td>
-                    <td>Value</td>
-                    <td>P/L</td>
-                  </tr>
-                </thead>
+                  <thead>
+                    <tr>
+                      <td></td>
+                      <td>Name</td>
+                      <td>Symbol</td>
+                      <td>Holdings</td>
+                      <td>Current Price</td>
+                      <td>Value</td>
+                      <td>P/L</td>
+                    </tr>
+                  </thead>
 
                   <TableClient
                     cryptos={cryptos}
