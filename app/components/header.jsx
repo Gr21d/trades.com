@@ -2,10 +2,10 @@ import React from "react";
 import '../styles/header.css';
 import Image from "next/image";
 import Link from 'next/link';
-import ChatbotButtonWrapper from './ChatbotButtonWrapper.jsx';
+
+import Chatbot from "../../pages/chatbot/runChatbot.jsx";
 
 function Header(props) {
-  const { config, actionProvider, messageParser, saveMessages } = props;
   return (
     <div className="header-header-container">
       <div className="container-container">
@@ -20,14 +20,9 @@ function Header(props) {
           </div>
           <nav className="navigation">
             <ul>
-              {props.type !== "chatbot" && (
+            {props.type !== "chatbot" && (
                 <li>
-                  <ChatbotButtonWrapper
-                    config={config}
-                    actionProvider={actionProvider}
-                    messageParser={messageParser}
-                    saveMessages={saveMessages}
-                  />
+                  <Chatbot />
                 </li>
               )}
               {props.type !== "portfolio" && (
@@ -42,12 +37,12 @@ function Header(props) {
               )}
               {props.type !== "blog" && (
                 <li>
-                  <Link href="/Blog/postBlog">Community</Link>
+                  <Link href="/blog">Community</Link>
                 </li>
               )}
               {props.type !== "tutorial" && (
                 <li>
-                  <Link href="/tutorials/maintutorialpage">Learn</Link>
+                  <Link href="/tutorial">Learn</Link>
                 </li>
               )}
             </ul>
