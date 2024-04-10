@@ -48,7 +48,7 @@ function MyComponent() {
   // console.log(robotPNG);
   return (
     <div className='App'>
-      <img src={robotPNG} onClick={() => toggleBot((prev) => !prev)} />
+      <img src={robotPNG} style={{height: "20px", width: "20px"}} onClick={() => toggleBot((prev) => !prev)} />
       {showBot === true && (
         <Chatbot
           config={config}

@@ -3,6 +3,8 @@ import '../styles/header.css';
 import Image from "next/image";
 import Link from 'next/link';
 
+import Chatbot from "../../pages/chatbot/runChatbot.jsx";
+
 function Header(props) {
   return (
     <div className="header-header-container">
@@ -18,6 +20,11 @@ function Header(props) {
           </div>
           <nav className="navigation">
             <ul>
+            {props.type !== "chatbot" && (
+                <li>
+                  <Chatbot />
+                </li>
+              )}
               {props.type !== "portfolio" && (
                 <li>
                   <Link href="/wallet">Portfolio</Link>

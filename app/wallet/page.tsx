@@ -130,7 +130,20 @@ const OwnedCrypto = () => {
             <div className="titleasd">
             <h6 style={{color: "black", fontWeight:"bold", marginTop: "10px"}}>My Portfolio</h6>
               <div className="show-charts">
-                <div>showcharts</div>
+              <SendButton
+                    coins={cryptos
+                      .filter(
+                        (c) =>
+                          ownedCrypto
+                            .filter((f) => f.portfolioId == decodedToken)
+                            .map((cr) => cr.cryptoId)
+                            .includes(c.id) && c.name != "USD"
+                      )
+                      .map((c) => c.symbol)}
+                    token={decodedToken}
+                  />
+                  <DepositButton token={decodedToken} />
+                  <WithdrawButton token={decodedToken} />
               </div>
               </div>
 
@@ -175,20 +188,6 @@ const OwnedCrypto = () => {
                   className="col d-flex flex-row align-items-center justify-content-start"
                   style={{ height: "100"}}
                 >
-                  <SendButton
-                    coins={cryptos
-                      .filter(
-                        (c) =>
-                          ownedCrypto
-                            .filter((f) => f.portfolioId == decodedToken)
-                            .map((cr) => cr.cryptoId)
-                            .includes(c.id) && c.name != "USD"
-                      )
-                      .map((c) => c.symbol)}
-                    token={decodedToken}
-                  />
-                  <DepositButton token={decodedToken} />
-                  <WithdrawButton token={decodedToken} />
                 </div>
               </div>
               <div className="row amk">
@@ -200,12 +199,12 @@ const OwnedCrypto = () => {
                     prices={prices}
                   />
                 </div>
-                <div className="col mb-3" style={{ height: "100%" }}>
+                {/* <div className="col mb-3" style={{ height: "100%" }}>
                   <HistoryChart />
                 </div>
                 <div className="col mb-3" style={{ height: "100%" }}>
                   <PerformanceChart />
-                </div>
+                </div> */}
               </div>
               <h6 style={{color: "black", fontWeight:"bold", marginTop: "10px"}}>Assets</h6>
 
