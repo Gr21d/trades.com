@@ -42,6 +42,11 @@ npm install sqlite
 ```bash
 npm install react-chatbot-kit
 ```
+### React Modal
+
+```bash
+npm install react-modal
+```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
