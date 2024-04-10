@@ -1,4 +1,60 @@
+// // ChatbotButton.jsx
+
+// import React, { useState } from 'react';
+// import Modal from 'react-modal';
+// import Chatbot from 'react-chatbot-kit'; // adjust the path as needed
+
+// const ChatbotButton = ({ config, actionProvider, messageParser, saveMessages }) => {
+//   const [modalIsOpen, setModalIsOpen] = useState(false);
+//   const [openBot, setOpenBot] = useState(false);
+//   const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+  
+
+//   const handleButtonClick = (event) => {
+//     const rect = event.target.getBoundingClientRect();
+//     setButtonPosition({ x: rect.x, y: rect.y + rect.height });
+//     setModalIsOpen(true);
+//     setOpenBot(true);
+//   };
+
+//   return (
+//     <div>
+//       <img src={robotPNG} onClick={handleButtonClick} />
+//       <Modal
+//         isOpen={modalIsOpen}
+//         onRequestClose={() => setModalIsOpen(false)}
+//         contentLabel="Chatbot Modal"
+//         style={{
+//           content: {
+//             position: 'fixed',
+//             top: `${buttonPosition.y}px`,
+//             left: `${buttonPosition.x}px`,
+//             right: 'auto',
+//             bottom: 'auto',
+//             width: 'fit-content',
+//             height: 'fit-content'
+//           }
+//         }}
+//       >
+//         {openBot && (
+//           <Chatbot
+//             config={config}
+//             actionProvider={actionProvider}
+//             messageHistory={loadMessages}
+//             messageParser={messageParser}
+//             saveMessages={saveMessages}
+//           />
+//         )}
+//       </Modal>
+//     </div>
+//   );
+// };
+
+// export default ChatbotButton;
+
+
 import React, { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 import Chatbot from 'react-chatbot-kit';
 import 'react-chatbot-kit/build/main.css';
 
@@ -46,29 +102,53 @@ function MyComponent() {
     return messages;
   };
   // console.log(robotPNG);
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [openBot, setOpenBot] = useState(false);
+
+  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+
+  const handleButtonClick = (event) => {
+    const rect = event.target.getBoundingClientRect();
+    setButtonPosition({ x: rect.x, y: rect.y + rect.height });
+    setModalIsOpen(true);
+    setOpenBot(true);
+  };
+  
+  // ...
+  
   return (
     <div className='App'>
-      <img src={robotPNG} onClick={() => toggleBot((prev) => !prev)} />
-      {showBot === true && (
-        <Chatbot
-          config={config}
-          actionProvider={actionProvider}
-          messageHistory={loadMessages}
-          messageParser={messageParser}
-          saveMessages={saveMessages}
-        />
-      )}
-      {/* <button onClick={() => toggleBot((prev) => !prev)}>Bot</button> */}
-      
+      <img src={robotPNG} onClick={handleButtonClick} />
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        contentLabel="Chatbot Modal"
+        style={{
+          content: {
+            position: 'fixed',
+            top: `${buttonPosition.y}px`,
+            left: `${buttonPosition.x}px`,
+            right: 'auto',
+            bottom: 'auto',
+            width: 'fit-content',
+            height: 'fit-content'
+          }
+        }}
+      >
+        {openBot && (
+          <Chatbot
+            config={config}
+            actionProvider={actionProvider}
+            messageHistory={loadMessages}
+            messageParser={messageParser}
+            saveMessages={saveMessages}
+          />
+        )}
+      </Modal>
     </div>
   );
-
-  // useEffect(() => {
-  //   console.log(loadMessages());
-  // }, []);
-
-
-
 }
+
 
 export default MyComponent;
