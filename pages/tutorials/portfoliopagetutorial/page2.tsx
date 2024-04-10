@@ -2,12 +2,15 @@ import React from 'react';
 import Link from 'next/link';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
+import Image from 'next/image';
 
-const Page2 = () => {
+
+const Page2 = (props) => {
   const pageContainerStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh', 
+    fontFamily: "Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif",
   };
 
   const contentContainerStyle: React.CSSProperties = {
@@ -83,7 +86,7 @@ const Page2 = () => {
             </div>
           </div>
           <div style={rightImageContainerStyle}>
-            <img
+            <Image
               src="/images/bull.png"
               alt="Bull market representation"
               style={rightImageStyle}

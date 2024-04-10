@@ -4,13 +4,14 @@ import Image from 'next/image';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 
-const Page1 = () => {
+const Page1 = (props) => {
   // Styles for the main layout container
   const layoutStyle: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'centre',
     flexDirection: 'column',
     minHeight: '100vh',
+    fontFamily: "Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif",
   };
 
   // Styles for the main content area

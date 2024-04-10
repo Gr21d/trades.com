@@ -66,11 +66,8 @@ function MyComponent() {
   return (
     <div className='App'>
       <img src={robotPNG} onClick={handleButtonClick} style={{
-        height:"35px",
-        width:"35px",
-        marginRight:"0.5rem",
-        marginBottom:"2rem",
-    
+        height:"25px",
+        width:"25px",    
       }}/>
       <Modal
         isOpen={modalIsOpen}

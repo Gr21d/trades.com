@@ -50,7 +50,7 @@ const TotalFundsCard = ({
         return accumulator;
       }, 0)
       .toFixed(2)
-  ).toLocaleString();
+  )
   if (
     cryptosOwned
       .filter(
@@ -70,7 +70,7 @@ const TotalFundsCard = ({
   }
   return (
     <div className="realtimeprice">
-      <p className="realtimepriceval">${value}</p>
+      <p className="realtimepriceval">${parseFloat(value.toFixed(4)).toLocaleString()}</p>
     </div>
   );
 };

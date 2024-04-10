@@ -154,6 +154,15 @@ const OwnedCrypto = () => {
                       prices={prices}
                     />
               <div className="realtimedatas">
+              <div className="col1">
+                  <div className="width">
+                    <TotalFundsCard
+                      cryptos={cryptos}
+                      cryptosOwned={ownedCrypto}
+                      decodedToken={decodedToken}
+                    />
+                  </div>
+                </div>
                 <div className="col1">
                   <div className="width">
                     <TotalProfitsCard

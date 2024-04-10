@@ -22,10 +22,13 @@ export default async function handler(req, res) {
       console.log('here2');
 
       let cryptocurrency = await prisma.cryptocurrency.findUnique({
-        where: { name: cryptoSymbol },
+        where: { name: name, symbol: cryptoSymbol},
       });
       
-      console.log('here3');
+
+      if(cryptocurrency){
+        console.log('Cryptocurrency found:', cryptocurrency);
+      }
       
       if (!cryptocurrency) {
         cryptocurrency = await prisma.cryptocurrency.create({

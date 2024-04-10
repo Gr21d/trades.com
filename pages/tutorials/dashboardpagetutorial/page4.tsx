@@ -11,11 +11,12 @@ const VideoComponent = () => {
   );
 };
 
-const Page4 = () => {
+const Page4 = (props) => {
   const pageContainerStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
+    fontFamily: "Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif",
   };
 
   const contentContainerStyle: React.CSSProperties = {

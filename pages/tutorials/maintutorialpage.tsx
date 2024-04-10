@@ -8,12 +8,13 @@ const overrideHeaderStyle: React.CSSProperties = {
   backgroundRepeat: 'no-repeat',
 };
 
-const Page1 = () => {
+const Page1 = (props) => {
 
   const pageLayoutStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh', 
+    fontFamily: "Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif",
   };
 
  
@@ -25,7 +26,6 @@ const Page1 = () => {
   const leftContainerStyle: React.CSSProperties = {
     background: 'linear-gradient(to right, #FFF, #FFF)', 
     color: 'black',
-    //fontFamily: '"Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
     padding: '50px',
     display: 'flex',
     flexDirection: 'column',
@@ -82,12 +82,12 @@ const Page1 = () => {
       <main style={mainContentStyle}>
         <div style={leftContainerStyle}>
           <div style={contentBoxStyle}>
-            <h2>Tutorials</h2>
-            <h2>Portfolio Page Tutorial</h2>
+            <p style={{fontSize: "40px"}}>Tutorials</p>
+            <p style={{fontSize: "32px"}}>Portfolio Page Tutorial</p>
             <Link href="/tutorials/portfoliopagetutorial/page1" passHref>
               <span style={nextButtonStyle}>Learn about the Portfolio Page</span>
             </Link>
-            <h2>Crypto Dashboard Page Tutorial</h2>
+            <p style={{fontSize: "32px"}}>Crypto Dashboard Page Tutorial</p>
             <Link href="/tutorials/dashboardpagetutorial/page1" passHref>
               <span style={nextButtonStyle}>Learn about the Crypto Dashboard Page</span>
             </Link>

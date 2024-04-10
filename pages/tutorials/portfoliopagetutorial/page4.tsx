@@ -3,11 +3,14 @@ import Link from 'next/link';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 
-const Page4 = () => {
+import Image from 'next/image';
+
+const Page4 = (props) => {
   const pageContainerStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
+    fontFamily: "Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif",
   };
 
   const contentContainerStyle: React.CSSProperties = {
@@ -81,7 +84,7 @@ const Page4 = () => {
             </div>
           </div>
           <div style={rightImageContainerStyle}>
-            <img
+            <Image
               src="/images/bull.png"
               alt="Bull market representation"
               style={rightImageStyle}
