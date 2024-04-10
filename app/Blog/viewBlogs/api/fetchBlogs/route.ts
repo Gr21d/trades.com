@@ -4,7 +4,13 @@ import { db } from "@/lib/db";
 
 export async function GET(request: NextRequest) {
   try {
+    // Retrieve query parameters for pagination
+    const url = new URL(request.url);
+    const limit = parseInt(url.searchParams.get("limit") || "10", 10);
+    const skip = parseInt(url.searchParams.get("skip") || "0", 10);
     const blogs = await db.blog.findMany({
+      skip,
+      take: limit, // Use take instead of limit for Prisma pagination
       include: {
         author: {
           include: {
@@ -12,13 +18,18 @@ export async function GET(request: NextRequest) {
           },
         },
         comments: {
+          include: {
+            author: true,
+          },
           orderBy: {
             datePosted: "desc",
           },
         },
       },
     });
-    return NextResponse.json(blogs);
+    const totalBlogsCount = await db.blog.count();
+
+    return NextResponse.json({ blogs, totalBlogsCount });
   } catch (error) {
     console.error("Error fetching blogs:", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });

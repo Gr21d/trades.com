@@ -5,7 +5,7 @@ import styles from "../styles/start_form.css";
 import module from "../../page.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import Form from "../components/form" 
+import Form from "../../components/form" 
 
 export default function Home() {
   return (

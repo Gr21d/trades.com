@@ -1,0 +1,101 @@
+.blog-area {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgb(244, 240, 232);
+  backdrop-filter: blur(12pt);
+  border: 2px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 45pt rgba(5, 5, 5, 0.6);
+  align-items: center;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+
+  
+  .add-post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  body
+  {
+    background: white;
+    overflow: hidden;
+    margin: 0%;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-label {
+    color: black;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  h2
+  {
+    color: black;
+  }
+  .form-input,
+  .form-textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 100%;
+    width: 36rem;
+  }
+  
+  .form-textarea {
+    resize: vertical;
+    height: 150px;
+  }
+  
+  .submit-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+  }
+  
+  .submit-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .message {
+    color: #313431;
+    font-weight: bold;
+  }
+  
+  .form-input:invalid,
+  .form-textarea:invalid {
+    border-color: red;
+  }
+  .form-input:valid,
+  .form-textarea:valid {
+    border-color: #4a9f04;
+  }
+  .view-all-btn{
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    font-size: 1rem;
+    text-decoration: none;
+  }
+  
+  .submit-btn:hover,
+  .view-all-btn:hover{
+    background-color: #0056b3;
+  }
+  

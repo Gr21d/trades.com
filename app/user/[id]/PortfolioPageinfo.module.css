@@ -1,0 +1,28 @@
+/* pages/PortfolioPageinfo.module.css */
+.cryptoRow {
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.cryptoRow:hover {
+  background-color: #f9f9f9;
+}
+
+.cryptoRow td {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.sellButton {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sellButton:hover {
+  background-color: #0056b3;
+}

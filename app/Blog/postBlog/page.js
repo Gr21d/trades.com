@@ -1,8 +1,9 @@
 
 "use client"
 import React, { useState } from 'react';
-import "./styles/BlogPage.css"
-
+import Header from "../../components/header";
+import Footer from "../../components/footer";
+import "./styles/PostBlog.css";
 const AddPostForm = () => {
   const [title, setTitle] = useState(''); // the title content 
   const [content, setContent] = useState(''); // the content 
@@ -46,34 +47,40 @@ const AddPostForm = () => {
       setMessage('Failed to add the post.');
     }
   };
-
   return (
-    <div>
+    <body>
+      <Header type="blog"/>
+      <div className='blog-area'>
       <h2>Add a New Post</h2>
-      {message && <p>{message}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="title">Title:</label>
+      {message && <p className="message">{message}</p>}
+      <form onSubmit={handleSubmit} className="add-post-form">
+        <div className="form-group">
+          <label htmlFor="title" className="form-label">Title:</label>
           <input
             type="text"
             id="title"
+            className="form-input"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label htmlFor="content">Content:</label>
+        <div className="form-group">
+          <label htmlFor="content" className="form-label">Content:</label>
           <textarea
             id="content"
+            className="form-textarea"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
           />
         </div>
-        <button type="submit">Add Post</button>
+        <button type="submit" className="submit-btn">Add Post</button>
+        <a href="viewBlogs" className="view-all-btn">View All Blogs</a>
       </form>
-    </div>
+      </div>
+    <Footer/>
+    </body>
   );
 };
 
