@@ -1,48 +1,59 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Header from '@/app/components/Header';
+import Footer from '@/app/components/Footer';
 
 const Page2 = () => {
+  const pageContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  };
+
+  const contentContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexGrow: 1,
+    padding: '50px',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  };
+
   const leftContainerStyle: React.CSSProperties = {
     backgroundColor: '#FFF', 
+    fontFamily: '"Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
     color: 'white',
-    padding: '50px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    height: '100vh',
     width: '50%',
-    float: 'left',
   };
 
   const contentBoxStyle: React.CSSProperties = {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    borderRadius: '15px',
+    borderRadius: '0',
     padding: '20px',
-    margin: '0 0 20px 0',
     width: 'fit-content',
+    color: 'white', 
   };
 
   const rightImageContainerStyle: React.CSSProperties = {
-    position: 'absolute',
-    top: 0,
-    left: '50%',
     width: '50%',
-    height: '100vh',
-    overflow: 'hidden', 
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   };
-  
+
   const rightImageStyle: React.CSSProperties = {
-    width: '100%', 
-    height: 'auto', 
-    position: 'relative', 
+    maxWidth: '100%',
+    height: 'auto',
   };
 
   const textStyle: React.CSSProperties = {
     fontFamily: 'Arial, sans-serif',
     fontSize: '16px',
-    color: 'white',
+    color: 'white', 
   };
 
   const buttonStyle: React.CSSProperties = {
@@ -56,11 +67,14 @@ const Page2 = () => {
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
-      <div style={leftContainerStyle}>
-      <div style={contentBoxStyle}>
-        <h2 style={textStyle}>Chart Details</h2>
-        <p style={textStyle}>This page provides detailed chart information for a selected cryptocurrency:</p>
+    <>
+      <Header />
+      <div style={pageContainerStyle}>
+        <div style={contentContainerStyle}>
+          <div style={leftContainerStyle}>
+            <div style={contentBoxStyle}>
+              <h2 style={textStyle}>Chart Details</h2>
+              <p style={textStyle}>This page provides detailed chart information for a selected cryptocurrency:</p>
         <ul style={textStyle}>
           <li><strong>Chart:</strong> A graphical representation of the cryptocurrency's price movement over time.</li>
           <li><strong>O:</strong> The opening price of the cryptocurrency in the selected time frame.</li>
@@ -68,31 +82,34 @@ const Page2 = () => {
           <li><strong>L:</strong> The lowest price of the cryptocurrency in the selected time frame.</li>
           <li><strong>C:</strong> The closing price of the cryptocurrency in the selected time frame.</li>
         </ul>
-        <Image
-            src="/images/page2image-2.png"
-            alt=" "
-            width={500} 
-            height={200} 
-            layout="intrinsic"
-          />
-        <div>
-          <Link href="/tutorials/dashboardpagetutorial/page3" passHref>
-            <span style={buttonStyle}>Next</span>
-          </Link>
-          <Link href="/tutorials/dashboardpagetutorial/page1" passHref>
-            <span style={buttonStyle}>Back</span>
-          </Link>
+              <Image
+                  src="/images/page2image-2.png"
+                  alt=" "
+                  width={500} 
+                  height={200} 
+                  layout="intrinsic"
+              />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                <Link href="/tutorials/dashboardpagetutorial/page1" passHref>
+                  <span style={buttonStyle}>Back</span> 
+                </Link>
+                <Link href="/tutorials/dashboardpagetutorial/page3" passHref>
+                  <span style={buttonStyle}>Next</span> 
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div style={rightImageContainerStyle}>
+            <img
+              src="/images/bull.png"
+              alt="Background"
+              style={rightImageStyle}
+            />
+          </div>
         </div>
       </div>
-      </div>
-      <div style={rightImageContainerStyle}>
-      <img
-        src="/images/bull.png"
-        alt="Background"
-        style={rightImageStyle}
-      />
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
