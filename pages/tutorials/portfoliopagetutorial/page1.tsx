@@ -1,70 +1,88 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Header from '@/app/components/Header';
+import Footer from '@/app/components/Footer';
 
 const Page1 = () => {
-  const leftContainerStyle: React.CSSProperties = {
-    background: 'linear-gradient(to right, #000000, #000000)', 
-    color: 'white',
+  const pageContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh', 
+  };
+
+  const contentContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexGrow: 1, 
     padding: '50px',
+    alignItems: 'center',
+    justifyContent: 'space-between', 
+  };
+
+  const leftContainerStyle: React.CSSProperties = {
+    background: '#FFF',
+    color: 'white', 
+    fontFamily: '"Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    height: '100vh',
-    width: '50%',
-    float: 'left',
+    width: '50%', 
+  };
+
+  const rightImageContainerStyle: React.CSSProperties = {
+    width: '50%', 
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   };
 
   const rightImageStyle: React.CSSProperties = {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    width: '50%',
-    height: '112.3vh',
-    zIndex: -1,
+    maxWidth: '100%', 
+    height: 'auto',
   };
 
   const contentBoxStyle: React.CSSProperties = {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    borderRadius: '15px',
+    borderRadius: '0',
     padding: '20px',
-    margin: '0 0 20px 0',
+    margin: '0',
     width: 'fit-content',
   };
 
   const nextButtonStyle: React.CSSProperties = {
     backgroundColor: '#004400',
-    padding: '10px 10px',
+    padding: '10px 20px', 
     borderRadius: '5px',
     textDecoration: 'none',
     color: 'white',
     cursor: 'pointer',
-    marginTop: '20px', 
+    display: 'inline-block', 
   };
 
-
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
-      <div style={leftContainerStyle}>
-        <div style={contentBoxStyle}>
-        <h2>User Guide: Cryptocurrency Portfolio Page with Selling Feature</h2>
-          <Link href="/tutorials/portfoliopagetutorial/page2" passHref>
-            <span style={nextButtonStyle}>Next</span>
-          </Link>
+    <>
+      <Header />
+      <div style={pageContainerStyle}>
+        <div style={contentContainerStyle}>
+          <div style={leftContainerStyle}>
+            <div style={contentBoxStyle}>
+              <h2>User Guide: Cryptocurrency Portfolio Page with Selling Feature</h2>
+              <Link href="/tutorials/portfoliopagetutorial/page2" passHref>
+                <span style={nextButtonStyle}>Next</span> 
+              </Link>
+            </div>
+          </div>
+          <div style={rightImageContainerStyle}>
+            <img
+              src="/images/bull.png"
+              alt="Bull market representation"
+              style={rightImageStyle}
+            />
+          </div>
         </div>
       </div>
-      <div style={rightImageStyle}>
-        <Image
-          src="/images/backgroundimage.png"
-          alt="Background"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-        />
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

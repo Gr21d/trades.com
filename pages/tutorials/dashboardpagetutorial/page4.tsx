@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Header from '@/app/components/Header';
+import Footer from '@/app/components/Footer';
 
 const VideoComponent = () => {
   return (
@@ -11,29 +12,51 @@ const VideoComponent = () => {
 };
 
 const Page4 = () => {
-  const leftContainerStyle: React.CSSProperties = {
-    backgroundColor: '#000000',
-    color: 'white',
+  const pageContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  };
+
+  const contentContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexGrow: 1,
     padding: '50px',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  };
+
+  const leftContainerStyle: React.CSSProperties = {
+    backgroundColor: '#FFF',
+    fontFamily: '"Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+    color: 'white', 
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    height: '100vh',
     width: '50%',
-    position: 'absolute', 
-    left: 0, 
+  };
+
+  const rightImageContainerStyle: React.CSSProperties = {
+    width: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   };
 
   const rightImageStyle: React.CSSProperties = {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    width: '50%',
-    height: '100vh',
-    zIndex: -1,
+    maxWidth: '100%', 
+    height: 'auto', 
   };
 
+  const contentBoxStyle: React.CSSProperties = {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    borderRadius: '0',
+    padding: '20px',
+    width: 'fit-content',
+    color: 'white', 
+  };
+  
   const buttonStyle: React.CSSProperties = {
     backgroundColor: '#013220',
     color: 'white',
@@ -41,33 +64,40 @@ const Page4 = () => {
     borderRadius: '5px',
     margin: '10px',
     display: 'inline-block',
-    marginRight: '20px', 
     cursor: 'pointer',
     textDecoration: 'none',
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
-      <div style={leftContainerStyle}>
-      <h1><strong>Educational Tutorial Video</strong> </h1>
-        <VideoComponent />
-        <Link href="/tutorials/dashboardpagetutorial/page3" passHref>
-        <span style={{ ...buttonStyle, marginRight: '20px' }}>Back</span>
-        </Link>
-        <Link href="/tutorials/maintutorialpage" passHref>
-          <span style={buttonStyle}>Tutorial Main</span>
-        </Link>
+    <>
+      <Header />
+      <div style={pageContainerStyle}>
+        <div style={contentContainerStyle}>
+          <div style={leftContainerStyle}>
+            <div style={contentBoxStyle}>
+              <h1 style={{ color: 'white' }}><strong>Educational Tutorial Video</strong></h1>
+              <VideoComponent />
+              <div style={{ marginTop: '20px' }}>
+                <Link href="/tutorials/dashboardpagetutorial/page3" passHref>
+                  <span style={buttonStyle}>Back</span> 
+                </Link>
+                <Link href="/tutorials/maintutorialpage" passHref>
+                  <span style={buttonStyle}>Tutorial Main</span> 
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div style={rightImageContainerStyle}>
+            <img
+              src="/images/bull.png"
+              alt="Background"
+              style={rightImageStyle}
+            />
+          </div>
+        </div>
       </div>
-      <div style={rightImageStyle}>
-        <Image
-          src="/images/backgroundimage.png"
-          alt="Background"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-        />
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
