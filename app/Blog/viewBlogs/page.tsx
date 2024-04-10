@@ -216,7 +216,7 @@ const BlogsPage = () => {
       <Header/>
     <div className="blog-container">
       <h1 className="blog-header">BLOGS</h1>
-      <a href="postBlog" className="view-all-btn">+</a>
+      <a href="postBlog" className="view-all-btn">Add Post</a>
       {blogs.map((blog) => (
         <div key={blog.id} className="blog-post">
           {editingBlogId === blog.id ? (
