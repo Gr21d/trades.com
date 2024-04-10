@@ -25,7 +25,7 @@ const Page1 = () => {
   const leftContainerStyle: React.CSSProperties = {
     background: 'linear-gradient(to right, #FFF, #FFF)', 
     color: 'black',
-    fontFamily: '"Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+    //fontFamily: '"Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
     padding: '50px',
     display: 'flex',
     flexDirection: 'column',

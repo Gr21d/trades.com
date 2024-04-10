@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 import Chatbot from 'react-chatbot-kit';
 import 'react-chatbot-kit/build/main.css';
 
@@ -46,15 +48,30 @@ function MyComponent() {
     return messages;
   };
   // console.log(robotPNG);
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [openBot, setOpenBot] = useState(false);
+
+  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+
+  const handleButtonClick = (event) => {
+    const rect = event.target.getBoundingClientRect();
+    setButtonPosition({ x: rect.x, y: rect.y + rect.height });
+    setModalIsOpen(true);
+    setOpenBot(true);
+  };
+  
+  // ...
+  
   return (
     <div className='App'>
-      <img src={robotPNG} onClick={handleButtonClick}  style={{
+      <img src={robotPNG} onClick={handleButtonClick} style={{
         height:"35px",
         width:"35px",
         marginRight:"0.5rem",
         marginBottom:"2rem",
     
-      }}   />
+      }}/>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
@@ -83,13 +100,7 @@ function MyComponent() {
       </Modal>
     </div>
   );
-
-  // useEffect(() => {
-  //   console.log(loadMessages());
-  // }, []);
-
-
-
 }
+
 
 export default MyComponent;

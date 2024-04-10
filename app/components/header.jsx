@@ -37,12 +37,12 @@ function Header(props) {
               )}
               {props.type !== "blog" && (
                 <li>
-                  <Link href="/blog">Community</Link>
+                  <Link href="/Blog/viewBlog">Community</Link>
                 </li>
               )}
               {props.type !== "tutorial" && (
                 <li>
-                  <Link href="/tutorial">Learn</Link>
+                  <Link href="/tutorials/maintutorialpage">Learn</Link>
                 </li>
               )}
             </ul>
