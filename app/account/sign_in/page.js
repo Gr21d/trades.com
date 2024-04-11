@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Form from "../../components/form" 
 
-export default function Home() {
+export default function SignIn() {
   return (
     <div className="container">
       <Head>

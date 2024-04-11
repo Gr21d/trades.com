@@ -18,7 +18,7 @@ export default function VerifyEmail() {
 
         if (response.ok) {
           localStorage.setItem("token", data.token);
-          window.location.href = "../../Blog/postBlog";
+          window.location.href = "../../dashboard/crypto/bitcoin";
         } else {
           setErrorMessage(data.message);
         }

@@ -27,12 +27,18 @@ const Page1 = (props) => {
   // Styles for the left-side container
   const leftContainerStyle: React.CSSProperties = {
     flex: 1,
-    color: 'white',
+    color: 'black',
     padding: '1rem',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     maxWidth: '50%',
+  };
+
+  const rightImageStyle: React.CSSProperties = {
+    maxWidth: '100%', 
+    width:"100%",
+    height:"100%",
   };
 
   // Styles for the right-side container
@@ -46,7 +52,7 @@ const Page1 = (props) => {
 
   // Styles for the content box within the left-side container
   const contentBoxStyle: React.CSSProperties = {
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: 'rgba(0, 0, 0, 0)',
     borderRadius: '0',
     padding: '20px',
     width: 'fit-content',
@@ -65,7 +71,7 @@ const Page1 = (props) => {
 
   return (
     <div style={layoutStyle}>
-      <Header />
+      <Header type="tutorial"/> 
       <div style={contentStyle}>
         <div style={leftContainerStyle}>
           <div style={contentBoxStyle}>
@@ -95,11 +101,7 @@ const Page1 = (props) => {
           </div>
         </div>
         <div style={rightContainerStyle}>
-          <img
-            src="/images/bull.png"
-            alt="Background"
-            style={{ width: '100%', height: 'auto' }}
-          />
+        <Image src="/images/Project.jpg" alt="Background" style={rightImageStyle} width={100} height={100}/>
         </div>
       </div>
       <Footer />

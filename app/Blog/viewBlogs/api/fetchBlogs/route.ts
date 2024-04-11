@@ -4,13 +4,12 @@ import { db } from "@/lib/db";
 
 export async function GET(request: NextRequest) {
   try {
-    // Retrieve query parameters for pagination
     const url = new URL(request.url);
     const limit = parseInt(url.searchParams.get("limit") || "10", 10);
     const skip = parseInt(url.searchParams.get("skip") || "0", 10);
     const blogs = await db.blog.findMany({
       skip,
-      take: limit, // Use take instead of limit for Prisma pagination
+      take: limit,
       include: {
         author: {
           include: {

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import "../styles/changePassword.css"
 
 export default function ChangePassword() {
   const [currentPassword, setCurrentPassword] = useState("");

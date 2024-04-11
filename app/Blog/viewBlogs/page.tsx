@@ -213,7 +213,7 @@ const BlogsPage = () => {
 
   return (
     <body>
-      <Header/>
+      <Header type="blog"/>
     <div className="blog-container">
       <h1 className="blog-header">BLOGS</h1>
       <a href="postBlog" className="view-all-btn">+</a>

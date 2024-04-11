@@ -73,7 +73,7 @@ const TotalFundsCard = ({
       className="bg-white text-dark react-card"
     >
       <Card.Body>
-        <p style={{height: "20px", fontSize:"14px", color: "rgb(169,175,187)", fontWeight: "bold"}}>
+        <p style={{height: "20px", fontSize:"14px", color: "black"}}>
          All time profit
         </p>
         <CardSubtitle className="mb-1">

@@ -118,7 +118,7 @@ const OwnedCrypto = () => {
   };
   return (
     <div className=" container-fluid pb-1">
-      <Header />
+      <Header type="portfolio"/>
 
       {loading == 0 && (
         <div className="container-fuid">

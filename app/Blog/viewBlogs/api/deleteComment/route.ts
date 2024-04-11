@@ -18,18 +18,15 @@ export async function DELETE(request: NextRequest) {
 
 
     if (comment.authorId !== userId) {
-      // User is neither the comment owner nor an admin
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    // Authorized to delete the comment
     await db.comment.delete({
       where: {
         id: commentId,
       },
     });
 
-    // Confirmation response
     return NextResponse.json({ message: "Comment deleted successfully" }, { status: 200 });
   } catch (error) {
     console.error("Error deleting comment:", error);

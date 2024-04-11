@@ -5,16 +5,16 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import "./styles/PostBlog.css";
 const AddPostForm = () => {
-  const [title, setTitle] = useState(''); // the title content 
-  const [content, setContent] = useState(''); // the content 
+  const [title, setTitle] = useState(''); 
+  const [content, setContent] = useState(''); 
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submit action
+    e.preventDefault();
 
-    // Assuming you store your JWT in localStorage or cookies
-    const token = localStorage.getItem('token'); // need to decode 
-    console.log('Token:', token); // Log the token
+   
+    const token = localStorage.getItem('token');
+    console.log('Token:', token);
 
     if (!token) {
       setMessage('Please sign in to add a post.');

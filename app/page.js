@@ -1,11 +1,19 @@
-import React from "react";
-import Link from "next/link";
+"use client"
+import React, { useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const pathUrl = '/account/sign_in';
+    router.push(pathUrl);
+  }, [router]);
+
   return (
     <main>
-      <Link href="/account/sign_in">Sign In</Link>
-      <Link href="/account/sign_up">Sign Up</Link>
+      <p>Loading...</p>
     </main>
   );
 }

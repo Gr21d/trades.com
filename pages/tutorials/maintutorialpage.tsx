@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
-
+import Image from "next/image"
 
 const overrideHeaderStyle: React.CSSProperties = {
   backgroundRepeat: 'no-repeat',
@@ -76,8 +76,8 @@ const Page1 = (props) => {
   
   return (
     <div style={pageLayoutStyle}>
-      <Header style={headerStyle} /> 
-      <div style={overrideHeaderStyle}>
+      <Header type="tutorial"/> 
+      <div>
       </div>
       <main style={mainContentStyle}>
         <div style={leftContainerStyle}>
@@ -94,7 +94,7 @@ const Page1 = (props) => {
           </div>
         </div>
         <div style={rightImageContainerStyle}>
-          <img src="/images/Project.jpg" alt="Background" style={rightImageStyle} />
+          <Image src="/images/Project.jpg" alt="Background" style={rightImageStyle} width={100} height={100}/>
         </div>
       </main>
       <Footer />

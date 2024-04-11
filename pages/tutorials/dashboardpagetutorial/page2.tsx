@@ -48,7 +48,8 @@ const Page2 = (props) => {
 
   const rightImageStyle: React.CSSProperties = {
     maxWidth: '100%',
-    height: 'auto',
+    width:"100%",
+    height:"100%",
   };
 
   const textStyle: React.CSSProperties = {
@@ -69,7 +70,7 @@ const Page2 = (props) => {
 
   return (
     <>
-      <Header />
+      <Header type="tutorial"/> 
       <div style={pageContainerStyle}>
         <div style={contentContainerStyle}>
           <div style={leftContainerStyle}>
@@ -101,11 +102,7 @@ const Page2 = (props) => {
             </div>
           </div>
           <div style={rightImageContainerStyle}>
-            <img
-              src="/images/bull.png"
-              alt="Background"
-              style={rightImageStyle}
-            />
+          <Image src="/images/Project.jpg" alt="Background" style={rightImageStyle} width={100} height={100}/>
           </div>
         </div>
       </div>

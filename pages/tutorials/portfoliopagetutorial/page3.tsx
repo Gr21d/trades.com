@@ -23,7 +23,7 @@ const Page3 = (props) => {
 
   const leftContainerStyle: React.CSSProperties = {
     background: '#FFF',
-    fontFamily: '"Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+    // fontFamily: '"Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
     color: 'white', 
     display: 'flex',
     flexDirection: 'column',
@@ -47,7 +47,8 @@ const Page3 = (props) => {
 
   const rightImageStyle: React.CSSProperties = {
     maxWidth: '100%',
-    height: 'auto',
+    width:"100%",
+    height:"100%",
   };
 
   const contentBoxStyle: React.CSSProperties = {
@@ -71,7 +72,7 @@ const Page3 = (props) => {
 
   return (
     <>
-      <Header />
+      <Header type="tutorial"/> 
       <div style={pageContainerStyle}>
         <div style={contentContainerStyle}>
           <div style={leftContainerStyle}>
@@ -116,11 +117,7 @@ const Page3 = (props) => {
             </div>
           </div>
           <div style={rightImageContainerStyle}>
-            <Image
-              src="/images/bull.png"
-              alt="Bull market representation"
-              style={rightImageStyle}
-            />
+          <Image src="/images/Project.jpg" alt="Background" style={rightImageStyle} width={100} height={100}/>
           </div>
         </div>
       </div>

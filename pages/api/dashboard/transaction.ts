@@ -45,7 +45,14 @@ export default async function handler(req, res) {
 
       const totalCost = amount * currentPrice;
 
-      if (portfolio.balance < totalCost) {
+      const balance = await prisma.cryptoPortfolioOwned.findFirst({
+        where: {
+          portfolioId: portfolioId,
+          cryptoId: 9,
+        },
+      })
+
+      if (balance.quantity < totalCost) {
         console.log('here4');
         res.status(400).json({ error: 'Insufficient balance' });
         return;
@@ -99,9 +106,20 @@ export default async function handler(req, res) {
           priceBought: priceBought,
         },
       });
-    
 
-      res.status(200).json({ transaction, cryptoPortfolioOwned, updatedPortfolio, transactionId });
+      const updatingBalance  = await prisma.cryptoPortfolioOwned.update({
+        where: {
+          portfolioId_cryptoId: {
+            portfolioId: portfolioId,
+            cryptoId: 9,
+          },
+        },
+        data: {
+          quantity: { decrement: totalCost },
+        }
+      });
+      
+      res.status(200).json({ transaction, cryptoPortfolioOwned, updatingBalance, transactionId });
     } catch (error) {
       console.error('Error creating transaction:', error);
       console.error('Error object:', error);

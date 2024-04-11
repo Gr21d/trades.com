@@ -25,14 +25,14 @@ function Header(props) {
                   <Chatbot />
                 </li>
               )}
-              {props.type !== "portfolio" && (
-                <li>
-                  <Link href="/wallet">Portfolio</Link>
-                </li>
-              )}
               {props.type !== "dashboard" && (
                 <li>
                   <Link href="/dashboard/crypto/bitcoin">Dashboard</Link>
+                </li>
+              )}
+              {props.type !== "portfolio" && (
+                <li>
+                  <Link href="/wallet">Portfolio</Link>
                 </li>
               )}
               {props.type !== "blog" && (
@@ -43,6 +43,11 @@ function Header(props) {
               {props.type !== "tutorial" && (
                 <li>
                   <Link href="/tutorials/maintutorialpage">Learn</Link>
+                </li>
+              )}
+              {props.type !== "Password" && (
+                <li>
+                  <Link href="/account/changePassword">Password</Link>
                 </li>
               )}
             </ul>

@@ -33,6 +33,7 @@ function Details(props) {
     const [prevPrice, setPrevPrice] = useState(0.0);
     const [shortSellAmount, setShortSellAmount] = useState(0);
     const [crypto_name, setCryptoName] = useState(null);
+    const [balance, setBalance] = useState(0.00);
     const router = useRouter();
 
     const getToken = () => {
@@ -267,6 +268,9 @@ function Details(props) {
             return;
           }
     
+          console.log('response data', response.data.updatingBalance.quantity)
+
+          balance.quantity = response.data.updatingBalance.quantity.toFixed(3);
           setBuyAmount(0.00);
           setTransactionId(response.data.transactionId);
           alert(`Transaction successful bought at: ${realTimePrice}`);
@@ -798,6 +802,33 @@ function Details(props) {
     router.push(`/dashboard/crypto/${cryptoName.toLowerCase()}`);
     
   };
+
+
+
+  const getBalance = async () => {
+    if (decodedToken){
+      let portfolioID = decodedToken.portfolioId;
+
+      try {
+        const response = await axios.post("/api/dashboard/getBalance", {
+          portfolioId: portfolioID,
+        })
+
+        if (response.status !==200){
+          throw new Error('Failed to get balance');
+        }
+
+        setBalance(response.data.balance);
+      }catch(error){
+        console.error('Error getting balance', error);
+    }}
+  };
+
+  useEffect(() => {
+    console.log('getting balance')
+    getBalance()
+
+  }, [decodedToken])
   
 
   useEffect(() => {
@@ -897,7 +928,7 @@ function Details(props) {
 
     return (
       <div className="amk">
-        <Header />
+        <Header type="dashboard"/>
         {/* <div className="empty-area">
           <div className="about-crypto">
             about
@@ -996,7 +1027,7 @@ function Details(props) {
                                 ${realTimePrice !== null ? realTimePrice : 'Loading...'}
                               </p>
                               <p style={{ color: 'black', fontSize: '15px' }}>
-                                Balance: ${portfolio.portfolio.balance !== null ? portfolio.portfolio.balance : 'Loading...'}
+                                Balance: ${balance.quantity !== null ? balance.quantity : 'Loading...'}
                               </p>
                             </div>
                             <div className="crypto-stats">

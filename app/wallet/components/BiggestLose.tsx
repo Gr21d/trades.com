@@ -68,8 +68,9 @@ const BiggestEarner = ({
     .filter((item) => item !== null);
 
   const sortedProfit = profits.sort(
-    (a, b) => a.percentProfit - b.percentProfit
+    (a, b) => b.percentProfit - a.percentProfit
   );
+
   if (sortedProfit[0]) {
     return (
         <Card
@@ -87,7 +88,7 @@ const BiggestEarner = ({
                 />
                 {sortedProfit[sortedProfit.length - 1] &&
                   "$" +
-                  sortedProfit[sortedProfit.length - 1].symbol.replace("USDT", "")}
+                  sortedProfit[sortedProfit.length -1].symbol.replace("USDT", "")}
               </div>
             </CardSubtitle>
             <Card.Text>
