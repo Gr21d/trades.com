@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { name, type, amount, investorId, portfolioId, currentPrice,priceBought, cryptoSymbol } = req.body;
+    const { name, type, amount, investorId, portfolioId, currentPrice, priceBought, cryptoSymbol } = req.body;
     console.log('Request body:', req.body);
 
     try {
@@ -88,7 +88,6 @@ export default async function handler(req, res) {
         console.log('Last ID:', lastId);
         return lastId + 1;
       };
-
       const cryptoPortfolioOwned = await prisma.cryptoPortfolioOwned.upsert({
         where: {
           portfolioId_cryptoId: {
@@ -103,7 +102,7 @@ export default async function handler(req, res) {
           portfolioId: portfolioId,
           cryptoId: cryptocurrency.id,
           quantity: amount,
-          priceBought: priceBought,
+          priceBought: currentPrice,
         },
       });
 

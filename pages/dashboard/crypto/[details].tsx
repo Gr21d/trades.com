@@ -2,11 +2,10 @@
 
 import axios from 'axios';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState,  useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import {createChart, UTCTimestamp, ColorType, IChartApi, ISeriesApi, Time, WhitespaceData, LineData, LineSeriesOptions, LineStyleOptions, DeepPartial, SeriesOptionsCommon, CandlestickData, CandlestickSeriesOptions, CandlestickStyleOptions, CrosshairMode, LineStyle} from 'lightweight-charts';
 import {jwtDecode} from 'jwt-decode';
-import { decode } from 'punycode';
 import { useRouter } from 'next/navigation';
 import {rsi2, bollingerBands} from 'indicatorts';
 import Image from 'next/image';
@@ -910,6 +909,7 @@ function Details(props) {
             investorId: decodedToken.investorId,
             portfolioId: decodedToken.portfolioId,
             currentPrice: realTimePrice,
+            priceBought: realTimePrice,
             cryptoSymbol: cryptoSymbol.toLowerCase(),
           });
     
