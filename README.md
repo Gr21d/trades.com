@@ -54,6 +54,12 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+
+### Dashboard UI
+
+<img width="1779" alt="image" src="https://github.com/Gr21d/trades.com/assets/82521295/72f44181-b0ba-44e1-9951-92c135a4f6a1">
+
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
